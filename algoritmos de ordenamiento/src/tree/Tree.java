@@ -14,7 +14,6 @@ public class Tree {
     private static Node root;
     private int[] data;
     private int index = 0;
-    private int arraySize;
 
     public Tree() {
         root = null;
@@ -22,7 +21,7 @@ public class Tree {
 
     public void add(int[] data) {
         root = null;
-        arraySize = data.length;
+        this.data = new int[data.length];
         for (int i = 0; i < data.length; i++) {
             Node nuevo = new Node(data[i]);
             if (isNode(root)) {
@@ -78,19 +77,16 @@ public class Tree {
     }
 
     public int[] preOrder() {
-        this.data = new int[arraySize];
         pre(this.getRoot());
         return getData();
     }
 
     public int[] inOrder() {
-        this.data = new int[arraySize];
         in(this.getRoot());
         return getData();
     }
 
     public int[] postOrder() {
-        this.data = new int[arraySize];
         post(this.getRoot());
         return getData();
     }
