@@ -1,5 +1,7 @@
 package app;
 
+import java.util.Arrays;
+import methods.Radix;
 import tree.Tree;
 
 /**
@@ -17,14 +19,11 @@ public class App {
     public static void main(String[] args) {
         SortApp app = new SortApp();
         app.setVisible(true);
-        /*Tree tree = new Tree();
-        int[] array = {7, 8, 56, 52, 3, 4, 2, 4, 87};
-        tree.add(array);
-        System.out.println("Pre orden");
-        view(tree.preOrder());
-        System.out.println("Post orden");
-        view(tree.postOrder());
-        System.out.println("int orden");
-        view(tree.inOrder());*/
+        /*Radix radix = new Radix();
+        int[] array = {43, 37, 597, 98, 73, 214, 436, 100, 67, 512};
+        System.out.println(Arrays.toString(array) + " - Start");
+        int[] inOrder = radix.sort(array);
+        System.out.println(Arrays.toString(inOrder) + " - Final");*/
+
     }
 }

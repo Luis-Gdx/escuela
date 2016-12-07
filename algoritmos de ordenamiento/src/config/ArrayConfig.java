@@ -25,13 +25,4 @@ public class ArrayConfig {
         }
         return array;
     }
-
-    public String view(int[] array) {
-        String data = "[";
-        for (int i = 0; i < array.length; i++) {
-            data += array[i] + ", ";
-        }
-        data = data.substring(0, data.length() - 2) + "]";
-        return data;
-    }
 }
