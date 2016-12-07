@@ -7,6 +7,7 @@ package app;
 
 import javax.swing.JOptionPane;
 import lson.Lson;
+import tree.Tree;
 
 /**
  *
@@ -19,6 +20,7 @@ public class SortApp extends javax.swing.JFrame {
      */
     Lson lson = new Lson();
     Sort sort = new Sort();
+    Tree tree = new Tree();
     int[] array;
     int[] arr;
 
@@ -125,9 +127,16 @@ public class SortApp extends javax.swing.JFrame {
     }//GEN-LAST:event_naturalMergeSortActionPerformed
 
     private void generateArray() {
-        if (arraySize.getText().equals("") || maxValue.getText().equals("")) {
+        if (arraySize.getText().equals("") && maxValue.getText().equals("")) {
             array = sort.createRandomArray(10, 10);
             arr = array.clone();
+        } else if (maxValue.getText().equals("")) {
+            try {
+                array = sort.createrandomArray(Integer.parseInt(arraySize.getText()));
+                arr = array.clone();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Solo se aceptan numeros :'v", "Error", 0);
+            }
         } else {
             try {
                 array = sort.createRandomArray(Integer.parseInt(arraySize.getText()), Integer.parseInt(maxValue.getText()));
@@ -143,6 +152,17 @@ public class SortApp extends javax.swing.JFrame {
         jTextArea1.append(sort.view(array) + "\n\n");
         jTextArea1.append("  El arreglo ordenado por el metodo de " + lson.getElementById(0) + " es:\n\n  ");
         jTextArea1.append(sort.view(lson.getArray()));
+        tree();
+    }
+
+    private void tree() {
+        tree.add(array);
+        jTextArea1.append("\n\n  El arreglo ordenado por arbol en pre orden es:\n\n  ");
+        jTextArea1.append(sort.view(tree.preOrder()));
+        jTextArea1.append("\n\n  El arreglo ordenado por arbol en post orden es:\n\n  ");
+        jTextArea1.append(sort.view(tree.postOrder()));
+        jTextArea1.append("\n\n  El arreglo ordenado por arbol en in orden es:\n\n  ");
+        jTextArea1.append(sort.view(tree.inOrder()));
     }
 
     /**

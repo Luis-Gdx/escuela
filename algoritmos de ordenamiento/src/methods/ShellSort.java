@@ -17,6 +17,8 @@ public class ShellSort extends ArrayConfig {
     private static final String NAME = "ShellSort";
     Lson lson = new Lson();
 
+    //Código creado por santhoshpkumar
+    //Repositorio en github del código original: https://github.com/santhoshpkumar/ShellSort
     public Lson sort(int[] array) {
         String[][] data = new String[2][2];
         for (int gap = array.length / 2; gap > 0; gap = (gap == 2 ? 1 : (int) (gap / 2.2))) {
@@ -29,9 +31,6 @@ public class ShellSort extends ArrayConfig {
                 array[j] = cmpItem;
             }
         }
-        /*String[] name = {NAME};
-        data[0] = name;
-        data[1] = arrayToString(array);*/
         lson.add(NAME);
         lson.add(array);
         return lson;

@@ -14,9 +14,10 @@ import lson.Lson;
 public class NaturalMergeSort {
 
     private int[] b;
-    private static final String NAME = "NaturalMergeSort";
+    private static final String NAME = "Mezcla natural";
     Lson lson = new Lson();
 
+    //Código original http://www.home.hs-karlsruhe.de/~pach0003/informatik_1/aufgaben/en/doc/de/hska/java/exercises/sorting/NaturalMergeSort.html
     public Lson sort(int[] array) {
         b = new int[array.length];
         int left = 0;
