@@ -21,7 +21,7 @@ public class ArrayConfig {
         Random random = new Random();
         int[] array = new int[arraySize];
         for (int i = 0; i < arraySize; i++) {
-            array[i] = random.nextInt();
+            array[i] = random.nextInt(10);
         }
         return array;
     }

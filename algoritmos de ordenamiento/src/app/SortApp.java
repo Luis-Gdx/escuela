@@ -40,16 +40,18 @@ public class SortApp extends javax.swing.JFrame {
     private void initComponents() {
 
         shellSort = new javax.swing.JButton();
-        naturalMergeSort = new javax.swing.JButton();
+        naturalMerge = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         arraySize = new javax.swing.JTextField();
         maxValue = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        bubble = new javax.swing.JButton();
+        quickSort = new javax.swing.JButton();
+        radix = new javax.swing.JButton();
+        intercalation = new javax.swing.JButton();
+        directMerge = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,10 +62,10 @@ public class SortApp extends javax.swing.JFrame {
             }
         });
 
-        naturalMergeSort.setText("Mezcla natural");
-        naturalMergeSort.addActionListener(new java.awt.event.ActionListener() {
+        naturalMerge.setText("Mezcla natural");
+        naturalMerge.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                naturalMergeSortActionPerformed(evt);
+                naturalMergeActionPerformed(evt);
             }
         });
 
@@ -75,24 +77,38 @@ public class SortApp extends javax.swing.JFrame {
 
         jLabel2.setText("Valor maximo");
 
-        jButton1.setText("Burbuja");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bubble.setText("Burbuja");
+        bubble.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bubbleActionPerformed(evt);
             }
         });
 
-        jButton2.setText("QuickSort");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        quickSort.setText("QuickSort");
+        quickSort.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                quickSortActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Radix");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        radix.setText("Radix");
+        radix.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                radixActionPerformed(evt);
+            }
+        });
+
+        intercalation.setText("Intercalación");
+        intercalation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                intercalationActionPerformed(evt);
+            }
+        });
+
+        directMerge.setText("Mezcla directa");
+        directMerge.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                directMergeActionPerformed(evt);
             }
         });
 
@@ -101,40 +117,49 @@ public class SortApp extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(111, 111, 111)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(arraySize, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(maxValue, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(111, 111, 111)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(arraySize, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(21, 21, 21)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(maxValue, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addGap(27, 27, 27)
+                        .addComponent(bubble)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(quickSort)
                         .addGap(18, 18, 18)
                         .addComponent(shellSort)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3)
+                        .addComponent(radix)
                         .addGap(18, 18, 18)
-                        .addComponent(naturalMergeSort)))
-                .addContainerGap(103, Short.MAX_VALUE))
+                        .addComponent(intercalation)
+                        .addGap(18, 18, 18)
+                        .addComponent(directMerge)
+                        .addGap(18, 18, 18)
+                        .addComponent(naturalMerge)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(67, 67, 67)
+                .addGap(52, 52, 52)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(shellSort)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(naturalMergeSort))
-                .addGap(62, 62, 62)
+                    .addComponent(bubble)
+                    .addComponent(quickSort)
+                    .addComponent(radix)
+                    .addComponent(intercalation)
+                    .addComponent(directMerge)
+                    .addComponent(naturalMerge))
+                .addGap(77, 77, 77)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(arraySize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(maxValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -154,31 +179,52 @@ public class SortApp extends javax.swing.JFrame {
         setText();
     }//GEN-LAST:event_shellSortActionPerformed
 
-    private void naturalMergeSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_naturalMergeSortActionPerformed
+    private void naturalMergeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_naturalMergeActionPerformed
         generateArray();
         lson = sort.naturalMerge(arr);
         setText();
-    }//GEN-LAST:event_naturalMergeSortActionPerformed
+    }//GEN-LAST:event_naturalMergeActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void bubbleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bubbleActionPerformed
         generateArray();
         lson = sort.bubble(arr);
         setText();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_bubbleActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void quickSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quickSortActionPerformed
         generateArray();
         lson = sort.quickSort(arr);
         setText();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_quickSortActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void radixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radixActionPerformed
         generateArray();
         lson = sort.radix(arr);
         setText();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_radixActionPerformed
 
-    private void generateArray() {
+    private void intercalationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_intercalationActionPerformed
+        int[] array1 = generateArray();
+        int[] array2 = generateArray();
+        lson = sort.bubble(array1);
+        jTextArea1.setText("  El primer arreglo ordenado es:\n\n  ");
+        jTextArea1.append(Arrays.toString(lson.getArray()) + "\n\n");
+        lson = sort.bubble(array2);
+        jTextArea1.append("  El segundo arreglo ordenado es:\n\n  ");
+        jTextArea1.append(Arrays.toString(lson.getArray()) + "\n\n");
+        lson = sort.intercalation(array1, array2);
+        jTextArea1.append("  El arreglo ordenado por el metodo de " + lson.getElementById(0) + " es:\n\n  ");
+        jTextArea1.append(Arrays.toString(lson.getArray()));
+        tree(lson.getArray());
+    }//GEN-LAST:event_intercalationActionPerformed
+
+    private void directMergeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directMergeActionPerformed
+        generateArray();
+        lson = sort.directMerge(arr);
+        setText();
+    }//GEN-LAST:event_directMergeActionPerformed
+
+    private int[] generateArray() {
         if (arraySize.getText().equals("") && maxValue.getText().equals("")) {
             array = sort.createRandomArray(10, 10);
             arr = array.clone();
@@ -197,6 +243,7 @@ public class SortApp extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Solo se aceptan numeros :'v", "Error", 0);
             }
         }
+        return arr;
     }
 
     private void setText() {
@@ -204,17 +251,17 @@ public class SortApp extends javax.swing.JFrame {
         jTextArea1.append(Arrays.toString(array) + "\n\n");
         jTextArea1.append("  El arreglo ordenado por el metodo de " + lson.getElementById(0) + " es:\n\n  ");
         jTextArea1.append(Arrays.toString(lson.getArray()));
-        tree();
+        tree(lson.getArray());
     }
 
-    private void tree() {
+    private void tree(int[] array) {
         tree.add(array);
         jTextArea1.append("\n\n  El arreglo ordenado por arbol en pre orden es:\n\n  ");
         jTextArea1.append(Arrays.toString(tree.preOrder()));
         jTextArea1.append("\n\n  El arreglo ordenado por arbol en post orden es:\n\n  ");
         jTextArea1.append(Arrays.toString(tree.postOrder()));
         jTextArea1.append("\n\n  El arreglo ordenado por arbol en in orden es:\n\n  ");
-        jTextArea1.append(Arrays.toString(tree.inOrder()));
+        jTextArea1.append(Arrays.toString(tree.inOrder()) + "\n\n");
     }
 
     /**
@@ -254,15 +301,17 @@ public class SortApp extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField arraySize;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton bubble;
+    private javax.swing.JButton directMerge;
+    private javax.swing.JButton intercalation;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField maxValue;
-    private javax.swing.JButton naturalMergeSort;
+    private javax.swing.JButton naturalMerge;
+    private javax.swing.JButton quickSort;
+    private javax.swing.JButton radix;
     private javax.swing.JButton shellSort;
     // End of variables declaration//GEN-END:variables
 }

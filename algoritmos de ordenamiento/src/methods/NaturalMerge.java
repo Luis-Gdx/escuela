@@ -11,7 +11,7 @@ import lson.Lson;
  *
  * @author Luis G
  */
-public class NaturalMergeSort {
+public class NaturalMerge {
 
     private int[] b;
     private static final String NAME = "Mezcla natural";

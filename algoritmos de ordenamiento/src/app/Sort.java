@@ -30,8 +30,18 @@ public class Sort extends ArrayConfig {
         return radix.sort(array);
     }
 
+    public Lson intercalation(int[] array1, int[] array2) {
+        Intercalation intercalation = new Intercalation();
+        return intercalation.sort(array1, array2);
+    }
+
+    public Lson directMerge(int[] array) {
+        DirectMerge directMerge = new DirectMerge();
+        return directMerge.sort(array);
+    }
+
     public Lson naturalMerge(int[] array) {
-        NaturalMergeSort naturalMerge = new NaturalMergeSort();
+        NaturalMerge naturalMerge = new NaturalMerge();
         return naturalMerge.sort(array);
     }
 }
