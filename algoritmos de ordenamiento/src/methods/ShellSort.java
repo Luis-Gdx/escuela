@@ -20,7 +20,6 @@ public class ShellSort extends ArrayConfig {
     //Código creado por santhoshpkumar
     //Repositorio en github del código original: https://github.com/santhoshpkumar/ShellSort
     public Lson sort(int[] array) {
-        String[][] data = new String[2][2];
         for (int gap = array.length / 2; gap > 0; gap = (gap == 2 ? 1 : (int) (gap / 2.2))) {
             for (int i = gap; i < array.length; i++) {
                 int j = i;
