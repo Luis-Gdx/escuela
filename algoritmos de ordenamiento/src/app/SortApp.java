@@ -218,7 +218,7 @@ public class SortApp extends javax.swing.JFrame {
         lson = sort.intercalation(array1, array2);
         jTextArea1.append("  El arreglo ordenado por el metodo de " + lson.getElementById(0) + " es:\n\n  ");
         jTextArea1.append(Arrays.toString(lson.getArray()));
-        tree(lson.getArray());
+        //tree(lson.getArray());
     }//GEN-LAST:event_intercalationActionPerformed
 
     private void directMergeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directMergeActionPerformed
@@ -254,7 +254,7 @@ public class SortApp extends javax.swing.JFrame {
         jTextArea1.append(Arrays.toString(array) + "\n\n");
         jTextArea1.append("  El arreglo ordenado por el metodo de " + lson.getElementById(0) + " es:\n\n  ");
         jTextArea1.append(Arrays.toString(lson.getArray()));
-        tree(lson.getArray());
+        //tree(lson.getArray());
     }
 
     private void tree(int[] array) {
