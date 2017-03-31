@@ -169,19 +169,28 @@ public class LogIn extends javax.swing.JFrame {
     }//GEN-LAST:event_signInActionPerformed
 
     private void logInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInActionPerformed
-        data = getData("SELECT  user, email, password FROM usuarios WHERE email = '" + email.getText() + "'");
-        try {
-            while (data.next()) {
-                session = data.getString(1);
-                pass = data.getString(3);
+        if (validateEmail(email, error)) {
+            if (validatePassword(password, error)) {
+                data = getData("SELECT  user, email, password FROM usuarios WHERE email = '" + email.getText() + "'");
+                try {
+                    while (data.next()) {
+                        session = data.getString(1);
+                        pass = data.getString(3);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                try {
+                    if (BCrypt.checkpw(getPassword(password), pass)) {
+                        this.dispose();
+                        new Alumnos().setVisible(true);
+                    } else {
+                        error.setText("Correo o contraseña incorrectos");
+                    }
+                } catch (Exception e) {
+                    error.setText("Correo o contraseña incorrectos");
+                }
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (BCrypt.checkpw(getPassword(password), pass)) {
-            new Alumnos().setVisible(true);
-        } else {
-            error.setText("Correo o contraseña incorrectos");
         }
     }//GEN-LAST:event_logInActionPerformed
 
@@ -204,7 +213,7 @@ public class LogIn extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
