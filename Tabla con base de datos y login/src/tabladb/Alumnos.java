@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mysql;
+package tabladb;
 
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import static mysql.Config.*;
-import static mysql.Connector.*;
-import static mysql.Validate.*;
+import static tabladb.Config.*;
+import static tabladb.Connector.*;
+import static tabladb.Validate.*;
 
 /**
  *

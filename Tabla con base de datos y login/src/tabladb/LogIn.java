@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mysql;
+package tabladb;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static mysql.Config.*;
-import static mysql.Connector.*;
-import static mysql.Validate.validateEmail;
-import static mysql.Validate.validatePassword;
+import static tabladb.Config.*;
+import static tabladb.Connector.*;
+import static tabladb.Validate.validateEmail;
+import static tabladb.Validate.validatePassword;
 
 /**
  *
