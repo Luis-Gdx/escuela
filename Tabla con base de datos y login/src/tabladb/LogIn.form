@@ -49,17 +49,19 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="passwordLabel" min="-2" max="-2" attributes="0"/>
-                      <Component id="email" alignment="0" max="32767" attributes="0"/>
-                      <Component id="userImg" alignment="0" max="32767" attributes="0"/>
-                      <Component id="emailLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="signIn" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="logIn" alignment="0" max="32767" attributes="0"/>
-                      <Component id="password" alignment="0" max="32767" attributes="0"/>
-                      <Component id="error" alignment="0" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="passwordLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="email" alignment="0" max="32767" attributes="0"/>
+                          <Component id="userImg" alignment="0" max="32767" attributes="0"/>
+                          <Component id="emailLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="signIn" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="logIn" alignment="0" max="32767" attributes="0"/>
+                          <Component id="password" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="error" min="-2" pref="268" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="90" max="32767" attributes="0"/>
+                  <EmptySpace pref="27" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

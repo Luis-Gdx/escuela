@@ -201,6 +201,7 @@ public class SignUp extends javax.swing.JFrame {
                     + user.getText() + "', '" + email.getText().toLowerCase() + "', '"
                     + BCrypt.hashpw(getPassword(password), BCrypt.gensalt()) + "')");
             session = user.getText();
+            this.dispose();
             new Alumnos().setVisible(true);
         }
     }//GEN-LAST:event_signUpActionPerformed

@@ -23,6 +23,7 @@ public class Validate {
     public static boolean validatePassword(JPasswordField password, JLabel label) {
         if (password.getPassword().length < PASSWORD_LENGTH) {
             label.setText(PASSWORD_LENGTH_ERROR);
+            password.requestFocus();
             return false;
         } else {
             label.setText("");
@@ -41,6 +42,7 @@ public class Validate {
             } else {
                 label.setText(ONLY_TEXT_ERROR);
             }
+            text.requestFocus();
             valid = false;
         } else {
             label.setText("");
@@ -65,16 +67,17 @@ public class Validate {
     }
 
     //Se validan datos que solo pueden tener numeros
-    public static boolean validateNumber(JTextField text, JLabel label) {
+    public static boolean validateNumber(JTextField number, JLabel label) {
         boolean valid = true;
-        boolean isText = findText(text.getText());
-        boolean isNull = text.getText().equals("");
+        boolean isText = findText(number.getText());
+        boolean isNull = number.getText().equals("");
         if (isNull || isText) {
             if (isNull) {
                 label.setText(NULL_DATA_ERROR);
             } else {
                 label.setText(ONLY_NUMBERS_ERROR);
             }
+            number.requestFocus();
             valid = false;
         } else {
             label.setText("");
@@ -99,16 +102,17 @@ public class Validate {
     }
 
     //Se valida email
-    public static boolean validateEmail(JTextField text, JLabel label) {
+    public static boolean validateEmail(JTextField email, JLabel label) {
         boolean valid = true;
-        boolean isEmail = VALID_EMAIL_ADDRESS_REGEX.matcher(text.getText()).find();
-        boolean isNull = text.getText().equals("");
+        boolean isEmail = VALID_EMAIL_ADDRESS_REGEX.matcher(email.getText()).find();
+        boolean isNull = email.getText().equals("");
         if (isNull || !isEmail) {
             if (isNull) {
                 label.setText(NULL_DATA_ERROR);
             } else {
                 label.setText(EMAIL_ERROR);
             }
+            email.requestFocus();
             valid = false;
         } else {
             label.setText("");
