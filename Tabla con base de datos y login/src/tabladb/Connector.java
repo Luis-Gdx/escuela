@@ -28,11 +28,11 @@ public class Connector {
         ResultSet rs = null;
         try {
             connect();
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/escuela", "root", "");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/escuela_test", "root", "");
             Statement stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
         } catch (Exception e) {
-            System.out.println(":V");
+            System.out.println(":v");
         }
         return rs;
     }
@@ -40,7 +40,7 @@ public class Connector {
     public static void executeQuery(String query) {
         try {
             connect();
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/escuela", "root", "");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/escuela_test", "root", "");
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(query);
             System.out.println("Exito :v");

@@ -184,7 +184,7 @@ public class LogIn extends javax.swing.JFrame {
                 try {
                     if (BCrypt.checkpw(getPassword(password), pass)) {
                         this.dispose();
-                        new Alumnos().setVisible(true);
+                        new TableList().setVisible(true);
                     } else {
                         error.setText("Correo o contraseña incorrectos");
                     }

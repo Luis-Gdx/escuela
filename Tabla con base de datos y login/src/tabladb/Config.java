@@ -16,6 +16,10 @@ public class Config {
 
     //Sesión
     public static String session = "";
+    //Id de usuario
+    public static int userId;
+    //Correo del usuario
+    public static String correo = "";
     //Titulo de la tabla
     public static final String TITULO = "Lista de alumnos de 4ISC11 :v";
     //Configuración de la contraseña
