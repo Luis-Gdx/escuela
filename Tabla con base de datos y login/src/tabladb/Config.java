@@ -37,6 +37,8 @@ public class Config {
     //Configuración del color de los botones
     public static final Color DEFAULT = new Color(56, 126, 245);
     public static final Color DEFAULT_PRESSED = new Color(52, 116, 225);
+    public static final Color SECONDARY = new Color(51, 205, 95);
+    public static final Color SECONDARY_PRESSED = new Color(40, 165, 76);
     public static final Color DANGER = new Color(245, 61, 61);
     public static final Color DANGER_PRESSED = new Color(225, 56, 56);
 
