@@ -13,12 +13,12 @@ import static tabladb.Validate.*;
  *
  * @author Luis G
  */
-public class SignIn extends javax.swing.JFrame {
+public class SignUp extends javax.swing.JFrame {
 
     /**
      * Creates new form LogIn
      */
-    public SignIn() {
+    public SignUp() {
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
@@ -42,7 +42,7 @@ public class SignIn extends javax.swing.JFrame {
         userImg = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
-        signIp = new javax.swing.JButton();
+        signUp = new javax.swing.JButton();
         emailError = new javax.swing.JLabel();
         passwordError = new javax.swing.JLabel();
         userError = new javax.swing.JLabel();
@@ -70,27 +70,27 @@ public class SignIn extends javax.swing.JFrame {
 
         password.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        signIp.setBackground(new java.awt.Color(56, 126, 245));
-        signIp.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        signIp.setForeground(new java.awt.Color(255, 255, 255));
-        signIp.setText("Crear cuenta");
-        signIp.setBorder(null);
-        signIp.setBorderPainted(false);
-        signIp.setContentAreaFilled(false);
-        signIp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        signIp.setFocusPainted(false);
-        signIp.setOpaque(true);
-        signIp.addMouseListener(new java.awt.event.MouseAdapter() {
+        signUp.setBackground(new java.awt.Color(56, 126, 245));
+        signUp.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        signUp.setForeground(new java.awt.Color(255, 255, 255));
+        signUp.setText("Crear cuenta");
+        signUp.setBorder(null);
+        signUp.setBorderPainted(false);
+        signUp.setContentAreaFilled(false);
+        signUp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        signUp.setFocusPainted(false);
+        signUp.setOpaque(true);
+        signUp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                signIpMousePressed(evt);
+                signUpMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                signIpMouseReleased(evt);
+                signUpMouseReleased(evt);
             }
         });
-        signIp.addActionListener(new java.awt.event.ActionListener() {
+        signUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signIpActionPerformed(evt);
+                signUpActionPerformed(evt);
             }
         });
 
@@ -127,7 +127,7 @@ public class SignIn extends javax.swing.JFrame {
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(userError, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(signIp, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(signUp, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(90, Short.MAX_VALUE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,7 +167,7 @@ public class SignIn extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwordError, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(signIp, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(signUp, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(signIn)
                 .addGap(61, 61, 61))
@@ -187,15 +187,15 @@ public class SignIn extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void signIpMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signIpMousePressed
-        this.signIp.setBackground(DEFAULT_PRESSED);
-    }//GEN-LAST:event_signIpMousePressed
+    private void signUpMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpMousePressed
+        this.signUp.setBackground(DEFAULT_PRESSED);
+    }//GEN-LAST:event_signUpMousePressed
 
-    private void signIpMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signIpMouseReleased
-        this.signIp.setBackground(DEFAULT);
-    }//GEN-LAST:event_signIpMouseReleased
+    private void signUpMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpMouseReleased
+        this.signUp.setBackground(DEFAULT);
+    }//GEN-LAST:event_signUpMouseReleased
 
-    private void signIpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signIpActionPerformed
+    private void signUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpActionPerformed
         if (lgValidate()) {
             executeQuery("INSERT INTO usuarios (user, email, password) VALUES ('"
                     + user.getText() + "', '" + email.getText().toLowerCase() + "', '"
@@ -203,7 +203,7 @@ public class SignIn extends javax.swing.JFrame {
             session = user.getText();
             new Alumnos().setVisible(true);
         }
-    }//GEN-LAST:event_signIpActionPerformed
+    }//GEN-LAST:event_signUpActionPerformed
 
     private void signInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInActionPerformed
         this.dispose();
@@ -245,21 +245,23 @@ public class SignIn extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SignIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SignUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SignIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SignUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SignIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SignUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SignIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SignUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SignIn().setVisible(true);
+                new SignUp().setVisible(true);
             }
         });
     }
@@ -273,7 +275,7 @@ public class SignIn extends javax.swing.JFrame {
     private javax.swing.JLabel passwordError;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JButton signIn;
-    private javax.swing.JButton signIp;
+    private javax.swing.JButton signUp;
     private javax.swing.JTextField user;
     private javax.swing.JLabel userError;
     private javax.swing.JLabel userImg;

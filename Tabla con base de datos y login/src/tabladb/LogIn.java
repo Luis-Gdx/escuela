@@ -165,7 +165,7 @@ public class LogIn extends javax.swing.JFrame {
 
     private void signInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInActionPerformed
         this.dispose();
-        new SignIn().setVisible(true);
+        new SignUp().setVisible(true);
     }//GEN-LAST:event_signInActionPerformed
 
     private void logInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInActionPerformed
