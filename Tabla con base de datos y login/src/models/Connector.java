@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tabladb;
+package models;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,17 +18,15 @@ import javax.swing.JOptionPane;
  */
 public class Connector {
 
-    private static Connection con;
-
     public Connector() {
 
     }
 
-    public static ResultSet getData(String query) {
+    protected ResultSet getData(String query) {
         ResultSet rs = null;
         try {
             connect();
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/escuela_test", "root", "");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/escuela", "root", "");
             Statement stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
         } catch (Exception e) {
@@ -37,10 +35,10 @@ public class Connector {
         return rs;
     }
 
-    public static void executeQuery(String query) {
+    protected void executeQuery(String query) {
         try {
             connect();
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/escuela_test", "root", "");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/escuela", "root", "");
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(query);
             System.out.println("Exito :v");
@@ -55,15 +53,11 @@ public class Connector {
         }
     }
 
-    public static void connect() {
+    private void connect() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (Exception e) {
         }
-    }
-
-    public static void close() throws SQLException {
-        con.close();
     }
 
 }

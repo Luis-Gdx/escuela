@@ -6,7 +6,8 @@
 package tabladb;
 
 import static tabladb.Config.*;
-import static tabladb.Connector.*;
+import static models.Connector.*;
+import models.UsersModel;
 import static tabladb.Validate.*;
 
 /**
@@ -18,11 +19,14 @@ public class SignUp extends javax.swing.JFrame {
     /**
      * Creates new form LogIn
      */
+    UsersModel usersModel;
+
     public SignUp() {
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.pack();
+        usersModel = new UsersModel();
     }
 
     /**
@@ -197,9 +201,7 @@ public class SignUp extends javax.swing.JFrame {
 
     private void signUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpActionPerformed
         if (lgValidate()) {
-            executeQuery("INSERT INTO usuarios (user, email, password) VALUES ('"
-                    + user.getText() + "', '" + email.getText().toLowerCase() + "', '"
-                    + BCrypt.hashpw(getPassword(password), BCrypt.gensalt()) + "')");
+            usersModel.insertUser(user.getText(), email.getText(), getPassword(password));
             session = user.getText();
             correo = email.getText();
             this.dispose();

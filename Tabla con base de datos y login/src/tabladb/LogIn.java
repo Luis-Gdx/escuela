@@ -6,11 +6,8 @@
 package tabladb;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import models.UsersModel;
 import static tabladb.Config.*;
-import static tabladb.Connector.*;
 import static tabladb.Validate.validateEmail;
 import static tabladb.Validate.validatePassword;
 
@@ -25,12 +22,14 @@ public class LogIn extends javax.swing.JFrame {
      */
     ResultSet data;
     String pass;
+    UsersModel usersModel;
 
     public LogIn() {
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.pack();
+        usersModel = new UsersModel();
     }
 
     /**
@@ -172,7 +171,7 @@ public class LogIn extends javax.swing.JFrame {
     private void logInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInActionPerformed
         if (validateEmail(email, error)) {
             if (validatePassword(password, error)) {
-                data = getData("SELECT  user, email, password FROM usuarios WHERE email = '" + email.getText() + "'");
+                data = usersModel.getUserByEmail(email.getText());
                 try {
                     while (data.next()) {
                         session = data.getString(1);

@@ -22,6 +22,8 @@ public class Config {
     public static String correo = "";
     //Titulo de la tabla
     public static final String TITULO = "Lista de alumnos de 4ISC11 :v";
+    //Id del grupo
+    public static int groupId;
     //Configuración de la contraseña
     public static final int PASSWORD_LENGTH = 4;
     public static final String PASSWORD_LENGTH_ERROR = "La contraseña es muy corta (minimo " + PASSWORD_LENGTH + " caracteres)";

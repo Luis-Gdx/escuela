@@ -8,8 +8,9 @@ package tabladb;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import models.AlumnosModel;
 import static tabladb.Config.*;
-import static tabladb.Connector.*;
+import static models.Connector.*;
 import static tabladb.Validate.*;
 
 /**
@@ -23,6 +24,7 @@ public class Alumnos extends javax.swing.JFrame {
      */
     DefaultTableModel model = new DefaultTableModel();
     ResultSet data;
+    AlumnosModel alumnosModel;
 
     public Alumnos() {
         initComponents();
@@ -30,6 +32,7 @@ public class Alumnos extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.pack();
+        alumnosModel = new AlumnosModel();
         this.titulo.setText(TITULO);
         user.setText("Usuario: " + session);
         agregar.setBackground(DEFAULT);
@@ -44,25 +47,16 @@ public class Alumnos extends javax.swing.JFrame {
         model.addColumn("Teléfono");
         model.addColumn("Correo");
         table.setModel(model);
-        /*try {
-            if (BCrypt.checkpw("Luis", hashed)) {
-                System.out.println("It matches");
-            } else {
-                System.out.println("It does not match");
-            }
-        } catch (Exception e) {
-        }*/
         loadData();
     }
 
     private void loadData() {
         model.setNumRows(0);
-        data = getData("SELECT * FROM alumnos");
+        data = alumnosModel.getAlumnos();
         try {
             while (data.next()) {
                 model.addRow(new Object[]{data.getInt(1), data.getString(2), data.getString(3), data.getString(4), data.getString(5), data.getInt(6), data.getString(7), data.getString(8), data.getString(9)});
             }
-            close();
         } catch (Exception e) {
         }
     }
@@ -529,9 +523,7 @@ public class Alumnos extends javax.swing.JFrame {
 
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
         if (lgValidate()) {
-            executeQuery("INSERT INTO alumnos (nombre, apellido_paterno, apellido_materno, sexo, edad, direccion, telefono, correo) VALUES ('"
-                    + nombre.getText() + "', '" + apellidoPaterno.getText() + "', '" + apellidoMaterno.getText() + "', '" + sexo.getSelectedItem() + "', '"
-                    + Integer.parseInt(edad.getText()) + "', '" + direccion.getText() + "', '" + telefono.getText() + "', '" + correo.getText() + "')");
+            alumnosModel.insertAlumno(nombre.getText(), apellidoPaterno.getText(), apellidoMaterno.getText(), sexo.getSelectedItem().toString(), Integer.parseInt(edad.getText()), direccion.getText(), telefono.getText(), correo.getText());
             loadData();
             nombre.setText("");
             apellidoPaterno.setText("");
@@ -545,7 +537,7 @@ public class Alumnos extends javax.swing.JFrame {
 
     private void eliminarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarTablaActionPerformed
         if (JOptionPane.showConfirmDialog(null, "Seguro que quiere eliminar toda la tabla?", "Eliminar tabla", 1) == 0) {
-            executeQuery("TRUNCATE alumnos");
+            alumnosModel.deleteAll();
             loadData();
         }
     }//GEN-LAST:event_eliminarTablaActionPerformed
@@ -554,7 +546,7 @@ public class Alumnos extends javax.swing.JFrame {
         try {
             int idQuery = Integer.parseInt(id.getText());
             if (JOptionPane.showConfirmDialog(null, "Seguro que quiere eliminar el registro?", "Eliminar registro", 1) == 0) {
-                executeQuery("DELETE FROM alumnos WHERE id = " + idQuery);
+                alumnosModel.deleteById(Integer.parseInt(id.getText()));
                 loadData();
                 id.setText("");
             }

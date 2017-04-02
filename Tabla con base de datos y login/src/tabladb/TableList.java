@@ -7,12 +7,15 @@ package tabladb;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import models.GroupsModel;
+import models.UsersModel;
 import static tabladb.Config.*;
-import static tabladb.Connector.*;
 
 /**
  *
@@ -25,36 +28,41 @@ public class TableList extends javax.swing.JFrame {
      */
     private ResultSet data;
     private ResultSet grupos;
+    GroupsModel groupsModel;
     private DefaultListModel model = new DefaultListModel();
-    
+    private ArrayList<Grupo> groups;
+
     public TableList() {
         initComponents();
-        this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.pack();
-        data = getData("SELECT id FROM usuarios WHERE email = '" + correo + "'");
+        groupsModel = new GroupsModel();
+        data = new UsersModel().getUserId(correo);
         try {
             getUserData();
         } catch (SQLException ex) {
             Logger.getLogger(TableList.class.getName()).log(Level.SEVERE, null, ex);
         }
-        getTables();
+        getGroups();
     }
-    
+
     private void getUserData() throws SQLException {
         while (data.next()) {
             userId = data.getInt(1);
         }
     }
-    
-    private void getTables(){
+
+    private void getGroups() {
         model.setSize(0);
-        grupos = getData("SELECT grupo.carrera FROM grupo WHERE grupo.usuarios_id = " + userId);
+        grupos = groupsModel.getGroups(userId);
+        int i = 0;
         try {
             while (grupos.next()) {
-                model.addElement(grupos.getString(1));
+                /*groups.add(new Grupo(grupos.getInt(0), grupos.getString(1)));
+                groupList.add(groups.get(i).getNombre());
+                i++;*/
+                groupList.add(grupos.getString(1));
             }
-            tableList.setModel(model);
         } catch (SQLException ex) {
             Logger.getLogger(TableList.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -70,20 +78,17 @@ public class TableList extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tableList = new javax.swing.JList<>();
         agregar = new javax.swing.JButton();
+        titulo = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        groupList = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        tableList.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tableListMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tableList);
 
         agregar.setBackground(new java.awt.Color(50, 219, 100));
         agregar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -109,25 +114,51 @@ public class TableList extends javax.swing.JFrame {
             }
         });
 
+        titulo.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
+        titulo.setText("Titulo :v");
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jList1);
+
+        jScrollPane2.setViewportView(groupList);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(agregar, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE))
-                .addContainerGap(281, Short.MAX_VALUE))
+                .addGap(24, 24, 24)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
+                        .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(115, 115, 115))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(57, Short.MAX_VALUE)
-                .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(314, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -154,13 +185,9 @@ public class TableList extends javax.swing.JFrame {
 
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
         String tableName = JOptionPane.showInputDialog(null, "Ingresa el nombre de la tabla", "Crear tabla", 3);
-        executeQuery("INSERT INTO grupo (carrera, usuarios_id) VALUES ('" + tableName + "', " + userId + ")");
-        getTables();
+        groupsModel.insertGroup(tableName, userId);
+        getGroups();
     }//GEN-LAST:event_agregarActionPerformed
-
-    private void tableListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableListMouseClicked
-        System.out.println(tableList.getSelectedIndex());
-    }//GEN-LAST:event_tableListMouseClicked
 
     /**
      * @param args the command line arguments
@@ -199,8 +226,11 @@ public class TableList extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregar;
+    private javax.swing.JList<String> groupList;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<String> tableList;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel titulo;
     // End of variables declaration//GEN-END:variables
 }
