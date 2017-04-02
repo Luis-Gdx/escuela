@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tabladb;
+package config;
 
 import java.awt.Color;
 import javax.swing.JPasswordField;
@@ -40,6 +40,7 @@ public class Config {
     public static final String ONLY_TEXT_ERROR = "Solo puede contener letras";
     public static final String ONLY_NUMBERS_ERROR = "Solo puede contener números";
     public static final String EMAIL_ERROR = "Introduzca un correo válido";
+    public static final String EMAIL_EXIST_ERROR = "El email ya existe";
     //Configuración del color de los botones
     public static final Color DEFAULT = new Color(56, 126, 245);
     public static final Color DEFAULT_PRESSED = new Color(52, 116, 225);

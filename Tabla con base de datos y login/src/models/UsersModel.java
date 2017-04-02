@@ -6,8 +6,7 @@
 package models;
 
 import java.sql.ResultSet;
-import tabladb.BCrypt;
-import static tabladb.Config.getPassword;
+import security.BCrypt;
 
 /**
  *
@@ -16,11 +15,11 @@ import static tabladb.Config.getPassword;
 public class UsersModel extends Connector {
 
     public ResultSet getUserByEmail(String email) {
-        return getData("SELECT  user, email, password FROM usuarios WHERE email = '" + email + "'");
+        return getData("SELECT  * FROM usuarios WHERE email = '" + email + "'");
     }
 
-    public void insertUser(String user, String email, String password) {
-        executeQuery("INSERT INTO usuarios (user, email, password) VALUES ('"
+    public int insertUser(String user, String email, String password) {
+        return executeQuery("INSERT INTO usuarios (user, email, password) VALUES ('"
                 + user + "', '" + email.toLowerCase() + "', '"
                 + BCrypt.hashpw(password, BCrypt.gensalt()) + "')");
     }

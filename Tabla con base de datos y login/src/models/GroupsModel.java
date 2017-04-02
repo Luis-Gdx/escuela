@@ -14,11 +14,23 @@ import java.sql.ResultSet;
 public class GroupsModel extends Connector {
 
     public ResultSet getGroups(int id) {
-        return this.getData("SELECT grupo.nombre FROM grupo WHERE grupo.usuarios_id = " + id);
+        return this.getData("SELECT grupo.id, grupo.nombre FROM grupo WHERE grupo.usuarios_id = " + id);
     }
 
-    public void insertGroup(String nombre, int id) {
-        this.executeQuery("INSERT INTO grupo (nombre, usuarios_id) VALUES ('" + nombre + "', " + id + ")");
+    public int insertGroup(String nombre, int id) {
+        return this.executeQuery("INSERT INTO grupo (nombre, usuarios_id) VALUES ('" + nombre + "', " + id + ")");
+    }
+
+    public int deleteGroupById(int id) {
+        return executeQuery("DELETE FROM grupo WHERE grupo.id = " + id);
+    }
+
+    public ResultSet getGroupInfo(int id) {
+        return getData("SELECT grupo.nombre, Count(alumnos.id) AS count FROM grupo INNER JOIN alumnos ON grupo.id = alumnos.grupo_id WHERE grupo.id = " + id + " GROUP BY grupo.nombre");
+    }
+
+    public int updateGroupName(String nombre, int id) {
+        return executeQuery("UPDATE grupo SET nombre = '" + nombre + "' WHERE grupo.id = " + id);
     }
 
 }

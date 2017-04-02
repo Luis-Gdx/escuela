@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tabladb;
+package controllers;
 
+import security.BCrypt;
 import java.sql.ResultSet;
 import models.UsersModel;
-import static tabladb.Config.*;
-import static tabladb.Validate.validateEmail;
-import static tabladb.Validate.validatePassword;
+import static config.Config.*;
+import static security.Validate.validateEmail;
+import static security.Validate.validatePassword;
 
 /**
  *
@@ -20,16 +21,18 @@ public class LogIn extends javax.swing.JFrame {
     /**
      * Creates new form LogIn
      */
-    ResultSet data;
-    String pass;
-    UsersModel usersModel;
+    private ResultSet data;
+    private String pass;
+    private final UsersModel USERS_MODEL;
+    private boolean submitted;
 
     public LogIn() {
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.pack();
-        usersModel = new UsersModel();
+        USERS_MODEL = new UsersModel();
+        submitted = false;
     }
 
     /**
@@ -49,7 +52,8 @@ public class LogIn extends javax.swing.JFrame {
         password = new javax.swing.JPasswordField();
         logIn = new javax.swing.JButton();
         signIn = new javax.swing.JButton();
-        error = new javax.swing.JLabel();
+        passwordError = new javax.swing.JLabel();
+        emailError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Log In");
@@ -60,11 +64,22 @@ public class LogIn extends javax.swing.JFrame {
         emailLabel.setText("Correo");
 
         email.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        email.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                emailKeyReleased(evt);
+            }
+        });
 
         userImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/userlogin.png"))); // NOI18N
 
         passwordLabel.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         passwordLabel.setText("Contraseña");
+
+        password.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                passwordKeyReleased(evt);
+            }
+        });
 
         logIn.setBackground(new java.awt.Color(56, 126, 245));
         logIn.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -104,8 +119,11 @@ public class LogIn extends javax.swing.JFrame {
             }
         });
 
-        error.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        error.setForeground(new java.awt.Color(255, 0, 0));
+        passwordError.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        passwordError.setForeground(new java.awt.Color(255, 0, 0));
+
+        emailError.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        emailError.setForeground(new java.awt.Color(255, 0, 0));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -114,6 +132,7 @@ public class LogIn extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(90, 90, 90)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(emailError, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(passwordLabel)
                         .addComponent(email)
@@ -122,7 +141,7 @@ public class LogIn extends javax.swing.JFrame {
                         .addComponent(signIn)
                         .addComponent(logIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(password))
-                    .addComponent(error, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passwordError, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -130,21 +149,23 @@ public class LogIn extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(userImg)
-                .addGap(57, 57, 57)
+                .addGap(18, 18, 18)
                 .addComponent(emailLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(emailError, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(passwordLabel)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(error, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(passwordError, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(logIn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(signIn)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -169,29 +190,7 @@ public class LogIn extends javax.swing.JFrame {
     }//GEN-LAST:event_signInActionPerformed
 
     private void logInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInActionPerformed
-        if (validateEmail(email, error)) {
-            if (validatePassword(password, error)) {
-                data = usersModel.getUserByEmail(email.getText());
-                try {
-                    while (data.next()) {
-                        session = data.getString(1);
-                        pass = data.getString(3);
-                    }
-                } catch (Exception ex) {
-                    error.setText("Correo o contraseña incorrectos");
-                }
-                try {
-                    if (BCrypt.checkpw(getPassword(password), pass)) {
-                        this.dispose();
-                        new TableList().setVisible(true);
-                    } else {
-                        error.setText("Correo o contraseña incorrectos");
-                    }
-                } catch (Exception e) {
-                    error.setText("Correo o contraseña incorrectos");
-                }
-            }
-        }
+        submit();
     }//GEN-LAST:event_logInActionPerformed
 
     private void logInMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logInMouseReleased
@@ -201,6 +200,52 @@ public class LogIn extends javax.swing.JFrame {
     private void logInMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logInMousePressed
         this.logIn.setBackground(DEFAULT_PRESSED);
     }//GEN-LAST:event_logInMousePressed
+
+    private void emailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailKeyReleased
+        if (submitted) {
+            validateEmail(email, emailError);
+        }
+        if (evt.getKeyCode() == 10) {
+            submit();
+        }
+    }//GEN-LAST:event_emailKeyReleased
+
+    private void passwordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyReleased
+        if (submitted) {
+            validatePassword(password, passwordError);
+        }
+        if (evt.getKeyCode() == 10) {
+            submit();
+        }
+    }//GEN-LAST:event_passwordKeyReleased
+
+    private void submit() {
+        submitted = true;
+        if (validateEmail(email, emailError)) {
+            if (validatePassword(password, passwordError)) {
+                data = USERS_MODEL.getUserByEmail(email.getText());
+                try {
+                    while (data.next()) {
+                        userId = data.getInt("id");
+                        session = data.getString("user");
+                        pass = data.getString("password");
+                    }
+                } catch (Exception ex) {
+                    passwordError.setText("Correo o contraseña incorrectos");
+                }
+                try {
+                    if (BCrypt.checkpw(getPassword(password), pass)) {
+                        this.dispose();
+                        new TableList().setVisible(true);
+                    } else {
+                        passwordError.setText("Correo o contraseña incorrectos");
+                    }
+                } catch (Exception e) {
+                    passwordError.setText("Correo o contraseña incorrectos");
+                }
+            }
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -239,11 +284,12 @@ public class LogIn extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField email;
+    private javax.swing.JLabel emailError;
     private javax.swing.JLabel emailLabel;
-    private javax.swing.JLabel error;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton logIn;
     private javax.swing.JPasswordField password;
+    private javax.swing.JLabel passwordError;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JButton signIn;
     private javax.swing.JLabel userImg;

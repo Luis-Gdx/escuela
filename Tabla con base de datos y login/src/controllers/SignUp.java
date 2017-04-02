@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tabladb;
+package controllers;
 
-import static tabladb.Config.*;
-import static models.Connector.*;
+import static config.Config.*;
 import models.UsersModel;
-import static tabladb.Validate.*;
+import static security.Validate.*;
 
 /**
  *
@@ -19,14 +18,14 @@ public class SignUp extends javax.swing.JFrame {
     /**
      * Creates new form LogIn
      */
-    UsersModel usersModel;
+    private final UsersModel USERS_MODEL;
 
     public SignUp() {
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.pack();
-        usersModel = new UsersModel();
+        USERS_MODEL = new UsersModel();
     }
 
     /**
@@ -61,11 +60,21 @@ public class SignUp extends javax.swing.JFrame {
         userLabel.setText("Usuario");
 
         user.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        user.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                userKeyReleased(evt);
+            }
+        });
 
         emailLabel.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         emailLabel.setText("Correo");
 
         email.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        email.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                emailKeyReleased(evt);
+            }
+        });
 
         userImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/userlogin.png"))); // NOI18N
 
@@ -73,6 +82,11 @@ public class SignUp extends javax.swing.JFrame {
         passwordLabel.setText("Contraseña");
 
         password.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        password.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                passwordKeyReleased(evt);
+            }
+        });
 
         signUp.setBackground(new java.awt.Color(56, 126, 245));
         signUp.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -122,10 +136,6 @@ public class SignUp extends javax.swing.JFrame {
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(passwordError, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addGap(90, 90, 90)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,6 +156,10 @@ public class SignUp extends javax.swing.JFrame {
                                 .addComponent(email)
                                 .addComponent(password)))
                         .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(passwordError, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,19 +214,31 @@ public class SignUp extends javax.swing.JFrame {
     }//GEN-LAST:event_signUpMouseReleased
 
     private void signUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpActionPerformed
-        if (lgValidate()) {
-            usersModel.insertUser(user.getText(), email.getText(), getPassword(password));
-            session = user.getText();
-            correo = email.getText();
-            this.dispose();
-            new TableList().setVisible(true);
-        }
+        submit();
     }//GEN-LAST:event_signUpActionPerformed
 
     private void signInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInActionPerformed
         this.dispose();
         new LogIn().setVisible(true);
     }//GEN-LAST:event_signInActionPerformed
+
+    private void userKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_userKeyReleased
+        if (evt.getKeyCode() == 10) {
+            submit();
+        }
+    }//GEN-LAST:event_userKeyReleased
+
+    private void emailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailKeyReleased
+        if (evt.getKeyCode() == 10) {
+            submit();
+        }
+    }//GEN-LAST:event_emailKeyReleased
+
+    private void passwordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyReleased
+        if (evt.getKeyCode() == 10) {
+            submit();
+        }
+    }//GEN-LAST:event_passwordKeyReleased
 
     private boolean lgValidate() {
         boolean userValid, passwordValid, emailValid;
@@ -232,10 +258,29 @@ public class SignUp extends javax.swing.JFrame {
         }
     }
 
+    private void submit() {
+        if (lgValidate()) {
+            int id = USERS_MODEL.insertUser(
+                    user.getText(),
+                    email.getText(),
+                    getPassword(password)
+            );
+            if (id != -1) {
+                userId = id;
+                session = user.getText();
+                correo = email.getText();
+                this.dispose();
+                new TableList().setVisible(true);
+            } else {
+                emailError.setText(EMAIL_EXIST_ERROR);
+            }
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public /*static*/ void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

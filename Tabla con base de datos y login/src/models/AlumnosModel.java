@@ -21,20 +21,45 @@ public class AlumnosModel extends Connector {
         return getData("SELECT * FROM alumnos");
     }
 
-    public void insertAlumno(String nombre, String apellidoPaterno, String apellidoMaterno, String sexo, int edad, String direccion, String telefono, String correo) {
-        executeQuery("INSERT INTO alumnos (nombre, apellido_paterno,"
-                + " apellido_materno, sexo, edad, direccion, telefono, correo)"
+    public ResultSet getAlumnoById(int id, int grupoId) {
+        return getData("SELECT * FROM alumnos WHERE id = " + id + " AND grupo_id = " + grupoId);
+    }
+
+    public int insertAlumno(String nombre, String apellidoPaterno,
+            String apellidoMaterno, String sexo, int edad, String direccion,
+            String telefono, String correo, int grupo_id) {
+        return executeQuery("INSERT INTO alumnos (nombre, apellido_paterno,"
+                + " apellido_materno, sexo, edad, direccion, telefono, correo, grupo_id)"
                 + " VALUES ('" + nombre + "', '" + apellidoPaterno + "', '"
                 + apellidoMaterno + "', '" + sexo + "', '"
-                + edad + "', '" + direccion + "', '" + telefono + "', '" + correo + "')");
+                + edad + "', '" + direccion + "', '" + telefono + "', '"
+                + correo + "', '" + grupo_id + "')");
     }
 
-    public void deleteById(int id) {
-        executeQuery("DELETE FROM alumnos WHERE id = " + id);
+    public int deleteById(int id, int groupId) {
+        return executeQuery("DELETE FROM alumnos WHERE id = " + id + " AND group_id = " + groupId);
     }
 
-    public void deleteAll() {
-        executeQuery("TRUNCATE alumnos");
+    public int deleteAll() {
+        return executeQuery("TRUNCATE alumnos");
+    }
+
+    public int deleteAllById(int id) {
+        return executeQuery("DELETE FROM alumnos WHERE alumnos.grupo_id = " + id);
+    }
+
+    public ResultSet getAlumnosByGroup(int id) {
+        return getData("SELECT * FROM alumnos WHERE grupo_id = " + id);
+    }
+
+    public int updateAlumno(String nombre, String apellidoPaterno,
+            String apellidoMaterno, String sexo, int edad, String direccion,
+            String telefono, String correo, int grupo_id, int id) {
+        return executeQuery("UPDATE alumnos SET nombre = '" + nombre
+                + "', apellido_paterno = '" + apellidoPaterno + "',"
+                + " apellido_materno = '" + apellidoMaterno + "', sexo = '" + sexo
+                + "', edad = '" + edad + "' , direccion = '" + direccion
+                + "', telefono = '" + telefono + "', correo = '" + correo + "' WHERE id = " + id);
     }
 
 }

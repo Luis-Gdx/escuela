@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tabladb;
+package security;
 
 import java.util.regex.Pattern;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import static tabladb.Config.*;
+import static config.Config.*;
 
 /**
  *

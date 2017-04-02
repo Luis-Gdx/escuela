@@ -35,22 +35,30 @@ public class Connector {
         return rs;
     }
 
-    protected void executeQuery(String query) {
+    protected int executeQuery(String query) {
+        int id = -1;
         try {
             connect();
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/escuela", "root", "");
             Statement stmt = conn.createStatement();
-            stmt.executeUpdate(query);
-            System.out.println("Exito :v");
+            id = stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getErrorCode());
             if (e.getErrorCode() == 1062) {
                 JOptionPane.showMessageDialog(null, "Ese correo ya esta registrado", "error", 0);
+            } else if (e.getErrorCode() == 1054) {
+                JOptionPane.showMessageDialog(null, "El registro no existe", "error", 0);
             } else {
                 JOptionPane.showMessageDialog(null, "A ocurrido un error " + e, "error", 0);
+                System.out.println(e);
             }
         }
+        return id;
     }
 
     private void connect() {
