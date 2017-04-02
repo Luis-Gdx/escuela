@@ -26,7 +26,7 @@ public class Alumnos extends javax.swing.JFrame {
     private final AlumnosModel ALUMNOS_MODEL;
     private int id;
     private boolean isUpdate;
-
+    
     public Alumnos(int id, String titulo) {
         initComponents();
         this.table.setEnabled(false);
@@ -54,13 +54,16 @@ public class Alumnos extends javax.swing.JFrame {
         this.id = id;
         loadData();
     }
-
+    
     public Alumnos() {
         initComponents();
         this.table.setEnabled(false);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.pack();
+        isUpdate = false;
+        regresar.setVisible(false);
+        model = new DefaultTableModel();
         ALUMNOS_MODEL = new AlumnosModel();
         this.titulo.setText(TITULO);
         user.setText("Usuario: " + session);
@@ -76,9 +79,11 @@ public class Alumnos extends javax.swing.JFrame {
         model.addColumn("Teléfono");
         model.addColumn("Correo");
         table.setModel(model);
+        this.titulo.setText(TITULO);
+        this.id = groupId;
         loadData();
     }
-
+    
     private void loadData() {
         model.setNumRows(0);
         data = ALUMNOS_MODEL.getAlumnosByGroup(id);
@@ -373,8 +378,8 @@ public class Alumnos extends javax.swing.JFrame {
                     .addGroup(formPanelLayout.createSequentialGroup()
                         .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                        .addGap(628, 628, 628))))
+                        .addComponent(cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(624, 624, 624))))
         );
         formPanelLayout.setVerticalGroup(
             formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -446,7 +451,7 @@ public class Alumnos extends javax.swing.JFrame {
             cardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cardLayout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(formPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(formPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(2, 2, 2))
         );
         cardLayout.setVerticalGroup(
@@ -598,23 +603,23 @@ public class Alumnos extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
-                        .addComponent(card, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(actualizarAlumno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(eliminarPorId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(updateId, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-                                    .addComponent(deleteId)))
-                            .addComponent(eliminarRegistros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
+                                .addComponent(card, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(14, 14, 14)
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(mainPanelLayout.createSequentialGroup()
+                                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(actualizarAlumno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(eliminarPorId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(updateId, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                                            .addComponent(deleteId)))
+                                    .addComponent(eliminarRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jScrollPane1)
                             .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addComponent(regresar, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
@@ -641,10 +646,6 @@ public class Alumnos extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                        .addComponent(card, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38))
-                    .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGap(93, 93, 93)
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(actualizarAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -655,7 +656,11 @@ public class Alumnos extends javax.swing.JFrame {
                             .addComponent(deleteId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(eliminarRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(154, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(card, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -679,7 +684,7 @@ public class Alumnos extends javax.swing.JFrame {
             this.agregar.setBackground(SECONDARY_PRESSED);
         }
     }//GEN-LAST:event_agregarMousePressed
-
+    
     private void agregarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregarMouseReleased
         if (!isUpdate) {
             this.agregar.setBackground(DEFAULT);
@@ -687,23 +692,23 @@ public class Alumnos extends javax.swing.JFrame {
             this.agregar.setBackground(SECONDARY);
         }
     }//GEN-LAST:event_agregarMouseReleased
-
+    
     private void eliminarPorIdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminarPorIdMousePressed
         this.eliminarPorId.setBackground(DANGER_PRESSED);
     }//GEN-LAST:event_eliminarPorIdMousePressed
-
+    
     private void eliminarPorIdMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminarPorIdMouseReleased
         this.eliminarPorId.setBackground(DANGER);
     }//GEN-LAST:event_eliminarPorIdMouseReleased
-
+    
     private void eliminarRegistrosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminarRegistrosMousePressed
         this.eliminarRegistros.setBackground(DANGER_PRESSED);
     }//GEN-LAST:event_eliminarRegistrosMousePressed
-
+    
     private void eliminarRegistrosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminarRegistrosMouseReleased
         this.eliminarRegistros.setBackground(DANGER);
     }//GEN-LAST:event_eliminarRegistrosMouseReleased
-
+    
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
         if (!isUpdate) {
             submit();
@@ -712,18 +717,18 @@ public class Alumnos extends javax.swing.JFrame {
         }
         isUpdate = false;
     }//GEN-LAST:event_agregarActionPerformed
-
+    
     private void eliminarRegistrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarRegistrosActionPerformed
         if (JOptionPane.showConfirmDialog(null, "Seguro que quiere eliminar toda la tabla?", "Eliminar tabla", 1) == 0) {
             ALUMNOS_MODEL.deleteAllById(id);
             loadData();
         }
     }//GEN-LAST:event_eliminarRegistrosActionPerformed
-
+    
     private void eliminarPorIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarPorIdActionPerformed
         try {
             if (JOptionPane.showConfirmDialog(null, "Seguro que quiere eliminar el registro?", "Eliminar registro", 1) == 0) {
-                ALUMNOS_MODEL.deleteById(Integer.parseInt(deleteId.getText()), id);
+                ALUMNOS_MODEL.deleteById(id, Integer.parseInt(deleteId.getText()));
                 loadData();
                 deleteId.setText("");
             }
@@ -731,82 +736,82 @@ public class Alumnos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "El id debe de ser un número :'v", "Error", 0);
         }
     }//GEN-LAST:event_eliminarPorIdActionPerformed
-
+    
     private void actualizarTablaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizarTablaMousePressed
         actualizarTabla.setBackground(SECONDARY_PRESSED);
     }//GEN-LAST:event_actualizarTablaMousePressed
-
+    
     private void actualizarTablaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizarTablaMouseReleased
         actualizarTabla.setBackground(SECONDARY);
     }//GEN-LAST:event_actualizarTablaMouseReleased
-
+    
     private void actualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarTablaActionPerformed
         loadData();
     }//GEN-LAST:event_actualizarTablaActionPerformed
-
+    
     private void regresarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regresarMousePressed
         this.regresar.setBackground(DEFAULT_PRESSED);
     }//GEN-LAST:event_regresarMousePressed
-
+    
     private void regresarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regresarMouseReleased
         this.regresar.setBackground(DEFAULT);
     }//GEN-LAST:event_regresarMouseReleased
-
+    
     private void regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarActionPerformed
         new TableList().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_regresarActionPerformed
-
+    
     private void nombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreKeyReleased
         if (evt.getKeyCode() == 10) {
             submit();
         }
     }//GEN-LAST:event_nombreKeyReleased
-
+    
     private void apellidoPaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_apellidoPaternoKeyReleased
         if (evt.getKeyCode() == 10) {
             submit();
         }
     }//GEN-LAST:event_apellidoPaternoKeyReleased
-
+    
     private void apellidoMaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_apellidoMaternoKeyReleased
         if (evt.getKeyCode() == 10) {
             submit();
         }
     }//GEN-LAST:event_apellidoMaternoKeyReleased
-
+    
     private void edadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edadKeyReleased
         if (evt.getKeyCode() == 10) {
             submit();
         }
     }//GEN-LAST:event_edadKeyReleased
-
+    
     private void direccionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_direccionKeyReleased
         if (evt.getKeyCode() == 10) {
             submit();
         }
     }//GEN-LAST:event_direccionKeyReleased
-
+    
     private void telefonoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_telefonoKeyReleased
         if (evt.getKeyCode() == 10) {
             submit();
         }
     }//GEN-LAST:event_telefonoKeyReleased
-
+    
     private void correoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_correoKeyReleased
         if (evt.getKeyCode() == 10) {
             submit();
         }
     }//GEN-LAST:event_correoKeyReleased
-
+    
     private void actualizarAlumnoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizarAlumnoMousePressed
         actualizarAlumno.setBackground(SECONDARY_PRESSED);
     }//GEN-LAST:event_actualizarAlumnoMousePressed
-
+    
     private void actualizarAlumnoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizarAlumnoMouseReleased
         actualizarAlumno.setBackground(SECONDARY);
     }//GEN-LAST:event_actualizarAlumnoMouseReleased
-
+    
     private void actualizarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarAlumnoActionPerformed
         if (!nombre.getText().equals("")
                 || !apellidoPaterno.getText().equals("")
@@ -815,14 +820,14 @@ public class Alumnos extends javax.swing.JFrame {
                 || !direccion.getText().equals("")
                 || !telefono.getText().equals("")
                 || !correo.getText().equals("")) {
-
+            
             if (JOptionPane.showConfirmDialog(null, "Seguro que quiere continuar sin guardar los datos?", "Actualizar datos", 1) == 0) {
                 if (getAlumnoData()) {
                     isUpdate = true;
                     agregar.setText("Actualizar");
                     agregar.setBackground(SECONDARY);
                 } else {
-                    JOptionPane.showMessageDialog(null, "El registro no existe", "error", 2);
+                    //JOptionPane.showMessageDialog(null, "El registro no existe", "error", 2);
                 }
             }
         } else if (getAlumnoData()) {
@@ -830,19 +835,19 @@ public class Alumnos extends javax.swing.JFrame {
             agregar.setText("Actualizar");
             agregar.setBackground(SECONDARY);
         } else {
-            JOptionPane.showMessageDialog(null, "El registro no existe", "error", 2);
+            //JOptionPane.showMessageDialog(null, "El registro no existe", "error", 2);
         }
         //updateId.setText("");
     }//GEN-LAST:event_actualizarAlumnoActionPerformed
-
+    
     private void cancelarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelarMousePressed
         cancelar.setBackground(DANGER_PRESSED);
     }//GEN-LAST:event_cancelarMousePressed
-
+    
     private void cancelarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelarMouseReleased
         cancelar.setBackground(DANGER);
     }//GEN-LAST:event_cancelarMouseReleased
-
+    
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         isUpdate = false;
         clearInputs();
@@ -855,7 +860,7 @@ public class Alumnos extends javax.swing.JFrame {
         correoError.setText("");
         updateId.setText("");
     }//GEN-LAST:event_cancelarActionPerformed
-
+    
     private boolean lgValidate() {
         boolean nombreValid, apellidoPaternoValid, apellidoMaternoValid, edadValid, direccionValid, telefonoValid, correoValid;
         //validación del nombre
@@ -884,7 +889,7 @@ public class Alumnos extends javax.swing.JFrame {
             return false;
         }
     }
-
+    
     private void submit() {
         if (lgValidate()) {
             ALUMNOS_MODEL.insertAlumno(nombre.getText(), apellidoPaterno.getText(),
@@ -896,7 +901,7 @@ public class Alumnos extends javax.swing.JFrame {
             clearInputs();
         }
     }
-
+    
     private boolean getAlumnoData() {
         boolean isData = false;
         try {
@@ -918,7 +923,7 @@ public class Alumnos extends javax.swing.JFrame {
         }
         return isData;
     }
-
+    
     private void update() {
         if (lgValidate()) {
             ALUMNOS_MODEL.updateAlumno(nombre.getText(),
@@ -938,7 +943,7 @@ public class Alumnos extends javax.swing.JFrame {
         agregar.setText("Agregar");
         updateId.setText("");
     }
-
+    
     private void clearInputs() {
         nombre.setText("");
         apellidoPaterno.setText("");
@@ -952,7 +957,7 @@ public class Alumnos extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public /*static*/ void main(String args[]) {
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

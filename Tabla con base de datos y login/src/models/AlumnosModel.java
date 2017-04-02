@@ -36,12 +36,8 @@ public class AlumnosModel extends Connector {
                 + correo + "', '" + grupo_id + "')");
     }
 
-    public int deleteById(int id, int groupId) {
-        return executeQuery("DELETE FROM alumnos WHERE id = " + id + " AND group_id = " + groupId);
-    }
-
-    public int deleteAll() {
-        return executeQuery("TRUNCATE alumnos");
+    public int deleteById(int groupId, int id) {
+        return executeQuery("DELETE FROM alumnos WHERE alumnos.grupo_id = " + groupId + " AND alumnos.id = " + id);
     }
 
     public int deleteAllById(int id) {

@@ -15,15 +15,15 @@ import javax.swing.JPasswordField;
 public class Config {
 
     //Sesión
-    public static String session = "";
+    public static String session = "Default";
     //Id de usuario
-    public static int userId;
+    public static int userId = 1;
     //Correo del usuario
     public static String correo = "";
     //Titulo de la tabla
     public static final String TITULO = "Lista de alumnos de 4ISC11 :v";
     //Id del grupo
-    public static int groupId;
+    public static int groupId = 1;
     //Configuración de la contraseña
     public static final int PASSWORD_LENGTH = 4;
     public static final String PASSWORD_LENGTH_ERROR = "La contraseña es muy corta (minimo " + PASSWORD_LENGTH + " caracteres)";
