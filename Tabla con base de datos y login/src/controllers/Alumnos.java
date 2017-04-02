@@ -26,7 +26,7 @@ public class Alumnos extends javax.swing.JFrame {
     private final AlumnosModel ALUMNOS_MODEL;
     private int id;
     private boolean isUpdate;
-    
+
     public Alumnos(int id, String titulo) {
         initComponents();
         this.table.setEnabled(false);
@@ -54,7 +54,7 @@ public class Alumnos extends javax.swing.JFrame {
         this.id = id;
         loadData();
     }
-    
+
     public Alumnos() {
         initComponents();
         this.table.setEnabled(false);
@@ -83,7 +83,7 @@ public class Alumnos extends javax.swing.JFrame {
         this.id = groupId;
         loadData();
     }
-    
+
     private void loadData() {
         model.setNumRows(0);
         data = ALUMNOS_MODEL.getAlumnosByGroup(id);
@@ -684,7 +684,7 @@ public class Alumnos extends javax.swing.JFrame {
             this.agregar.setBackground(SECONDARY_PRESSED);
         }
     }//GEN-LAST:event_agregarMousePressed
-    
+
     private void agregarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregarMouseReleased
         if (!isUpdate) {
             this.agregar.setBackground(DEFAULT);
@@ -692,23 +692,23 @@ public class Alumnos extends javax.swing.JFrame {
             this.agregar.setBackground(SECONDARY);
         }
     }//GEN-LAST:event_agregarMouseReleased
-    
+
     private void eliminarPorIdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminarPorIdMousePressed
         this.eliminarPorId.setBackground(DANGER_PRESSED);
     }//GEN-LAST:event_eliminarPorIdMousePressed
-    
+
     private void eliminarPorIdMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminarPorIdMouseReleased
         this.eliminarPorId.setBackground(DANGER);
     }//GEN-LAST:event_eliminarPorIdMouseReleased
-    
+
     private void eliminarRegistrosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminarRegistrosMousePressed
         this.eliminarRegistros.setBackground(DANGER_PRESSED);
     }//GEN-LAST:event_eliminarRegistrosMousePressed
-    
+
     private void eliminarRegistrosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminarRegistrosMouseReleased
         this.eliminarRegistros.setBackground(DANGER);
     }//GEN-LAST:event_eliminarRegistrosMouseReleased
-    
+
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
         if (!isUpdate) {
             submit();
@@ -717,14 +717,14 @@ public class Alumnos extends javax.swing.JFrame {
         }
         isUpdate = false;
     }//GEN-LAST:event_agregarActionPerformed
-    
+
     private void eliminarRegistrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarRegistrosActionPerformed
         if (JOptionPane.showConfirmDialog(null, "Seguro que quiere eliminar toda la tabla?", "Eliminar tabla", 1) == 0) {
             ALUMNOS_MODEL.deleteAllById(id);
             loadData();
         }
     }//GEN-LAST:event_eliminarRegistrosActionPerformed
-    
+
     private void eliminarPorIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarPorIdActionPerformed
         try {
             if (JOptionPane.showConfirmDialog(null, "Seguro que quiere eliminar el registro?", "Eliminar registro", 1) == 0) {
@@ -736,82 +736,82 @@ public class Alumnos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "El id debe de ser un número :'v", "Error", 0);
         }
     }//GEN-LAST:event_eliminarPorIdActionPerformed
-    
+
     private void actualizarTablaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizarTablaMousePressed
         actualizarTabla.setBackground(SECONDARY_PRESSED);
     }//GEN-LAST:event_actualizarTablaMousePressed
-    
+
     private void actualizarTablaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizarTablaMouseReleased
         actualizarTabla.setBackground(SECONDARY);
     }//GEN-LAST:event_actualizarTablaMouseReleased
-    
+
     private void actualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarTablaActionPerformed
         loadData();
     }//GEN-LAST:event_actualizarTablaActionPerformed
-    
+
     private void regresarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regresarMousePressed
         this.regresar.setBackground(DEFAULT_PRESSED);
     }//GEN-LAST:event_regresarMousePressed
-    
+
     private void regresarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regresarMouseReleased
         this.regresar.setBackground(DEFAULT);
     }//GEN-LAST:event_regresarMouseReleased
-    
+
     private void regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarActionPerformed
         new TableList().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_regresarActionPerformed
-    
+
     private void nombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreKeyReleased
         if (evt.getKeyCode() == 10) {
             submit();
         }
     }//GEN-LAST:event_nombreKeyReleased
-    
+
     private void apellidoPaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_apellidoPaternoKeyReleased
         if (evt.getKeyCode() == 10) {
             submit();
         }
     }//GEN-LAST:event_apellidoPaternoKeyReleased
-    
+
     private void apellidoMaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_apellidoMaternoKeyReleased
         if (evt.getKeyCode() == 10) {
             submit();
         }
     }//GEN-LAST:event_apellidoMaternoKeyReleased
-    
+
     private void edadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edadKeyReleased
         if (evt.getKeyCode() == 10) {
             submit();
         }
     }//GEN-LAST:event_edadKeyReleased
-    
+
     private void direccionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_direccionKeyReleased
         if (evt.getKeyCode() == 10) {
             submit();
         }
     }//GEN-LAST:event_direccionKeyReleased
-    
+
     private void telefonoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_telefonoKeyReleased
         if (evt.getKeyCode() == 10) {
             submit();
         }
     }//GEN-LAST:event_telefonoKeyReleased
-    
+
     private void correoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_correoKeyReleased
         if (evt.getKeyCode() == 10) {
             submit();
         }
     }//GEN-LAST:event_correoKeyReleased
-    
+
     private void actualizarAlumnoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizarAlumnoMousePressed
         actualizarAlumno.setBackground(SECONDARY_PRESSED);
     }//GEN-LAST:event_actualizarAlumnoMousePressed
-    
+
     private void actualizarAlumnoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizarAlumnoMouseReleased
         actualizarAlumno.setBackground(SECONDARY);
     }//GEN-LAST:event_actualizarAlumnoMouseReleased
-    
+
     private void actualizarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarAlumnoActionPerformed
         if (!nombre.getText().equals("")
                 || !apellidoPaterno.getText().equals("")
@@ -820,7 +820,7 @@ public class Alumnos extends javax.swing.JFrame {
                 || !direccion.getText().equals("")
                 || !telefono.getText().equals("")
                 || !correo.getText().equals("")) {
-            
+
             if (JOptionPane.showConfirmDialog(null, "Seguro que quiere continuar sin guardar los datos?", "Actualizar datos", 1) == 0) {
                 if (getAlumnoData()) {
                     isUpdate = true;
@@ -839,28 +839,24 @@ public class Alumnos extends javax.swing.JFrame {
         }
         //updateId.setText("");
     }//GEN-LAST:event_actualizarAlumnoActionPerformed
-    
+
     private void cancelarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelarMousePressed
         cancelar.setBackground(DANGER_PRESSED);
     }//GEN-LAST:event_cancelarMousePressed
-    
+
     private void cancelarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelarMouseReleased
         cancelar.setBackground(DANGER);
     }//GEN-LAST:event_cancelarMouseReleased
-    
+
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         isUpdate = false;
         clearInputs();
-        nombreError.setText("");
-        apellidoPaternoError.setText("");
-        apellidoMaternoError.setText("");
-        edadError.setText("");
-        direccionError.setText("");
-        telefonoError.setText("");
-        correoError.setText("");
+        clearErrors();
+        agregar.setText("Agregar");
+        agregar.setBackground(DEFAULT);
         updateId.setText("");
     }//GEN-LAST:event_cancelarActionPerformed
-    
+
     private boolean lgValidate() {
         boolean nombreValid, apellidoPaternoValid, apellidoMaternoValid, edadValid, direccionValid, telefonoValid, correoValid;
         //validación del nombre
@@ -889,7 +885,7 @@ public class Alumnos extends javax.swing.JFrame {
             return false;
         }
     }
-    
+
     private void submit() {
         if (lgValidate()) {
             ALUMNOS_MODEL.insertAlumno(nombre.getText(), apellidoPaterno.getText(),
@@ -901,7 +897,7 @@ public class Alumnos extends javax.swing.JFrame {
             clearInputs();
         }
     }
-    
+
     private boolean getAlumnoData() {
         boolean isData = false;
         try {
@@ -921,9 +917,10 @@ public class Alumnos extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "El id debe de ser un número :'v", "Error", 0);
         }
+        clearErrors();
         return isData;
     }
-    
+
     private void update() {
         if (lgValidate()) {
             ALUMNOS_MODEL.updateAlumno(nombre.getText(),
@@ -943,7 +940,7 @@ public class Alumnos extends javax.swing.JFrame {
         agregar.setText("Agregar");
         updateId.setText("");
     }
-    
+
     private void clearInputs() {
         nombre.setText("");
         apellidoPaterno.setText("");
@@ -952,6 +949,16 @@ public class Alumnos extends javax.swing.JFrame {
         direccion.setText("");
         telefono.setText("");
         correo.setText("");
+    }
+
+    private void clearErrors() {
+        nombreError.setText("");
+        apellidoPaternoError.setText("");
+        apellidoMaternoError.setText("");
+        edadError.setText("");
+        direccionError.setText("");
+        telefonoError.setText("");
+        correoError.setText("");
     }
 
     /**
