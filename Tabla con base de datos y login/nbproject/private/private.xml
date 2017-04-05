@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Luis%20G/Documents/Prograas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/config/Config.java</file>
             <file>file:/C:/Users/Luis%20G/Documents/Prograas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/models/AlumnosModel.java</file>
-            <file>file:/C:/Users/Luis%20G/Documents/Prograas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/controllers/LogIn.java</file>
             <file>file:/C:/Users/Luis%20G/Documents/Prograas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/controllers/Alumnos.java</file>
-            <file>file:/C:/Users/Luis%20G/Documents/Prograas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/controllers/TableList.java</file>
-            <file>file:/C:/Users/Luis%20G/Documents/Prograas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/controllers/SignUp.java</file>
+            <file>file:/C:/Users/Luis%20G/Documents/Prograas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/models/UsersModel.java</file>
+            <file>file:/C:/Users/Luis%20G/Documents/Prograas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/models/Connector.java</file>
         </group>
     </open-files>
 </project-private>
