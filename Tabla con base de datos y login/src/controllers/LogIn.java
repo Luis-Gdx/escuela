@@ -5,10 +5,10 @@
  */
 package controllers;
 
-import security.BCrypt;
 import java.sql.ResultSet;
 import models.UsersModel;
 import static config.Config.*;
+import static security.Hash.checkPassWord;
 import static security.Validate.validateEmail;
 import static security.Validate.validatePassword;
 
@@ -25,7 +25,7 @@ public class LogIn extends javax.swing.JFrame {
     private String pass;
     private final UsersModel USERS_MODEL;
     private boolean submitted;
-
+    
     public LogIn() {
         initComponents();
         this.setResizable(false);
@@ -188,19 +188,19 @@ public class LogIn extends javax.swing.JFrame {
         this.dispose();
         new SignUp().setVisible(true);
     }//GEN-LAST:event_signInActionPerformed
-
+    
     private void logInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInActionPerformed
         submit();
     }//GEN-LAST:event_logInActionPerformed
-
+    
     private void logInMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logInMouseReleased
         this.logIn.setBackground(DEFAULT);
     }//GEN-LAST:event_logInMouseReleased
-
+    
     private void logInMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logInMousePressed
         this.logIn.setBackground(DEFAULT_PRESSED);
     }//GEN-LAST:event_logInMousePressed
-
+    
     private void emailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailKeyReleased
         if (submitted) {
             validateEmail(email, emailError);
@@ -209,7 +209,7 @@ public class LogIn extends javax.swing.JFrame {
             submit();
         }
     }//GEN-LAST:event_emailKeyReleased
-
+    
     private void passwordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyReleased
         if (submitted) {
             validatePassword(password, passwordError);
@@ -218,30 +218,41 @@ public class LogIn extends javax.swing.JFrame {
             submit();
         }
     }//GEN-LAST:event_passwordKeyReleased
-
+    
     private void submit() {
         submitted = true;
+        boolean isOnline = false;
         if (validateEmail(email, emailError)) {
             if (validatePassword(password, passwordError)) {
                 data = USERS_MODEL.getUserByEmail(email.getText());
                 try {
                     while (data.next()) {
-                        userId = data.getInt("id");
-                        session = data.getString("user");
-                        pass = data.getString("password");
+                        if (!data.getBoolean("online")) {
+                            userId = data.getInt("id");
+                            session = data.getString("user");
+                            pass = data.getString("password");
+                        } else {
+                            isOnline = true;
+                        }
                     }
                 } catch (Exception ex) {
                     passwordError.setText("Correo o contraseña incorrectos");
                 }
-                try {
-                    if (BCrypt.checkpw(getPassword(password), pass)) {
-                        this.dispose();
-                        new TableList().setVisible(true);
-                    } else {
+                if (!isOnline) {
+                    try {
+                        if (checkPassWord(getPassword(password), pass)) {
+                            USERS_MODEL.updateOnline(true, userId);
+                            correo = email.getText().toLowerCase();
+                            this.dispose();
+                            new TableList().setVisible(true);
+                        } else {
+                            passwordError.setText("Correo o contraseña incorrectos");
+                        }
+                    } catch (Exception e) {
                         passwordError.setText("Correo o contraseña incorrectos");
                     }
-                } catch (Exception e) {
-                    passwordError.setText("Correo o contraseña incorrectos");
+                } else {
+                    passwordError.setText("Este usuario ya a iniciado sesión");
                 }
             }
         }

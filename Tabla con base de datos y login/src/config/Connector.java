@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package models;
+package config;
 
+import static config.Config.userId;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -30,7 +31,8 @@ public class Connector {
             Statement stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
         } catch (Exception e) {
-            System.out.println(":v");
+            System.out.println(e);
+            executeQuery("UPDATE usuarios SET online = false WHERE id = " + userId);
         }
         return rs;
     }
@@ -49,13 +51,17 @@ public class Connector {
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getErrorCode());
-            if (e.getErrorCode() == 1062) {
-                JOptionPane.showMessageDialog(null, "Ese correo ya esta registrado", "error", 0);
-            } else if (e.getErrorCode() == 1054) {
-                JOptionPane.showMessageDialog(null, "El registro no existe", "error", 0);
-            } else {
-                JOptionPane.showMessageDialog(null, "A ocurrido un error " + e, "error", 0);
-                System.out.println(e);
+            switch (e.getErrorCode()) {
+                case 1062:
+                    JOptionPane.showMessageDialog(null, "Ese correo ya esta registrado", "error", 0);
+                    break;
+                case 1054:
+                    JOptionPane.showMessageDialog(null, "El registro no existe", "error", 0);
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "A ocurrido un error " + e, "error", 0);
+                    System.out.println(e);
+                    break;
             }
         }
         return id;

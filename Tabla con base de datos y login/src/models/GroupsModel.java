@@ -5,6 +5,7 @@
  */
 package models;
 
+import config.Connector;
 import java.sql.ResultSet;
 
 /**
@@ -14,11 +15,11 @@ import java.sql.ResultSet;
 public class GroupsModel extends Connector {
 
     public ResultSet getGroups(int id) {
-        return this.getData("SELECT grupo.id, grupo.nombre FROM grupo WHERE grupo.usuarios_id = " + id);
+        return this.getData("SELECT grupo.id, grupo.nombre FROM grupo INNER JOIN permisos ON permisos.grupo_id = grupo.id WHERE permisos.usuarios_id = " + id);
     }
 
-    public int insertGroup(String nombre, int id) {
-        return this.executeQuery("INSERT INTO grupo (nombre, usuarios_id) VALUES ('" + nombre + "', " + id + ")");
+    public int insertGroup(String nombre) {
+        return this.executeQuery("INSERT INTO grupo (nombre) VALUES ('" + nombre + "')");
     }
 
     public int deleteGroupById(int id) {
@@ -27,6 +28,10 @@ public class GroupsModel extends Connector {
 
     public ResultSet getGroupInfo(int id) {
         return getData("SELECT grupo.nombre, Count(alumnos.id) AS count FROM grupo INNER JOIN alumnos ON grupo.id = alumnos.grupo_id WHERE grupo.id = " + id + " GROUP BY grupo.nombre");
+    }
+
+    public ResultSet getUsersInGroup(int id) {
+        return getData("SELECT Count(usuarios.id) AS count FROM usuarios INNER JOIN permisos ON usuarios.id = permisos.usuarios_id WHERE permisos.grupo_id = " + id);
     }
 
     public int updateGroupName(String nombre, int id) {

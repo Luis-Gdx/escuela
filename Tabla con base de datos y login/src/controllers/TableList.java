@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import config.Grupo;
 import config.GrupoCellRenderer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +17,10 @@ import models.AlumnosModel;
 import models.GroupsModel;
 import models.UsersModel;
 import static config.Config.*;
+import config.OfflineWindowListener;
+import java.awt.Color;
+import java.awt.event.WindowEvent;
+import models.PermisosModel;
 
 /**
  *
@@ -31,12 +36,15 @@ public class TableList extends javax.swing.JFrame {
     private final GroupsModel GROUPS_MODEL;
     private final UsersModel USERS_MODEL;
     private final AlumnosModel ALUMNOS_MODEL;
+    private final PermisosModel PERMISOS_MODEL = new PermisosModel();
     private final DefaultListModel<Grupo> LIST_MODEL = new DefaultListModel();
+    private String grupo;
 
     public TableList() {
         initComponents();
         this.setLocationRelativeTo(null);
         this.pack();
+        this.addWindowListener(new OfflineWindowListener());
         this.card.setVisible(false);
         GROUPS_MODEL = new GroupsModel();
         USERS_MODEL = new UsersModel();
@@ -80,7 +88,14 @@ public class TableList extends javax.swing.JFrame {
         numeroAlumnos = new javax.swing.JLabel();
         entrar = new javax.swing.JButton();
         eliminar = new javax.swing.JButton();
-        editar = new javax.swing.JButton();
+        administrar = new javax.swing.JButton();
+        numeroUsuarios = new javax.swing.JLabel();
+        type = new javax.swing.JLabel();
+        numeroAlumnos2 = new javax.swing.JLabel();
+        c = new javax.swing.JLabel();
+        r = new javax.swing.JLabel();
+        u = new javax.swing.JLabel();
+        d = new javax.swing.JLabel();
         signIn = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
 
@@ -134,6 +149,12 @@ public class TableList extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(groupList);
+
+        card.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cardMouseClicked(evt);
+            }
+        });
 
         infoPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -191,29 +212,54 @@ public class TableList extends javax.swing.JFrame {
             }
         });
 
-        editar.setBackground(new java.awt.Color(50, 219, 100));
-        editar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        editar.setForeground(new java.awt.Color(255, 255, 255));
-        editar.setText("Editar");
-        editar.setBorder(null);
-        editar.setBorderPainted(false);
-        editar.setContentAreaFilled(false);
-        editar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        editar.setFocusPainted(false);
-        editar.setOpaque(true);
-        editar.addMouseListener(new java.awt.event.MouseAdapter() {
+        administrar.setBackground(new java.awt.Color(50, 219, 100));
+        administrar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        administrar.setForeground(new java.awt.Color(255, 255, 255));
+        administrar.setText("Administrar");
+        administrar.setBorder(null);
+        administrar.setBorderPainted(false);
+        administrar.setContentAreaFilled(false);
+        administrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        administrar.setFocusPainted(false);
+        administrar.setOpaque(true);
+        administrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                editarMousePressed(evt);
+                administrarMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                editarMouseReleased(evt);
+                administrarMouseReleased(evt);
             }
         });
-        editar.addActionListener(new java.awt.event.ActionListener() {
+        administrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editarActionPerformed(evt);
+                administrarActionPerformed(evt);
             }
         });
+
+        numeroUsuarios.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        numeroUsuarios.setText("Número de usuarios");
+
+        type.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        type.setText("Tipo de usuario");
+
+        numeroAlumnos2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        numeroAlumnos2.setText("Tipo de permiso");
+
+        c.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        c.setForeground(new java.awt.Color(56, 126, 245));
+        c.setText("C");
+
+        r.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        r.setForeground(new java.awt.Color(255, 153, 0));
+        r.setText("R");
+
+        u.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        u.setForeground(new java.awt.Color(50, 219, 100));
+        u.setText("U");
+
+        d.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        d.setForeground(new java.awt.Color(245, 61, 61));
+        d.setText("D");
 
         javax.swing.GroupLayout infoPanelLayout = new javax.swing.GroupLayout(infoPanel);
         infoPanel.setLayout(infoPanelLayout);
@@ -226,13 +272,25 @@ public class TableList extends javax.swing.JFrame {
                         .addGap(0, 47, Short.MAX_VALUE)
                         .addComponent(entrar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(editar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(administrar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(infoPanelLayout.createSequentialGroup()
                         .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(groupName)
-                            .addComponent(numeroAlumnos))
+                            .addComponent(numeroAlumnos)
+                            .addComponent(numeroUsuarios)
+                            .addComponent(type)
+                            .addGroup(infoPanelLayout.createSequentialGroup()
+                                .addComponent(numeroAlumnos2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(c)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(r)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(u)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(d)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -243,11 +301,22 @@ public class TableList extends javax.swing.JFrame {
                 .addComponent(groupName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(numeroAlumnos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(numeroUsuarios)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(type)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(numeroAlumnos2)
+                    .addComponent(c)
+                    .addComponent(r)
+                    .addComponent(u)
+                    .addComponent(d))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(entrar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(administrar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -264,7 +333,7 @@ public class TableList extends javax.swing.JFrame {
             cardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cardLayout.createSequentialGroup()
                 .addGap(1, 1, 1)
-                .addComponent(infoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(infoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(3, 3, 3))
         );
 
@@ -312,13 +381,13 @@ public class TableList extends javax.swing.JFrame {
                 .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(card, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(signIn))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -350,7 +419,8 @@ public class TableList extends javax.swing.JFrame {
         String tableName = JOptionPane.showInputDialog(null, "Ingresa el nombre de la tabla", "Crear tabla", 3);
         if (tableName != null) {
             if (!tableName.equals("")) {
-                GROUPS_MODEL.insertGroup(tableName, userId);
+                int groupId = GROUPS_MODEL.insertGroup(tableName);
+                PERMISOS_MODEL.insertPermisos(userId, groupId);
                 getGroups();
                 groupList.setSelectedIndex(LIST_MODEL.getSize() - 1);
                 getSelectedItemData();
@@ -363,6 +433,10 @@ public class TableList extends javax.swing.JFrame {
     private void groupListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_groupListMouseClicked
         getSelectedItemData();
     }//GEN-LAST:event_groupListMouseClicked
+
+    private void groupListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_groupListKeyReleased
+        getSelectedItemData();
+    }//GEN-LAST:event_groupListKeyReleased
 
     private void entrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_entrarMousePressed
         entrar.setBackground(DEFAULT_PRESSED);
@@ -394,50 +468,62 @@ public class TableList extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_eliminarActionPerformed
 
-    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
-        card.setVisible(false);
-    }//GEN-LAST:event_jPanel1MouseClicked
+    private void administrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_administrarMousePressed
+        administrar.setBackground(SECONDARY_PRESSED);
+    }//GEN-LAST:event_administrarMousePressed
 
-    private void groupListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_groupListKeyReleased
-        getSelectedItemData();
-    }//GEN-LAST:event_groupListKeyReleased
+    private void administrarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_administrarMouseReleased
+        administrar.setBackground(SECONDARY);
+    }//GEN-LAST:event_administrarMouseReleased
+
+    private void administrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_administrarActionPerformed
+        this.dispose();
+        new AdminDashboard(groupList.getSelectedValue().getId(), groupList.getSelectedValue().getNombre()).setVisible(true);
+    }//GEN-LAST:event_administrarActionPerformed
 
     private void signInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInActionPerformed
+        USERS_MODEL.updateOnline(false, userId);
         new LogIn().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_signInActionPerformed
 
-    private void editarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editarMousePressed
-        editar.setBackground(SECONDARY_PRESSED);
-    }//GEN-LAST:event_editarMousePressed
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+        card.setVisible(false);
+    }//GEN-LAST:event_jPanel1MouseClicked
 
-    private void editarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editarMouseReleased
-        editar.setBackground(SECONDARY);
-    }//GEN-LAST:event_editarMouseReleased
-
-    private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
-        String tableName = (String) JOptionPane.showInputDialog(null, "Ingresa el nombre de la tabla",
-                "Cambiar nombre", JOptionPane.QUESTION_MESSAGE, null, null, groupList.getSelectedValue().getNombre());
-        if (tableName != null) {
-            if (!tableName.equals("")) {
-                GROUPS_MODEL.updateGroupName(tableName, groupList.getSelectedValue().getId());
-                getGroups();
-                groupList.setSelectedIndex(LIST_MODEL.getSize() - 1);
-                getSelectedItemData();
-            } else {
-                JOptionPane.showMessageDialog(null, "No puedes dejar vacio este campo", "Error", 0);
-            }
-        }
-    }//GEN-LAST:event_editarActionPerformed
+    private void cardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cardMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cardMouseClicked
 
     private void getSelectedItemData() {
         boolean isNull = true;
         try {
             ResultSet groupInfo = GROUPS_MODEL.getGroupInfo(groupList.getSelectedValue().getId());
             while (groupInfo.next()) {
-                groupName.setText("Nombre del grupo: " + groupInfo.getString("nombre"));
-                numeroAlumnos.setText("Número de alumnos: " + groupInfo.getInt("count") + "");
+                grupo = groupInfo.getString("nombre");
+                groupName.setText("Nombre del grupo: " + grupo);
+                numeroAlumnos.setText("Número de alumnos: " + groupInfo.getInt("count"));
                 isNull = false;
+            }
+            ResultSet groupInfo2 = GROUPS_MODEL.getUsersInGroup(groupList.getSelectedValue().getId());
+            while (groupInfo2.next()) {
+                numeroUsuarios.setText("Número de usuarios: " + groupInfo2.getInt("count"));
+                isNull = false;
+            }
+            ResultSet userInfo = USERS_MODEL.getPermisosByTable(groupList.getSelectedValue().getId(), userId);
+            while (userInfo.next()) {
+                if (userInfo.getBoolean("admin")) {
+                    type.setText("Tipo de usuario: Admin");
+                    administrar.setBackground(SECONDARY);
+                    administrar.setVisible(true);
+                } else {
+                    type.setText("Tipo de usuario: Estandar");
+                    administrar.setVisible(false);
+                }
+                c.setForeground(userInfo.getBoolean("create") ? DEFAULT : Color.GRAY);
+                r.setForeground(userInfo.getBoolean("read") ? ALERT : Color.GRAY);
+                u.setForeground(userInfo.getBoolean("update") ? SECONDARY : Color.GRAY);
+                d.setForeground(userInfo.getBoolean("delete") ? DANGER : Color.GRAY);
             }
             if (isNull) {
                 groupName.setText("Nombre del grupo: " + groupList.getSelectedValue().getNombre());
@@ -485,9 +571,11 @@ public class TableList extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton administrar;
     private javax.swing.JButton agregar;
+    private javax.swing.JLabel c;
     private javax.swing.JPanel card;
-    private javax.swing.JButton editar;
+    private javax.swing.JLabel d;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton entrar;
     private javax.swing.JList<Grupo> groupList;
@@ -497,7 +585,12 @@ public class TableList extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel numeroAlumnos;
+    private javax.swing.JLabel numeroAlumnos2;
+    private javax.swing.JLabel numeroUsuarios;
+    private javax.swing.JLabel r;
     private javax.swing.JButton signIn;
+    private javax.swing.JLabel type;
+    private javax.swing.JLabel u;
     private javax.swing.JLabel user;
     // End of variables declaration//GEN-END:variables
 }

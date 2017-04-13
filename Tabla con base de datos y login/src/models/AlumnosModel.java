@@ -5,6 +5,7 @@
  */
 package models;
 
+import config.Connector;
 import java.sql.ResultSet;
 
 /**

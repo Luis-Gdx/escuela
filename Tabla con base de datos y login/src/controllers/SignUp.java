@@ -268,7 +268,7 @@ public class SignUp extends javax.swing.JFrame {
             if (id != -1) {
                 userId = id;
                 session = user.getText();
-                correo = email.getText();
+                correo = email.getText().toLowerCase();
                 this.dispose();
                 new TableList().setVisible(true);
             } else {

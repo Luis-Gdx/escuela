@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers;
+package config;
 
 /**
  *
@@ -12,7 +12,6 @@ package controllers;
 public class Grupo {
 
     int id;
-
     String nombre;
 
     public Grupo(int id, String nombre) {

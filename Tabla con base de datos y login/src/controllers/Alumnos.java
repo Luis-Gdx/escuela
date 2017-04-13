@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.AlumnosModel;
 import static config.Config.*;
+import config.OfflineWindowListener;
 import static security.Validate.*;
 
 /**
@@ -33,6 +34,7 @@ public class Alumnos extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.pack();
+        this.addWindowListener(new OfflineWindowListener());
         isUpdate = false;
         model = new DefaultTableModel();
         ALUMNOS_MODEL = new AlumnosModel();

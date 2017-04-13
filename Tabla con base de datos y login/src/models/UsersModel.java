@@ -5,8 +5,9 @@
  */
 package models;
 
+import config.Connector;
 import java.sql.ResultSet;
-import security.BCrypt;
+import static security.Hash.sha256;
 
 /**
  *
@@ -14,17 +15,42 @@ import security.BCrypt;
  */
 public class UsersModel extends Connector {
 
+    public ResultSet getUserById(int id) {
+        return getData("SELECT  id, user, email FROM usuarios WHERE id = " + id);
+    }
+
+    public ResultSet getOnline(int id) {
+        return getData("SELECT online FROM usuarios WHERE id = " + id);
+    }
+
+    public int updateOnline(boolean online, int id) {
+        return executeQuery("UPDATE usuarios SET online = " + online + " WHERE id = " + id);
+    }
+
+    public ResultSet getPendingUsers(int notificationId) {
+        return getData("SELECT usuarios.id, usuarios.`user`, usuarios.email, notificaciones.id AS notificacion_id FROM usuarios INNER JOIN notificaciones ON notificaciones.destinatario = usuarios.email WHERE notificaciones.grupo_id = " + notificationId);
+    }
+
+    public ResultSet getUserByTable(int grupoId, int id) {
+        return getData("SELECT permisos.id AS permisoId, usuarios.`user`, usuarios.email, permisos.admin, permisos.`create`, permisos.`read`, permisos.`update`, permisos.`delete`, usuarios.id, usuarios.online FROM usuarios INNER JOIN permisos ON permisos.usuarios_id = usuarios.id INNER JOIN grupo ON permisos.grupo_id = grupo.id WHERE usuarios.id <> " + id + " AND permisos.grupo_id = " + grupoId);
+    }
+
+    public ResultSet getPermisosByTable(int grupoId, int id) {
+        return getData("SELECT permisos.admin, permisos.`create`, permisos.`read`, permisos.`update`, permisos.`delete` FROM permisos INNER JOIN usuarios ON usuarios.id = permisos.usuarios_id WHERE permisos.grupo_id = " + grupoId + " AND usuarios.id = " + id);
+    }
+
     public ResultSet getUserByEmail(String email) {
         return getData("SELECT  * FROM usuarios WHERE email = '" + email + "'");
     }
 
     public int insertUser(String user, String email, String password) {
-        return executeQuery("INSERT INTO usuarios (user, email, password) VALUES ('"
+        return executeQuery("INSERT INTO usuarios (user, email, password, online) VALUES ('"
                 + user + "', '" + email.toLowerCase() + "', '"
-                + BCrypt.hashpw(password, BCrypt.gensalt()) + "')");
+                + sha256(password) + "', true)");
     }
 
     public ResultSet getUserId(String correo) {
         return getData("SELECT id FROM usuarios WHERE email = '" + correo + "'");
     }
+
 }
