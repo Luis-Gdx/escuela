@@ -21,6 +21,7 @@ import config.OfflineWindowListener;
 import java.awt.Color;
 import java.awt.event.WindowEvent;
 import models.PermisosModel;
+import realtime.Permisos;
 
 /**
  *
@@ -32,13 +33,14 @@ public class TableList extends javax.swing.JFrame {
      * Creates new form TableList
      */
     private final ResultSet DATA;
-    private ResultSet grupos;
-    private final GroupsModel GROUPS_MODEL;
+    private static ResultSet grupos;
+    private static final GroupsModel GROUPS_MODEL = new GroupsModel();
     private final UsersModel USERS_MODEL;
     private final AlumnosModel ALUMNOS_MODEL;
     private final PermisosModel PERMISOS_MODEL = new PermisosModel();
-    private final DefaultListModel<Grupo> LIST_MODEL = new DefaultListModel();
+    private static final DefaultListModel<Grupo> LIST_MODEL = new DefaultListModel();
     private String grupo;
+    private Permisos permisos;
 
     public TableList() {
         initComponents();
@@ -46,16 +48,16 @@ public class TableList extends javax.swing.JFrame {
         this.pack();
         this.addWindowListener(new OfflineWindowListener());
         this.card.setVisible(false);
-        GROUPS_MODEL = new GroupsModel();
         USERS_MODEL = new UsersModel();
         ALUMNOS_MODEL = new AlumnosModel();
         DATA = USERS_MODEL.getUserId(correo);
+        permisos = new Permisos();
         user.setText(session);
         groupList.setCellRenderer(new GrupoCellRenderer());
-        getGroups();
+        //getGroups();
     }
 
-    private void getGroups() {
+    public static void getGroups() {
         LIST_MODEL.setSize(0);
         grupos = GROUPS_MODEL.getGroups(userId);
         try {
@@ -578,7 +580,7 @@ public class TableList extends javax.swing.JFrame {
     private javax.swing.JLabel d;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton entrar;
-    private javax.swing.JList<Grupo> groupList;
+    public static javax.swing.JList<Grupo> groupList;
     private javax.swing.JLabel groupName;
     private javax.swing.JPanel infoPanel;
     private javax.swing.JPanel jPanel1;
