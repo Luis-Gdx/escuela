@@ -5,7 +5,6 @@
  */
 package config;
 
-import static config.Config.userId;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -32,7 +31,7 @@ public class Connector {
             rs = stmt.executeQuery(query);
         } catch (Exception e) {
             System.out.println(e);
-            executeQuery("UPDATE usuarios SET online = false WHERE id = " + userId);
+            //executeQuery("UPDATE usuarios SET online = false WHERE id = " + userId);
         }
         return rs;
     }

@@ -5,9 +5,20 @@
  */
 package realtime;
 
-import controllers.TableList;
+import static config.Config.ALERT;
+import static config.Config.DANGER;
+import static config.Config.DEFAULT;
+import static config.Config.SECONDARY;
+import static config.Config.userId;
+import config.GrupoCellRenderer;
+import static controllers.TableList.*;
+import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.GroupsModel;
+import models.UsersModel;
 
 /**
  *
@@ -15,26 +26,80 @@ import java.util.logging.Logger;
  */
 public class Permisos implements Runnable {
 
-    TableList tableList;
-
     public Thread thread;
+    private final GroupsModel GROUPS_MODEL;
+    private final UsersModel USERS_MODEL;
 
     public Permisos() {
         thread = new Thread(this);
-        //tableList = new TableList();
+        GROUPS_MODEL = new GroupsModel();
+        USERS_MODEL = new UsersModel();
     }
 
     @Override
     public void run() {
         while (true) {
-            System.out.println(":v");
-            //tableList.getGroups();
+            for (int i = 0; i < LIST_MODEL.getSize(); i++) {
+                ResultSet grupos = GROUPS_MODEL.getGroups(userId);
+                try {
+                    while (grupos.next()) {
+                        LIST_MODEL.getElementAt(i).setNombre(grupos.getString("nombre"));
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(Online.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            groupList.setCellRenderer(new GrupoCellRenderer());
+
+            if (card.isVisible()) {
+                getSelectedItemData();
+            }
             try {
-                Thread.sleep(5000);
+                Thread.sleep(500);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Permisos.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
+    private void getSelectedItemData() {
+        boolean isNull = true;
+        try {
+            ResultSet groupInfo = GROUPS_MODEL.getGroupInfo(groupList.getSelectedValue().getId());
+            while (groupInfo.next()) {
+                grupo = groupInfo.getString("nombre");
+                groupName.setText("Nombre del grupo: " + grupo);
+                numeroAlumnos.setText("Número de alumnos: " + groupInfo.getInt("count"));
+                isNull = false;
+            }
+            ResultSet groupInfo2 = GROUPS_MODEL.getUsersInGroup(groupList.getSelectedValue().getId());
+            while (groupInfo2.next()) {
+                numeroUsuarios.setText("Número de usuarios: " + groupInfo2.getInt("count"));
+                isNull = false;
+            }
+            ResultSet userInfo = USERS_MODEL.getPermisosByTable(groupList.getSelectedValue().getId(), userId);
+            while (userInfo.next()) {
+                if (userInfo.getBoolean("admin")) {
+                    type.setText("Tipo de usuario: Admin");
+                    administrar.setBackground(SECONDARY);
+                    administrar.setVisible(true);
+                } else {
+                    type.setText("Tipo de usuario: Estandar");
+                    administrar.setVisible(false);
+                }
+                c.setForeground(userInfo.getBoolean("create") ? DEFAULT : Color.GRAY);
+                r.setForeground(userInfo.getBoolean("read") ? ALERT : Color.GRAY);
+                u.setForeground(userInfo.getBoolean("update") ? SECONDARY : Color.GRAY);
+                d.setForeground(userInfo.getBoolean("delete") ? DANGER : Color.GRAY);
+            }
+            if (isNull) {
+                groupName.setText("Nombre del grupo: " + groupList.getSelectedValue().getNombre());
+                numeroAlumnos.setText("Número de alumnos: 0");
+            }
+            card.setVisible(true);
+        } catch (Throwable ex) {
+            //Logger.getLogger(TableList.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+        }
+    }
 }

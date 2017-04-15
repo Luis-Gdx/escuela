@@ -15,7 +15,7 @@ import java.sql.ResultSet;
 public class NotificacionesModel extends Connector {
 
     public ResultSet getNotifications(String destinatario) {
-        return this.getData("SELECT DISTINCT notificaciones.mensaje, notificaciones.`status`, notificaciones.remitente notificaciones.destinatario, notificaciones.usuarios_id FROM usuarios , notificaciones WHERE notificaciones.destinatario = '" + destinatario + "' AND notificaciones.`status` = false");
+        return this.getData("SELECT DISTINCT notificaciones.mensaje, notificaciones.`status`, notificaciones.remitente notificaciones.destinatario, notificaciones.usuarios_id FROM usuarios, notificaciones WHERE notificaciones.destinatario = '" + destinatario + "' AND notificaciones.`status` = false");
     }
 
     public int sendNotification(String mensaje, String remitente, String destinatario, int id, int grupo_id) {

@@ -7,7 +7,6 @@ package realtime;
 
 import config.UserCellRenderer;
 import static controllers.AdminDashboard.LIST_MODEL;
-import static controllers.AdminDashboard.userCellRender;
 import static controllers.AdminDashboard.userList;
 import java.sql.ResultSet;
 import java.sql.SQLException;

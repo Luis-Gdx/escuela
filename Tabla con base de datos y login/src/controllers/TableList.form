@@ -168,6 +168,9 @@
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cardMouseClicked"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+          </AuxValues>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -274,6 +277,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Nombre del grupo"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="numeroAlumnos">
                   <Properties>
@@ -282,6 +288,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="N&#xfa;mero de alumnos"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JButton" name="entrar">
                   <Properties>
@@ -369,6 +378,9 @@
                     <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="administrarMouseReleased"/>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="administrarActionPerformed"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="numeroUsuarios">
                   <Properties>
@@ -377,6 +389,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="N&#xfa;mero de usuarios"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="type">
                   <Properties>
@@ -385,6 +400,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Tipo de usuario"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="numeroAlumnos2">
                   <Properties>
@@ -404,6 +422,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="C"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="r">
                   <Properties>
@@ -415,6 +436,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="R"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="u">
                   <Properties>
@@ -426,6 +450,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="U"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="d">
                   <Properties>
@@ -437,6 +464,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="D"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>

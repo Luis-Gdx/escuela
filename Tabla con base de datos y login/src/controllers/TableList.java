@@ -5,8 +5,11 @@
  */
 package controllers;
 
+import static config.Config.*;
 import config.Grupo;
 import config.GrupoCellRenderer;
+import config.OfflineWindowListener;
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -15,32 +18,30 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import models.AlumnosModel;
 import models.GroupsModel;
-import models.UsersModel;
-import static config.Config.*;
-import config.OfflineWindowListener;
-import java.awt.Color;
-import java.awt.event.WindowEvent;
 import models.PermisosModel;
+import models.UsersModel;
+import realtime.Notificaciones;
 import realtime.Permisos;
 
 /**
  *
  * @author lg269
  */
-public class TableList extends javax.swing.JFrame {
+public final class TableList extends javax.swing.JFrame {
 
     /**
      * Creates new form TableList
      */
     private final ResultSet DATA;
     private static ResultSet grupos;
-    private static final GroupsModel GROUPS_MODEL = new GroupsModel();
+    private final GroupsModel GROUPS_MODEL;
     private final UsersModel USERS_MODEL;
     private final AlumnosModel ALUMNOS_MODEL;
     private final PermisosModel PERMISOS_MODEL = new PermisosModel();
-    private static final DefaultListModel<Grupo> LIST_MODEL = new DefaultListModel();
-    private String grupo;
-    private Permisos permisos;
+    public static final DefaultListModel<Grupo> LIST_MODEL = new DefaultListModel();
+    public static String grupo;
+    private final Permisos PERMISOS;
+    private final Notificaciones NOTIFICACIONES;
 
     public TableList() {
         initComponents();
@@ -50,14 +51,18 @@ public class TableList extends javax.swing.JFrame {
         this.card.setVisible(false);
         USERS_MODEL = new UsersModel();
         ALUMNOS_MODEL = new AlumnosModel();
+        GROUPS_MODEL = new GroupsModel();
         DATA = USERS_MODEL.getUserId(correo);
-        permisos = new Permisos();
+        PERMISOS = new Permisos();
+        NOTIFICACIONES = new Notificaciones();
         user.setText(session);
         groupList.setCellRenderer(new GrupoCellRenderer());
-        //getGroups();
+        getGroups();
+        NOTIFICACIONES.thread.start();
+        PERMISOS.thread.start();
     }
 
-    public static void getGroups() {
+    public void getGroups() {
         LIST_MODEL.setSize(0);
         grupos = GROUPS_MODEL.getGroups(userId);
         try {
@@ -544,7 +549,7 @@ public class TableList extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -573,26 +578,26 @@ public class TableList extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton administrar;
+    public static javax.swing.JButton administrar;
     private javax.swing.JButton agregar;
-    private javax.swing.JLabel c;
-    private javax.swing.JPanel card;
-    private javax.swing.JLabel d;
+    public static javax.swing.JLabel c;
+    public static javax.swing.JPanel card;
+    public static javax.swing.JLabel d;
     private javax.swing.JButton eliminar;
     private javax.swing.JButton entrar;
     public static javax.swing.JList<Grupo> groupList;
-    private javax.swing.JLabel groupName;
+    public static javax.swing.JLabel groupName;
     private javax.swing.JPanel infoPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JLabel numeroAlumnos;
+    public static javax.swing.JLabel numeroAlumnos;
     private javax.swing.JLabel numeroAlumnos2;
-    private javax.swing.JLabel numeroUsuarios;
-    private javax.swing.JLabel r;
+    public static javax.swing.JLabel numeroUsuarios;
+    public static javax.swing.JLabel r;
     private javax.swing.JButton signIn;
-    private javax.swing.JLabel type;
-    private javax.swing.JLabel u;
+    public static javax.swing.JLabel type;
+    public static javax.swing.JLabel u;
     private javax.swing.JLabel user;
     // End of variables declaration//GEN-END:variables
 }

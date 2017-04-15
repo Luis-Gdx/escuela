@@ -617,7 +617,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_regresar1MouseReleased
 
     private void regresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresar1ActionPerformed
-        String nombre = JOptionPane.showInputDialog(null, "Ingresa un nombre para el grupo", "Cambiar nombre", 3);
+        String nombre = (String) JOptionPane.showInputDialog(null, "Ingresa un nombre para el grupo", "Cambiar nombre", 3, null, null, group.getText());
         if (nombre != null) {
             if (!nombre.equals("")) {
                 GROUPS_MODEL.updateGroupName(nombre, groupId);
@@ -734,7 +734,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
