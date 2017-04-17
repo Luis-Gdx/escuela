@@ -5,7 +5,7 @@
  */
 package realtime;
 
-import config.UserCellRenderer;
+import cellsrenderer.UserCellRenderer;
 import static controllers.AdminDashboard.LIST_MODEL;
 import static controllers.AdminDashboard.userList;
 import java.sql.ResultSet;
@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.UsersModel;
+import objects.User;
 
 /**
  *
@@ -34,14 +35,15 @@ public class Online implements Runnable {
     public void run() {
         while (true) {
             for (int i = 0; i < LIST_MODEL.getSize(); i++) {
-                user = USERS_MODEL.getOnline(LIST_MODEL.getElementAt(i).getId());
-                try {
-                    while (user.next()) {
-                        LIST_MODEL.getElementAt(i).setOnline(user.getBoolean("online"));
+                User user = LIST_MODEL.getElementAt(i);
+                USERS_MODEL.getOnline(LIST_MODEL.getElementAt(i).getId(), (rs) -> {
+                    try {
+                        user.setOnline(rs.getBoolean("online"));
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Online.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Online.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                });
+
             }
             userList.setCellRenderer(new UserCellRenderer());
             try {

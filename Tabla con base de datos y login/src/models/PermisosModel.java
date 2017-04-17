@@ -6,7 +6,6 @@
 package models;
 
 import config.Connector;
-import java.sql.ResultSet;
 
 /**
  *
@@ -15,7 +14,7 @@ import java.sql.ResultSet;
 public class PermisosModel extends Connector {
 
     public int insertPermisos(int userId, int grupoId) {
-        return this.executeQuery("INSERT INTO permisos (admin, `create`, `read`, `update`, `delete`, usuarios_id, grupo_id) VALUES (1, 1, 1, 1, 1, " + userId + ", " + grupoId + ")");
+        return this.executeQuery("INSERT INTO permisos (admin, `create`, `read`, `update`, `delete`, usuarios_id, grupo_id) VALUES (0, 0, 1, 0, 0, " + userId + ", " + grupoId + ")");
     }
 
     public int updatePermisos(boolean admin, boolean create, boolean read, boolean update, boolean delete, int id) {

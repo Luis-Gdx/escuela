@@ -5,12 +5,12 @@
  */
 package realtime;
 
+import cellsrenderer.GrupoCellRenderer;
 import static config.Config.ALERT;
 import static config.Config.DANGER;
 import static config.Config.DEFAULT;
 import static config.Config.SECONDARY;
 import static config.Config.userId;
-import config.GrupoCellRenderer;
 import static controllers.TableList.*;
 import java.awt.Color;
 import java.sql.ResultSet;
@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.GroupsModel;
 import models.UsersModel;
+import objects.Grupo;
 
 /**
  *
@@ -40,14 +41,14 @@ public class Permisos implements Runnable {
     public void run() {
         while (true) {
             for (int i = 0; i < LIST_MODEL.getSize(); i++) {
-                ResultSet grupos = GROUPS_MODEL.getGroups(userId);
-                try {
-                    while (grupos.next()) {
-                        LIST_MODEL.getElementAt(i).setNombre(grupos.getString("nombre"));
+                Grupo grupo = LIST_MODEL.getElementAt(i);
+                GROUPS_MODEL.getGroups(userId, (rs) -> {
+                    try {
+                        grupo.setNombre(rs.getString("nombre"));
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Online.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Online.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                });
             }
             groupList.setCellRenderer(new GrupoCellRenderer());
 

@@ -5,6 +5,7 @@
  */
 package config;
 
+import interfaces.Callback;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -22,16 +23,37 @@ public class Connector {
 
     }
 
-    protected ResultSet getData(String query) {
+    protected ResultSet getData(String query, Callback callback) {
         ResultSet rs = null;
+        Connection conn = null;
+        Statement stmt = null;
         try {
             connect();
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/escuela", "root", "");
-            Statement stmt = conn.createStatement();
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/escuela", "root", "");
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                callback.callback(rs);
+            }
+            stmt.close();
+            conn.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return rs;
+    }
+
+    protected ResultSet getData(String query) {
+        ResultSet rs = null;
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            connect();
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/escuela", "root", "");
+            stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
         } catch (Exception e) {
             System.out.println(e);
-            //executeQuery("UPDATE usuarios SET online = false WHERE id = " + userId);
         }
         return rs;
     }
@@ -47,6 +69,7 @@ public class Connector {
             if (rs.next()) {
                 id = rs.getInt(1);
             }
+            stmt.close();
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getErrorCode());

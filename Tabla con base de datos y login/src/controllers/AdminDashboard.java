@@ -5,10 +5,9 @@
  */
 package controllers;
 
+import cellsrenderer.UserCellRenderer;
 import static config.Config.*;
 import config.OfflineWindowListener;
-import config.User;
-import config.UserCellRenderer;
 import fontawesome.FontAwesome;
 import java.awt.Color;
 import java.sql.ResultSet;
@@ -22,6 +21,7 @@ import models.GroupsModel;
 import models.NotificacionesModel;
 import models.PermisosModel;
 import models.UsersModel;
+import objects.User;
 import realtime.Online;
 
 /**
@@ -39,12 +39,11 @@ public class AdminDashboard extends javax.swing.JFrame {
     private final PermisosModel PERMISOS_MODEL;
     private final GroupsModel GROUPS_MODEL = new GroupsModel();
     public static final DefaultListModel<User> LIST_MODEL = new DefaultListModel();
-    private int tableId;
+    public static int tableId;
     private ResultSet users;
     private boolean adminFlag, createFlag, readFlag, updateFlag, deleteFlag;
     private FontAwesome fa = new FontAwesome();
     public static UserCellRenderer userCellRender;
-    private Online online;
 
     public AdminDashboard(int id, String grupo) {
         initComponents();
@@ -59,10 +58,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         USERS_MODEL = new UsersModel();
         NOTIFICACIONES_MODEL = new NotificacionesModel();
         PERMISOS_MODEL = new PermisosModel();
-        //userCellRender = new UserCellRenderer();
-        online = new Online();
-        //userList.setCellRenderer(userCellRender);
-        online.thread.start();
+        new Online().thread.start();
         card.setVisible(false);
         tableId = id;
         getUsers();
@@ -630,30 +626,34 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void getUsers() {
         LIST_MODEL.setSize(0);
-        users = USERS_MODEL.getUserByTable(tableId, userId);
-        ResultSet pendingUsers = USERS_MODEL.getPendingUsers(tableId);
-        try {
-            while (pendingUsers.next()) {
-                User user = new User(pendingUsers.getInt("id"), pendingUsers.getString("user"), -1);
-                user.setEmail(pendingUsers.getString("email"));
-                user.setNotificationId(pendingUsers.getInt("notificacion_id"));
-                LIST_MODEL.addElement(user);
+        USERS_MODEL.getPendingUsers(tableId, (rs) -> {
+            User user = null;
+            try {
+                user = new User(rs.getInt("id"), rs.getString("user"), -1);
+                user.setEmail(rs.getString("email"));
+                user.setNotificationId(rs.getInt("notificacion_id"));
+            } catch (SQLException ex) {
+                Logger.getLogger(AdminDashboard.class.getName()).log(Level.SEVERE, null, ex);
             }
-            while (users.next()) {
-                User user = new User(users.getInt("id"), users.getString("user"), users.getInt("permisoId"));
-                user.setEmail(users.getString("email"));
-                user.setAdmin(users.getBoolean("admin"));
-                user.setC(users.getBoolean("create"));
-                user.setR(users.getBoolean("read"));
-                user.setU(users.getBoolean("update"));
-                user.setD(users.getBoolean("delete"));
-                user.setOnline(users.getBoolean("online"));
-                LIST_MODEL.addElement(user);
+            LIST_MODEL.addElement(user);
+        });
+        USERS_MODEL.getUserByTable(tableId, userId, (rs) -> {
+            User user = null;
+            try {
+                user = new User(rs.getInt("id"), rs.getString("user"), rs.getInt("permisoId"));
+                user.setEmail(rs.getString("email"));
+                user.setAdmin(rs.getBoolean("admin"));
+                user.setC(rs.getBoolean("create"));
+                user.setR(rs.getBoolean("read"));
+                user.setU(rs.getBoolean("update"));
+                user.setD(rs.getBoolean("delete"));
+                user.setOnline(rs.getBoolean("online"));
+            } catch (SQLException ex) {
+                Logger.getLogger(AdminDashboard.class.getName()).log(Level.SEVERE, null, ex);
             }
-            userList.setModel(LIST_MODEL);
-        } catch (SQLException ex) {
-            Logger.getLogger(TableList.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            LIST_MODEL.addElement(user);
+        });
+        userList.setModel(LIST_MODEL);
     }
 
     private void getSelectedItemData() {

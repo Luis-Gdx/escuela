@@ -5,12 +5,12 @@
  */
 package controllers;
 
+import static config.Config.*;
+import config.OfflineWindowListener;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.AlumnosModel;
-import static config.Config.*;
-import config.OfflineWindowListener;
 import static security.Validate.*;
 
 /**
@@ -28,7 +28,7 @@ public class Alumnos extends javax.swing.JFrame {
     private int id;
     private boolean isUpdate;
 
-    public Alumnos(int id, String titulo) {
+    public Alumnos(int id, String titulo, boolean create, boolean read, boolean update, boolean delete) {
         initComponents();
         this.table.setEnabled(false);
         this.setResizable(false);
@@ -55,6 +55,7 @@ public class Alumnos extends javax.swing.JFrame {
         this.titulo.setText(titulo);
         this.id = id;
         loadData();
+        permisos(create, read, update, delete);
     }
 
     public Alumnos() {
@@ -906,7 +907,6 @@ public class Alumnos extends javax.swing.JFrame {
             ResultSet data = ALUMNOS_MODEL.getAlumnoById(Integer.parseInt(updateId.getText()), id);
             while (data.next()) {
                 isData = true;
-                System.out.println(data.getString("nombre"));
                 nombre.setText(data.getString("nombre"));
                 apellidoPaterno.setText(data.getString("apellido_paterno"));
                 apellidoMaterno.setText(data.getString("apellido_materno"));
@@ -963,6 +963,24 @@ public class Alumnos extends javax.swing.JFrame {
         correoError.setText("");
     }
 
+    private void permisos(boolean create, boolean read, boolean update, boolean delete) {
+        if (!create) {
+            card.setVisible(false);
+        }
+        if (!read) {
+            table.setVisible(false);
+        }
+        if (!update) {
+            actualizarAlumno.setVisible(false);
+            updateId.setVisible(false);
+        }
+        if (!delete) {
+            eliminarPorId.setVisible(false);
+            deleteId.setVisible(false);
+            eliminarRegistros.setVisible(false);
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -970,7 +988,7 @@ public class Alumnos extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

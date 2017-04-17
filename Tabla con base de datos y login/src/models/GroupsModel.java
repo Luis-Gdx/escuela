@@ -6,6 +6,7 @@
 package models;
 
 import config.Connector;
+import interfaces.Callback;
 import java.sql.ResultSet;
 
 /**
@@ -14,8 +15,8 @@ import java.sql.ResultSet;
  */
 public class GroupsModel extends Connector {
 
-    public ResultSet getGroups(int id) {
-        return this.getData("SELECT grupo.id, grupo.nombre FROM grupo INNER JOIN permisos ON permisos.grupo_id = grupo.id WHERE permisos.usuarios_id = " + id);
+    public ResultSet getGroups(int id, Callback callback) {
+        return getData("SELECT grupo.id, grupo.nombre FROM grupo INNER JOIN permisos ON permisos.grupo_id = grupo.id WHERE permisos.usuarios_id = " + id, callback);
     }
 
     public int insertGroup(String nombre) {

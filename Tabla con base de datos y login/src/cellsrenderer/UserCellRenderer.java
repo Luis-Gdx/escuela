@@ -3,17 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package config;
+package cellsrenderer;
 
+import static config.Config.DEFAULT_PRESSED;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import static config.Config.DEFAULT_PRESSED;
-import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
+import objects.User;
 
 /**
  *
@@ -30,7 +31,7 @@ public class UserCellRenderer extends JLabel implements ListCellRenderer<User> {
 
     @Override
     public Component getListCellRendererComponent(JList<? extends User> list, User user, int index, boolean isSelected, boolean cellHasFocus) {
-        setText(user.getNombre());
+        setText("<html> <div style='margin: 5px'>" + user.getNombre() + "</html>");
         if (user.getPermisoId() != -1) {
             if (user.isOnline()) {
                 this.setIcon(new ImageIcon(getClass().getResource("/images/online.png")));

@@ -3,16 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package config;
+package cellsrenderer;
 
+import static config.Config.DEFAULT_PRESSED;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import static config.Config.DEFAULT_PRESSED;
 import javax.swing.border.EmptyBorder;
+import objects.Grupo;
 
 /**
  *
@@ -26,7 +27,7 @@ public class GrupoCellRenderer extends JLabel implements ListCellRenderer<Grupo>
 
     @Override
     public Component getListCellRendererComponent(JList<? extends Grupo> list, Grupo grupo, int index, boolean isSelected, boolean cellHasFocus) {
-        setText(grupo.getNombre());
+        setText("<html> <div style='margin: 5px'>" + grupo.getNombre() + "</html>");
         this.setBorder(new EmptyBorder(0, 7, 0, 0));
 
         Color background;

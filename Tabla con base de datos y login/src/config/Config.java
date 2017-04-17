@@ -7,6 +7,7 @@ package config;
 
 import java.awt.Color;
 import javax.swing.JPasswordField;
+import objects.Notification;
 
 /**
  *
@@ -27,6 +28,9 @@ public class Config {
     //Configuración de la contraseña
     public static final int PASSWORD_LENGTH = 4;
     public static final String PASSWORD_LENGTH_ERROR = "La contraseña es muy corta (minimo " + PASSWORD_LENGTH + " caracteres)";
+
+    //Notificaciones
+    public static Notification[] notifications;
 
     public static String getPassword(JPasswordField password) {
         String pass = "";

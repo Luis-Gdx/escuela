@@ -5,10 +5,10 @@
  */
 package controllers;
 
+import cellsrenderer.GrupoCellRenderer;
 import static config.Config.*;
-import config.Grupo;
-import config.GrupoCellRenderer;
 import config.OfflineWindowListener;
+import fontawesome.FontAwesome;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,8 +18,11 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import models.AlumnosModel;
 import models.GroupsModel;
+import models.NotificacionesModel;
 import models.PermisosModel;
 import models.UsersModel;
+import objects.Grupo;
+import objects.Notification;
 import realtime.Notificaciones;
 import realtime.Permisos;
 
@@ -32,16 +35,17 @@ public final class TableList extends javax.swing.JFrame {
     /**
      * Creates new form TableList
      */
-    private final ResultSet DATA;
-    private static ResultSet grupos;
     private final GroupsModel GROUPS_MODEL;
     private final UsersModel USERS_MODEL;
     private final AlumnosModel ALUMNOS_MODEL;
+    private final NotificacionesModel NOTIFICACIONES_MODEL;
     private final PermisosModel PERMISOS_MODEL = new PermisosModel();
     public static final DefaultListModel<Grupo> LIST_MODEL = new DefaultListModel();
+    public final FontAwesome FA;
     public static String grupo;
     private final Permisos PERMISOS;
-    private final Notificaciones NOTIFICACIONES;
+    private final Object[] BOTONES = {"Si", "No", "Posponer :v"};
+    boolean create, read, update, delete;
 
     public TableList() {
         initComponents();
@@ -49,30 +53,31 @@ public final class TableList extends javax.swing.JFrame {
         this.pack();
         this.addWindowListener(new OfflineWindowListener());
         this.card.setVisible(false);
+        FA = new FontAwesome();
+        FA.setIcon(home, "\uf015");
+        FA.setIcon(notificationsBtn, "\uf0f3");
         USERS_MODEL = new UsersModel();
         ALUMNOS_MODEL = new AlumnosModel();
         GROUPS_MODEL = new GroupsModel();
-        DATA = USERS_MODEL.getUserId(correo);
+        NOTIFICACIONES_MODEL = new NotificacionesModel();
         PERMISOS = new Permisos();
-        NOTIFICACIONES = new Notificaciones();
         user.setText(session);
         groupList.setCellRenderer(new GrupoCellRenderer());
         getGroups();
-        NOTIFICACIONES.thread.start();
+        new Notificaciones().thread.start();
         PERMISOS.thread.start();
     }
 
     public void getGroups() {
         LIST_MODEL.setSize(0);
-        grupos = GROUPS_MODEL.getGroups(userId);
-        try {
-            while (grupos.next()) {
-                LIST_MODEL.addElement(new Grupo(grupos.getInt("id"), grupos.getString("nombre")));
+        GROUPS_MODEL.getGroups(userId, (rs) -> {
+            try {
+                LIST_MODEL.addElement(new Grupo(rs.getInt("id"), rs.getString("nombre")));
+                groupList.setModel(LIST_MODEL);
+            } catch (SQLException ex) {
+                Logger.getLogger(TableList.class.getName()).log(Level.SEVERE, null, ex);
             }
-            groupList.setModel(LIST_MODEL);
-        } catch (SQLException ex) {
-            Logger.getLogger(TableList.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        });
     }
 
     /**
@@ -105,11 +110,16 @@ public final class TableList extends javax.swing.JFrame {
         d = new javax.swing.JLabel();
         signIn = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        navBar = new javax.swing.JPanel();
+        home = new javax.swing.JButton();
+        notificationsBtn = new javax.swing.JButton();
+        notificationsCountLabel = new javax.swing.JLabel();
+        modal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(250, 250, 250));
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel1MouseClicked(evt);
@@ -140,9 +150,11 @@ public final class TableList extends javax.swing.JFrame {
             }
         });
 
+        user.setBackground(new java.awt.Color(245, 245, 245));
         user.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         user.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         user.setText("Usuario :v");
+        user.setOpaque(true);
 
         groupList.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         groupList.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -358,45 +370,109 @@ public final class TableList extends javax.swing.JFrame {
             }
         });
 
+        navBar.setBackground(new java.awt.Color(224, 224, 224));
+
+        home.setBackground(new java.awt.Color(50, 219, 100));
+        home.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        home.setText("home");
+        home.setBorder(null);
+        home.setBorderPainted(false);
+        home.setContentAreaFilled(false);
+        home.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        home.setFocusPainted(false);
+        home.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                homeActionPerformed(evt);
+            }
+        });
+
+        notificationsBtn.setBackground(new java.awt.Color(50, 219, 100));
+        notificationsBtn.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        notificationsBtn.setText("Notificaciones :v");
+        notificationsBtn.setBorder(null);
+        notificationsBtn.setBorderPainted(false);
+        notificationsBtn.setContentAreaFilled(false);
+        notificationsBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        notificationsBtn.setFocusPainted(false);
+        notificationsBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                notificationsBtnActionPerformed(evt);
+            }
+        });
+
+        notificationsCountLabel.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        notificationsCountLabel.setText("1");
+
+        javax.swing.GroupLayout navBarLayout = new javax.swing.GroupLayout(navBar);
+        navBar.setLayout(navBarLayout);
+        navBarLayout.setHorizontalGroup(
+            navBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navBarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(home)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(notificationsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(notificationsCountLabel)
+                .addGap(51, 51, 51))
+        );
+        navBarLayout.setVerticalGroup(
+            navBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navBarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(navBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(home)
+                    .addComponent(notificationsBtn)
+                    .addComponent(notificationsCountLabel))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(navBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(user, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(agregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(card, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(signIn, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jSeparator1)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(signIn, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(modal, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(190, 190, 190))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(card, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(57, 57, 57)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(navBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modal, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(card, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(signIn))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 11, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -454,7 +530,7 @@ public final class TableList extends javax.swing.JFrame {
     }//GEN-LAST:event_entrarMouseReleased
 
     private void entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarActionPerformed
-        new Alumnos(groupList.getSelectedValue().getId(), groupList.getSelectedValue().getNombre()).setVisible(true);
+        new Alumnos(groupList.getSelectedValue().getId(), groupList.getSelectedValue().getNombre(), create, read, update, delete).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_entrarActionPerformed
 
@@ -502,43 +578,73 @@ public final class TableList extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cardMouseClicked
 
+    private void homeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeActionPerformed
+        this.dispose();
+        new TableList().setVisible(true);
+    }//GEN-LAST:event_homeActionPerformed
+
+    private void notificationsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notificationsBtnActionPerformed
+        if (notifications.length > 0) {
+            Notification notificacion = (Notification) JOptionPane.showInputDialog(modal, "Pick a printer", "Input", JOptionPane.QUESTION_MESSAGE, null, notifications, notifications[0]);
+            switch (JOptionPane.showOptionDialog(null, notificacion.getMensaje(), "Mensaje de : " + notificacion.getRemitente(), 0, 0, null, BOTONES, BOTONES[0])) {
+                case 0: //si
+                    PERMISOS_MODEL.insertPermisos(userId, notificacion.getGrupo_id());
+                    NOTIFICACIONES_MODEL.deleteNotification(notificacion.getId());
+                    break;
+                case 1: //no
+                    NOTIFICACIONES_MODEL.deleteNotification(notificacion.getId());
+                    break;
+                default:
+                    NOTIFICACIONES_MODEL.updateNotification(notificacion.getId());
+            }
+        } else {
+            JOptionPane.showMessageDialog(modal, "No tienes notificaciones");
+        }
+    }//GEN-LAST:event_notificationsBtnActionPerformed
+
     private void getSelectedItemData() {
         boolean isNull = true;
-        try {
-            ResultSet groupInfo = GROUPS_MODEL.getGroupInfo(groupList.getSelectedValue().getId());
-            while (groupInfo.next()) {
-                grupo = groupInfo.getString("nombre");
-                groupName.setText("Nombre del grupo: " + grupo);
-                numeroAlumnos.setText("Número de alumnos: " + groupInfo.getInt("count"));
-                isNull = false;
-            }
-            ResultSet groupInfo2 = GROUPS_MODEL.getUsersInGroup(groupList.getSelectedValue().getId());
-            while (groupInfo2.next()) {
-                numeroUsuarios.setText("Número de usuarios: " + groupInfo2.getInt("count"));
-                isNull = false;
-            }
-            ResultSet userInfo = USERS_MODEL.getPermisosByTable(groupList.getSelectedValue().getId(), userId);
-            while (userInfo.next()) {
-                if (userInfo.getBoolean("admin")) {
-                    type.setText("Tipo de usuario: Admin");
-                    administrar.setBackground(SECONDARY);
-                    administrar.setVisible(true);
-                } else {
-                    type.setText("Tipo de usuario: Estandar");
-                    administrar.setVisible(false);
+        if (LIST_MODEL.getSize() > 0) {
+            try {
+                ResultSet groupInfo = GROUPS_MODEL.getGroupInfo(groupList.getSelectedValue().getId());
+                while (groupInfo.next()) {
+                    grupo = groupInfo.getString("nombre");
+                    groupName.setText("Nombre del grupo: " + grupo);
+                    numeroAlumnos.setText("Número de alumnos: " + groupInfo.getInt("count"));
+                    isNull = false;
                 }
-                c.setForeground(userInfo.getBoolean("create") ? DEFAULT : Color.GRAY);
-                r.setForeground(userInfo.getBoolean("read") ? ALERT : Color.GRAY);
-                u.setForeground(userInfo.getBoolean("update") ? SECONDARY : Color.GRAY);
-                d.setForeground(userInfo.getBoolean("delete") ? DANGER : Color.GRAY);
+                ResultSet groupInfo2 = GROUPS_MODEL.getUsersInGroup(groupList.getSelectedValue().getId());
+                while (groupInfo2.next()) {
+                    numeroUsuarios.setText("Número de usuarios: " + groupInfo2.getInt("count"));
+                    isNull = false;
+                }
+                ResultSet userInfo = USERS_MODEL.getPermisosByTable(groupList.getSelectedValue().getId(), userId);
+                while (userInfo.next()) {
+                    if (userInfo.getBoolean("admin")) {
+                        type.setText("Tipo de usuario: Admin");
+                        administrar.setBackground(SECONDARY);
+                        administrar.setVisible(true);
+                    } else {
+                        type.setText("Tipo de usuario: Estandar");
+                        administrar.setVisible(false);
+                    }
+                    create = userInfo.getBoolean("create");
+                    read = userInfo.getBoolean("read");
+                    update = userInfo.getBoolean("update");
+                    delete = userInfo.getBoolean("delete");
+                    c.setForeground(create ? DEFAULT : Color.GRAY);
+                    r.setForeground(read ? ALERT : Color.GRAY);
+                    u.setForeground(update ? SECONDARY : Color.GRAY);
+                    d.setForeground(delete ? DANGER : Color.GRAY);
+                }
+                if (isNull) {
+                    groupName.setText("Nombre del grupo: " + groupList.getSelectedValue().getNombre());
+                    numeroAlumnos.setText("Número de alumnos: 0");
+                }
+                card.setVisible(true);
+            } catch (Throwable ex) {
+                Logger.getLogger(TableList.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if (isNull) {
-                groupName.setText("Nombre del grupo: " + groupList.getSelectedValue().getNombre());
-                numeroAlumnos.setText("Número de alumnos: 0");
-            }
-            card.setVisible(true);
-        } catch (Throwable ex) {
-            Logger.getLogger(TableList.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -587,10 +693,15 @@ public final class TableList extends javax.swing.JFrame {
     private javax.swing.JButton entrar;
     public static javax.swing.JList<Grupo> groupList;
     public static javax.swing.JLabel groupName;
+    private javax.swing.JButton home;
     private javax.swing.JPanel infoPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel modal;
+    private javax.swing.JPanel navBar;
+    private javax.swing.JButton notificationsBtn;
+    public static javax.swing.JLabel notificationsCountLabel;
     public static javax.swing.JLabel numeroAlumnos;
     private javax.swing.JLabel numeroAlumnos2;
     public static javax.swing.JLabel numeroUsuarios;
