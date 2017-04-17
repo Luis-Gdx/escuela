@@ -28,6 +28,7 @@ public class Notificaciones implements Runnable {
 
     public Notificaciones() {
         thread = new Thread(this);
+        thread.setName("Notificaciones Thread");
         NOTIFICACIONES_MODEL = new NotificacionesModel();
         PERMISOS_MODEL = new PermisosModel();
     }
@@ -35,7 +36,7 @@ public class Notificaciones implements Runnable {
     @Override
     public void run() {
         while (true) {
-            NOTIFICACIONES_MODEL.getNotificationsCount(correo, (rs) -> {
+            NOTIFICACIONES_MODEL.getNotificationsCount(correo, (rs, i) -> {
                 try {
                     notificationsCountLabel.setText(rs.getInt("count") + "");
                     notifications = new Notification[rs.getInt("count")];
@@ -43,11 +44,11 @@ public class Notificaciones implements Runnable {
                     Logger.getLogger(Notificaciones.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
-            NOTIFICACIONES_MODEL.getNotifications(correo, (rs) -> {
+            NOTIFICACIONES_MODEL.getNotifications(correo, (rs, i) -> {
                 try {
                     switch (JOptionPane.showOptionDialog(null, rs.getString("mensaje"), "Mensaje de: " + rs.getString("remitente"), 0, 0, null, BOTONES, BOTONES[0])) {
                         case 0: //si
-                            PERMISOS_MODEL.insertPermisos(userId, rs.getInt("grupo_id"));
+                            PERMISOS_MODEL.insertPermisos(userId, rs.getInt("grupo_id"), false, false, true, false, false);
                             NOTIFICACIONES_MODEL.deleteNotification(rs.getInt("id"));
                             break;
                         case 1: //no
@@ -60,10 +61,10 @@ public class Notificaciones implements Runnable {
                     Logger.getLogger(Notificaciones.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
-            NOTIFICACIONES_MODEL.getAllNotifications(correo, (rs) -> {
+            NOTIFICACIONES_MODEL.getAllNotifications(correo, (rs, i) -> {
                 try {
-                    for (int i = 0; i < notifications.length; i++) {
-                        notifications[i] = new Notification(rs.getInt("id"), rs.getInt("status"), rs.getInt("usuarios_id"), rs.getInt("grupo_id"), rs.getString("mensaje"), rs.getString("remitente"), rs.getString("destinatario"));
+                    for (int j = 0; j < notifications.length; j++) {
+                        notifications[j] = new Notification(rs.getInt("id"), rs.getInt("status"), rs.getInt("usuarios_id"), rs.getInt("grupo_id"), rs.getString("mensaje"), rs.getString("remitente"), rs.getString("destinatario"));
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(Notificaciones.class.getName()).log(Level.SEVERE, null, ex);

@@ -40,16 +40,15 @@ public class Permisos implements Runnable {
     @Override
     public void run() {
         while (true) {
-            for (int i = 0; i < LIST_MODEL.getSize(); i++) {
-                Grupo grupo = LIST_MODEL.getElementAt(i);
-                GROUPS_MODEL.getGroups(userId, (rs) -> {
-                    try {
-                        grupo.setNombre(rs.getString("nombre"));
-                    } catch (SQLException ex) {
-                        Logger.getLogger(Online.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                });
-            }
+            GROUPS_MODEL.getGroups(userId, (rs, i) -> {
+                try {
+                    Grupo grupo = LIST_MODEL.getElementAt(i);
+                    grupo.setNombre(rs.getString("nombre"));
+                    grupo.setId(rs.getInt("id"));
+                } catch (SQLException ex) {
+                    Logger.getLogger(Online.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
             groupList.setCellRenderer(new GrupoCellRenderer());
 
             if (card.isVisible()) {
@@ -66,13 +65,16 @@ public class Permisos implements Runnable {
     private void getSelectedItemData() {
         boolean isNull = true;
         try {
-            ResultSet groupInfo = GROUPS_MODEL.getGroupInfo(groupList.getSelectedValue().getId());
-            while (groupInfo.next()) {
-                grupo = groupInfo.getString("nombre");
-                groupName.setText("Nombre del grupo: " + grupo);
-                numeroAlumnos.setText("Número de alumnos: " + groupInfo.getInt("count"));
-                isNull = false;
-            }
+            GROUPS_MODEL.getGroupInfo(groupList.getSelectedValue().getId(), (rs, i) -> {
+                try {
+                    grupo = rs.getString("nombre");
+                    groupName.setText("Nombre del grupo: " + grupo);
+                    numeroAlumnos.setText("Número de alumnos: " + rs.getInt("count"));
+                } catch (SQLException ex) {
+                    Logger.getLogger(Permisos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+            //isNull = false;
             ResultSet groupInfo2 = GROUPS_MODEL.getUsersInGroup(groupList.getSelectedValue().getId());
             while (groupInfo2.next()) {
                 numeroUsuarios.setText("Número de usuarios: " + groupInfo2.getInt("count"));

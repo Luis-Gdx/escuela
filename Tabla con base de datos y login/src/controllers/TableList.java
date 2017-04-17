@@ -24,7 +24,6 @@ import models.UsersModel;
 import objects.Grupo;
 import objects.Notification;
 import realtime.Notificaciones;
-import realtime.Permisos;
 
 /**
  *
@@ -43,7 +42,6 @@ public final class TableList extends javax.swing.JFrame {
     public static final DefaultListModel<Grupo> LIST_MODEL = new DefaultListModel();
     public final FontAwesome FA;
     public static String grupo;
-    private final Permisos PERMISOS;
     private final Object[] BOTONES = {"Si", "No", "Posponer :v"};
     boolean create, read, update, delete;
 
@@ -60,24 +58,23 @@ public final class TableList extends javax.swing.JFrame {
         ALUMNOS_MODEL = new AlumnosModel();
         GROUPS_MODEL = new GroupsModel();
         NOTIFICACIONES_MODEL = new NotificacionesModel();
-        PERMISOS = new Permisos();
         user.setText(session);
         groupList.setCellRenderer(new GrupoCellRenderer());
-        getGroups();
         new Notificaciones().thread.start();
-        PERMISOS.thread.start();
+        getGroups();
     }
 
     public void getGroups() {
         LIST_MODEL.setSize(0);
-        GROUPS_MODEL.getGroups(userId, (rs) -> {
+        GROUPS_MODEL.getGroups(userId, (rs, i) -> {
             try {
                 LIST_MODEL.addElement(new Grupo(rs.getInt("id"), rs.getString("nombre")));
-                groupList.setModel(LIST_MODEL);
+                //groupList.setModel(LIST_MODEL);
             } catch (SQLException ex) {
                 Logger.getLogger(TableList.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        groupList.setModel(LIST_MODEL);
     }
 
     /**
@@ -503,7 +500,7 @@ public final class TableList extends javax.swing.JFrame {
         if (tableName != null) {
             if (!tableName.equals("")) {
                 int groupId = GROUPS_MODEL.insertGroup(tableName);
-                PERMISOS_MODEL.insertPermisos(userId, groupId);
+                PERMISOS_MODEL.insertPermisos(userId, groupId, true, true, true, true, true);
                 getGroups();
                 groupList.setSelectedIndex(LIST_MODEL.getSize() - 1);
                 getSelectedItemData();
@@ -545,6 +542,8 @@ public final class TableList extends javax.swing.JFrame {
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
         if (JOptionPane.showConfirmDialog(null, "Seguro que quiere eliminar esta tabla?", "Eliminar tabla", 1) == 0) {
             ALUMNOS_MODEL.deleteAllById(groupList.getSelectedValue().getId());
+            PERMISOS_MODEL.deletePermisoByGrupo(groupList.getSelectedValue().getId());
+            NOTIFICACIONES_MODEL.deleteNotificationByGrupo(groupList.getSelectedValue().getId());
             GROUPS_MODEL.deleteGroupById(groupList.getSelectedValue().getId());
             card.setVisible(false);
             getGroups();
@@ -588,7 +587,7 @@ public final class TableList extends javax.swing.JFrame {
             Notification notificacion = (Notification) JOptionPane.showInputDialog(modal, "Pick a printer", "Input", JOptionPane.QUESTION_MESSAGE, null, notifications, notifications[0]);
             switch (JOptionPane.showOptionDialog(null, notificacion.getMensaje(), "Mensaje de : " + notificacion.getRemitente(), 0, 0, null, BOTONES, BOTONES[0])) {
                 case 0: //si
-                    PERMISOS_MODEL.insertPermisos(userId, notificacion.getGrupo_id());
+                    PERMISOS_MODEL.insertPermisos(userId, notificacion.getGrupo_id(), false, false, true, false, false);
                     NOTIFICACIONES_MODEL.deleteNotification(notificacion.getId());
                     break;
                 case 1: //no
@@ -606,13 +605,16 @@ public final class TableList extends javax.swing.JFrame {
         boolean isNull = true;
         if (LIST_MODEL.getSize() > 0) {
             try {
-                ResultSet groupInfo = GROUPS_MODEL.getGroupInfo(groupList.getSelectedValue().getId());
-                while (groupInfo.next()) {
-                    grupo = groupInfo.getString("nombre");
-                    groupName.setText("Nombre del grupo: " + grupo);
-                    numeroAlumnos.setText("Número de alumnos: " + groupInfo.getInt("count"));
-                    isNull = false;
-                }
+                GROUPS_MODEL.getGroupInfo(groupList.getSelectedValue().getId(), (rs, i) -> {
+                    try {
+                        grupo = rs.getString("nombre");
+                        groupName.setText("Nombre del grupo: " + grupo);
+                        numeroAlumnos.setText("Número de alumnos: " + rs.getInt("count"));
+                    } catch (SQLException ex) {
+                        Logger.getLogger(TableList.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                //isNull = false;
                 ResultSet groupInfo2 = GROUPS_MODEL.getUsersInGroup(groupList.getSelectedValue().getId());
                 while (groupInfo2.next()) {
                     numeroUsuarios.setText("Número de usuarios: " + groupInfo2.getInt("count"));

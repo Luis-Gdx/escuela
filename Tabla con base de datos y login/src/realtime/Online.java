@@ -36,7 +36,7 @@ public class Online implements Runnable {
         while (true) {
             for (int i = 0; i < LIST_MODEL.getSize(); i++) {
                 User user = LIST_MODEL.getElementAt(i);
-                USERS_MODEL.getOnline(LIST_MODEL.getElementAt(i).getId(), (rs) -> {
+                USERS_MODEL.getOnline(LIST_MODEL.getElementAt(i).getId(), (rs, j) -> {
                     try {
                         user.setOnline(rs.getBoolean("online"));
                     } catch (SQLException ex) {

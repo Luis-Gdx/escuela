@@ -13,5 +13,5 @@ import java.sql.ResultSet;
  */
 public interface Callback {
 
-    public void callback(ResultSet rs);
+    public void callback(ResultSet rs, int i);
 }

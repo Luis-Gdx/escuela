@@ -626,7 +626,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void getUsers() {
         LIST_MODEL.setSize(0);
-        USERS_MODEL.getPendingUsers(tableId, (rs) -> {
+        USERS_MODEL.getPendingUsers(tableId, (rs, i) -> {
             User user = null;
             try {
                 user = new User(rs.getInt("id"), rs.getString("user"), -1);
@@ -637,7 +637,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
             LIST_MODEL.addElement(user);
         });
-        USERS_MODEL.getUserByTable(tableId, userId, (rs) -> {
+        USERS_MODEL.getUserByTable(tableId, userId, (rs, i) -> {
             User user = null;
             try {
                 user = new User(rs.getInt("id"), rs.getString("user"), rs.getInt("permisoId"));

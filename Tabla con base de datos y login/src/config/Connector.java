@@ -32,8 +32,8 @@ public class Connector {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/escuela", "root", "");
             stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                callback.callback(rs);
+            for (int i = 0; rs.next(); i++) {
+                callback.callback(rs, i);
             }
             stmt.close();
             conn.close();

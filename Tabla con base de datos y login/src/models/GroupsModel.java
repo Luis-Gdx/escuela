@@ -27,8 +27,8 @@ public class GroupsModel extends Connector {
         return executeQuery("DELETE FROM grupo WHERE grupo.id = " + id);
     }
 
-    public ResultSet getGroupInfo(int id) {
-        return getData("SELECT grupo.nombre, Count(alumnos.id) AS count FROM grupo INNER JOIN alumnos ON grupo.id = alumnos.grupo_id WHERE grupo.id = " + id + " GROUP BY grupo.nombre");
+    public ResultSet getGroupInfo(int id, Callback callback) {
+        return getData("SELECT grupo.nombre, Count(alumnos.id) AS count FROM grupo INNER JOIN alumnos ON grupo.id = alumnos.grupo_id WHERE grupo.id = " + id, callback);
     }
 
     public ResultSet getUsersInGroup(int id) {

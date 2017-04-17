@@ -39,4 +39,7 @@ public class NotificacionesModel extends Connector {
         return executeQuery("DELETE FROM notificaciones WHERE id = " + id);
     }
 
+    public int deleteNotificationByGrupo(int id) {
+        return executeQuery("DELETE FROM notificaciones WHERE grupo_id = " + id);
+    }
 }
