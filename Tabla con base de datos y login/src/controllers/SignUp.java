@@ -6,6 +6,7 @@
 package controllers;
 
 import static config.Config.*;
+import java.awt.Component;
 import models.UsersModel;
 import static security.Validate.*;
 
@@ -20,10 +21,10 @@ public class SignUp extends javax.swing.JFrame {
      */
     private final UsersModel USERS_MODEL;
 
-    public SignUp() {
+    public SignUp(Component component) {
         initComponents();
+        frameConfig(this, component);
         this.setResizable(false);
-        this.setLocationRelativeTo(null);
         this.pack();
         USERS_MODEL = new UsersModel();
     }
@@ -218,8 +219,8 @@ public class SignUp extends javax.swing.JFrame {
     }//GEN-LAST:event_signUpActionPerformed
 
     private void signInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInActionPerformed
+        new LogIn(this).setVisible(true);
         this.dispose();
-        new LogIn().setVisible(true);
     }//GEN-LAST:event_signInActionPerformed
 
     private void userKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_userKeyReleased
@@ -269,8 +270,8 @@ public class SignUp extends javax.swing.JFrame {
                 userId = id;
                 session = user.getText();
                 correo = email.getText().toLowerCase();
+                new TableList(this).setVisible(true);
                 this.dispose();
-                new TableList().setVisible(true);
             } else {
                 emailError.setText(EMAIL_EXIST_ERROR);
             }
@@ -284,7 +285,7 @@ public class SignUp extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -310,7 +311,7 @@ public class SignUp extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SignUp().setVisible(true);
+                new SignUp(null).setVisible(true);
             }
         });
     }

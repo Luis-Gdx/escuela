@@ -5,13 +5,10 @@
  */
 package config;
 
-import interfaces.Callback;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import javax.swing.JOptionPane;
+import interfaces.*;
+import java.sql.*;
+import java.util.logging.*;
+import javax.swing.*;
 
 /**
  *
@@ -23,10 +20,11 @@ public class Connector {
 
     }
 
-    protected ResultSet getData(String query, Callback callback) {
+    protected boolean getData(String query, Callback callback) {
         ResultSet rs = null;
         Connection conn = null;
         Statement stmt = null;
+        boolean isNull = false;
         try {
             connect();
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/escuela", "root", "");
@@ -37,10 +35,10 @@ public class Connector {
             }
             stmt.close();
             conn.close();
-        } catch (Exception e) {
-            System.out.println(e);
+        } catch (SQLException ex) {
+            Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return rs;
+        return isNull;
     }
 
     protected ResultSet getData(String query) {
@@ -72,7 +70,7 @@ public class Connector {
             stmt.close();
             conn.close();
         } catch (SQLException e) {
-            System.out.println(e.getErrorCode());
+            Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, e);
             switch (e.getErrorCode()) {
                 case 1062:
                     JOptionPane.showMessageDialog(null, "Ese correo ya esta registrado", "error", 0);

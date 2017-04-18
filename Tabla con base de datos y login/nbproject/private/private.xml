@@ -12,7 +12,15 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/lg269/OneDrive/Documentos/NetBeansProjects/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/realtime/Notificaciones.java</file>
+            <file>file:/C:/Users/Luis%20G/Documents/Programas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/controllers/Alumnos.java</file>
+            <file>file:/C:/Users/Luis%20G/Documents/Programas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/realtime/TableName.java</file>
+            <file>file:/C:/Users/Luis%20G/Documents/Programas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/realtime/Permisos.java</file>
+            <file>file:/C:/Users/Luis%20G/Documents/Programas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/models/UsersModel.java</file>
+            <file>file:/C:/Users/Luis%20G/Documents/Programas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/controllers/AdminDashboard.java</file>
+            <file>file:/C:/Users/Luis%20G/Documents/Programas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/models/PermisosModel.java</file>
+            <file>file:/C:/Users/Luis%20G/Documents/Programas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/realtime/Notificaciones.java</file>
+            <file>file:/C:/Users/Luis%20G/Documents/Programas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/controllers/TableList.java</file>
+            <file>file:/C:/Users/Luis%20G/Documents/Programas/escuela/Tabla%20con%20base%20de%20datos%20y%20login/src/config/Connector.java</file>
         </group>
     </open-files>
 </project-private>

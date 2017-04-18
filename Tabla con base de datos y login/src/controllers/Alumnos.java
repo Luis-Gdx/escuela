@@ -5,12 +5,14 @@
  */
 package controllers;
 
+import config.*;
 import static config.Config.*;
-import config.OfflineWindowListener;
-import java.sql.ResultSet;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import models.AlumnosModel;
+import fontawesome.*;
+import java.awt.*;
+import java.sql.*;
+import javax.swing.*;
+import javax.swing.table.*;
+import models.*;
 import static security.Validate.*;
 
 /**
@@ -27,14 +29,17 @@ public class Alumnos extends javax.swing.JFrame {
     private final AlumnosModel ALUMNOS_MODEL;
     private int id;
     private boolean isUpdate;
+    private FontAwesome fa;
 
-    public Alumnos(int id, String titulo, boolean create, boolean read, boolean update, boolean delete) {
+    public Alumnos(Component component, int id, String titulo, boolean create, boolean read, boolean update, boolean delete) {
         initComponents();
+        frameConfig(this, component);
         this.table.setEnabled(false);
         this.setResizable(false);
-        this.setLocationRelativeTo(null);
         this.pack();
         this.addWindowListener(new OfflineWindowListener());
+        fa = new FontAwesome();
+        fa.setIcon(regresar, "\uf060");
         isUpdate = false;
         model = new DefaultTableModel();
         ALUMNOS_MODEL = new AlumnosModel();
@@ -761,7 +766,7 @@ public class Alumnos extends javax.swing.JFrame {
     }//GEN-LAST:event_regresarMouseReleased
 
     private void regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarActionPerformed
-        new TableList().setVisible(true);
+        new TableList(this).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_regresarActionPerformed
 

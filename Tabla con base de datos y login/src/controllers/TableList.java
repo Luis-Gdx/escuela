@@ -5,25 +5,17 @@
  */
 package controllers;
 
-import cellsrenderer.GrupoCellRenderer;
+import cellsrenderer.*;
+import config.*;
 import static config.Config.*;
-import config.OfflineWindowListener;
-import fontawesome.FontAwesome;
-import java.awt.Color;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
-import models.AlumnosModel;
-import models.GroupsModel;
-import models.NotificacionesModel;
-import models.PermisosModel;
-import models.UsersModel;
-import objects.Grupo;
-import objects.Notification;
-import realtime.Notificaciones;
+import fontawesome.*;
+import java.awt.*;
+import java.sql.*;
+import java.util.logging.*;
+import javax.swing.*;
+import models.*;
+import objects.*;
+import realtime.*;
 
 /**
  *
@@ -34,7 +26,7 @@ public final class TableList extends javax.swing.JFrame {
     /**
      * Creates new form TableList
      */
-    private final GroupsModel GROUPS_MODEL;
+    private static GroupsModel GROUPS_MODEL;
     private final UsersModel USERS_MODEL;
     private final AlumnosModel ALUMNOS_MODEL;
     private final NotificacionesModel NOTIFICACIONES_MODEL;
@@ -45,9 +37,29 @@ public final class TableList extends javax.swing.JFrame {
     private final Object[] BOTONES = {"Si", "No", "Posponer :v"};
     boolean create, read, update, delete;
 
+    public TableList(Component component) {
+        initComponents();
+        frameConfig(this, component);
+        this.pack();
+        this.addWindowListener(new OfflineWindowListener());
+        this.card.setVisible(false);
+        FA = new FontAwesome();
+        FA.setIcon(home, "\uf015");
+        FA.setIcon(notificationsBtn, "\uf0f3");
+        USERS_MODEL = new UsersModel();
+        ALUMNOS_MODEL = new AlumnosModel();
+        GROUPS_MODEL = new GroupsModel();
+        NOTIFICACIONES_MODEL = new NotificacionesModel();
+        user.setText(session);
+        groupList.setCellRenderer(new GrupoCellRenderer());
+        new Notificaciones().thread.start();
+        getGroups();
+        //new TableName().thread.start();
+        new Permisos().thread.start();
+    }
+
     public TableList() {
         initComponents();
-        this.setLocationRelativeTo(null);
         this.pack();
         this.addWindowListener(new OfflineWindowListener());
         this.card.setVisible(false);
@@ -64,12 +76,11 @@ public final class TableList extends javax.swing.JFrame {
         getGroups();
     }
 
-    public void getGroups() {
+    public static void getGroups() {
         LIST_MODEL.setSize(0);
         GROUPS_MODEL.getGroups(userId, (rs, i) -> {
             try {
                 LIST_MODEL.addElement(new Grupo(rs.getInt("id"), rs.getString("nombre")));
-                //groupList.setModel(LIST_MODEL);
             } catch (SQLException ex) {
                 Logger.getLogger(TableList.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -527,7 +538,7 @@ public final class TableList extends javax.swing.JFrame {
     }//GEN-LAST:event_entrarMouseReleased
 
     private void entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarActionPerformed
-        new Alumnos(groupList.getSelectedValue().getId(), groupList.getSelectedValue().getNombre(), create, read, update, delete).setVisible(true);
+        new Alumnos(this, groupList.getSelectedValue().getId(), groupList.getSelectedValue().getNombre(), create, read, update, delete).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_entrarActionPerformed
 
@@ -540,11 +551,17 @@ public final class TableList extends javax.swing.JFrame {
     }//GEN-LAST:event_eliminarMouseReleased
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        if (JOptionPane.showConfirmDialog(null, "Seguro que quiere eliminar esta tabla?", "Eliminar tabla", 1) == 0) {
-            ALUMNOS_MODEL.deleteAllById(groupList.getSelectedValue().getId());
-            PERMISOS_MODEL.deletePermisoByGrupo(groupList.getSelectedValue().getId());
-            NOTIFICACIONES_MODEL.deleteNotificationByGrupo(groupList.getSelectedValue().getId());
-            GROUPS_MODEL.deleteGroupById(groupList.getSelectedValue().getId());
+        if (eliminar.getText().equals("Eliminar")) {
+            if (JOptionPane.showConfirmDialog(null, "Seguro que quiere eliminar esta tabla?", "Eliminar tabla", 1) == 0) {
+                ALUMNOS_MODEL.deleteAllById(groupList.getSelectedValue().getId());
+                PERMISOS_MODEL.deletePermisoByGrupo(groupList.getSelectedValue().getId());
+                NOTIFICACIONES_MODEL.deleteNotificationByGrupo(groupList.getSelectedValue().getId());
+                GROUPS_MODEL.deleteGroupById(groupList.getSelectedValue().getId());
+                card.setVisible(false);
+                getGroups();
+            }
+        } else if (JOptionPane.showConfirmDialog(null, "Seguro que quiere salir de este grupo?", "Salir del grupo", 1) == 0) {
+            PERMISOS_MODEL.deletePermisoByUserId(userId, groupList.getSelectedValue().getId());
             card.setVisible(false);
             getGroups();
         }
@@ -559,13 +576,13 @@ public final class TableList extends javax.swing.JFrame {
     }//GEN-LAST:event_administrarMouseReleased
 
     private void administrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_administrarActionPerformed
+        new AdminDashboard(this, groupList.getSelectedValue().getId(), groupList.getSelectedValue().getNombre()).setVisible(true);
         this.dispose();
-        new AdminDashboard(groupList.getSelectedValue().getId(), groupList.getSelectedValue().getNombre()).setVisible(true);
     }//GEN-LAST:event_administrarActionPerformed
 
     private void signInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInActionPerformed
         USERS_MODEL.updateOnline(false, userId);
-        new LogIn().setVisible(true);
+        new LogIn(this).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_signInActionPerformed
 
@@ -578,23 +595,26 @@ public final class TableList extends javax.swing.JFrame {
     }//GEN-LAST:event_cardMouseClicked
 
     private void homeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeActionPerformed
+        new TableList(this).setVisible(true);
         this.dispose();
-        new TableList().setVisible(true);
     }//GEN-LAST:event_homeActionPerformed
 
     private void notificationsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notificationsBtnActionPerformed
         if (notifications.length > 0) {
-            Notification notificacion = (Notification) JOptionPane.showInputDialog(modal, "Pick a printer", "Input", JOptionPane.QUESTION_MESSAGE, null, notifications, notifications[0]);
-            switch (JOptionPane.showOptionDialog(null, notificacion.getMensaje(), "Mensaje de : " + notificacion.getRemitente(), 0, 0, null, BOTONES, BOTONES[0])) {
-                case 0: //si
-                    PERMISOS_MODEL.insertPermisos(userId, notificacion.getGrupo_id(), false, false, true, false, false);
-                    NOTIFICACIONES_MODEL.deleteNotification(notificacion.getId());
-                    break;
-                case 1: //no
-                    NOTIFICACIONES_MODEL.deleteNotification(notificacion.getId());
-                    break;
-                default:
-                    NOTIFICACIONES_MODEL.updateNotification(notificacion.getId());
+            Notification notificacion = (Notification) JOptionPane.showInputDialog(modal, "Lista de notificaciones", "Notificaciones", JOptionPane.QUESTION_MESSAGE, null, notifications, notifications[0]);
+            if (notificacion != null) {
+                switch (JOptionPane.showOptionDialog(null, notificacion.getMensaje(), "Mensaje de : " + notificacion.getRemitente(), 0, 0, null, BOTONES, BOTONES[0])) {
+                    case 0: //si
+                        PERMISOS_MODEL.insertPermisos(userId, notificacion.getGrupo_id(), false, false, true, false, false);
+                        NOTIFICACIONES_MODEL.deleteNotification(notificacion.getId());
+                        getGroups();
+                        break;
+                    case 1: //no
+                        NOTIFICACIONES_MODEL.deleteNotification(notificacion.getId());
+                        break;
+                    default:
+                        NOTIFICACIONES_MODEL.updateNotification(notificacion.getId());
+                }
             }
         } else {
             JOptionPane.showMessageDialog(modal, "No tienes notificaciones");
@@ -691,7 +711,7 @@ public final class TableList extends javax.swing.JFrame {
     public static javax.swing.JLabel c;
     public static javax.swing.JPanel card;
     public static javax.swing.JLabel d;
-    private javax.swing.JButton eliminar;
+    public static javax.swing.JButton eliminar;
     private javax.swing.JButton entrar;
     public static javax.swing.JList<Grupo> groupList;
     public static javax.swing.JLabel groupName;

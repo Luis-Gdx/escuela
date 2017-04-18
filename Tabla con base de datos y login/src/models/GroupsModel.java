@@ -15,7 +15,7 @@ import java.sql.ResultSet;
  */
 public class GroupsModel extends Connector {
 
-    public ResultSet getGroups(int id, Callback callback) {
+    public boolean getGroups(int id, Callback callback) {
         return getData("SELECT grupo.id, grupo.nombre FROM grupo INNER JOIN permisos ON permisos.grupo_id = grupo.id WHERE permisos.usuarios_id = " + id, callback);
     }
 
@@ -27,7 +27,7 @@ public class GroupsModel extends Connector {
         return executeQuery("DELETE FROM grupo WHERE grupo.id = " + id);
     }
 
-    public ResultSet getGroupInfo(int id, Callback callback) {
+    public boolean getGroupInfo(int id, Callback callback) {
         return getData("SELECT grupo.nombre, Count(alumnos.id) AS count FROM grupo INNER JOIN alumnos ON grupo.id = alumnos.grupo_id WHERE grupo.id = " + id, callback);
     }
 

@@ -6,14 +6,13 @@
 package realtime;
 
 import static config.Config.*;
+import static controllers.TableList.getGroups;
 import static controllers.TableList.notificationsCountLabel;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import models.NotificacionesModel;
-import models.PermisosModel;
-import objects.Notification;
+import java.sql.*;
+import java.util.logging.*;
+import javax.swing.*;
+import models.*;
+import objects.*;
 
 /**
  *
@@ -50,6 +49,7 @@ public class Notificaciones implements Runnable {
                         case 0: //si
                             PERMISOS_MODEL.insertPermisos(userId, rs.getInt("grupo_id"), false, false, true, false, false);
                             NOTIFICACIONES_MODEL.deleteNotification(rs.getInt("id"));
+                            getGroups();
                             break;
                         case 1: //no
                             NOTIFICACIONES_MODEL.deleteNotification(rs.getInt("id"));

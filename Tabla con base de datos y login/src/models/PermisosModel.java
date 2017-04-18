@@ -5,7 +5,7 @@
  */
 package models;
 
-import config.Connector;
+import config.*;
 
 /**
  *
@@ -27,5 +27,9 @@ public class PermisosModel extends Connector {
 
     public int deletePermisoByGrupo(int id) {
         return executeQuery("DELETE FROM permisos WHERE permisos.grupo_id = " + id);
+    }
+
+    public int deletePermisoByUserId(int id, int groupId) {
+        return executeQuery("DELETE FROM permisos WHERE permisos.usuarios_id = " + id + " AND permisos.grupo_id = " + groupId);
     }
 }

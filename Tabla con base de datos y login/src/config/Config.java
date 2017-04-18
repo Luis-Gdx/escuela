@@ -5,9 +5,9 @@
  */
 package config;
 
-import java.awt.Color;
-import javax.swing.JPasswordField;
-import objects.Notification;
+import java.awt.*;
+import javax.swing.*;
+import objects.*;
 
 /**
  *
@@ -53,5 +53,17 @@ public class Config {
     public static final Color ALERT = new Color(255, 153, 0);
     public static final Color DANGER = new Color(245, 61, 61);
     public static final Color DANGER_PRESSED = new Color(225, 56, 56);
+
+    //Set icon
+    public static void frameConfig(Object c, Component component) {
+        JFrame frame = (JFrame) c;
+        if (!session.equals("Default")) {
+            frame.setTitle("User: " + session + " email: " + correo);
+        } else {
+            frame.setTitle(c.getClass().getName().substring(c.getClass().getName().indexOf(".") + 1));
+        }
+        frame.setIconImage(new ImageIcon(c.getClass().getResource("/images/angular.png")).getImage());
+        frame.setLocationRelativeTo(component);
+    }
 
 }

@@ -5,9 +5,10 @@
  */
 package controllers;
 
+import static config.Config.*;
+import java.awt.Component;
 import java.sql.ResultSet;
 import models.UsersModel;
-import static config.Config.*;
 import static security.Hash.checkPassWord;
 import static security.Validate.validateEmail;
 import static security.Validate.validatePassword;
@@ -25,14 +26,19 @@ public class LogIn extends javax.swing.JFrame {
     private String pass;
     private final UsersModel USERS_MODEL;
     private boolean submitted;
-    
-    public LogIn() {
+
+    public LogIn(Component component) {
         initComponents();
+        frameConfig(this, component);
         this.setResizable(false);
-        this.setLocationRelativeTo(null);
         this.pack();
         USERS_MODEL = new UsersModel();
         submitted = false;
+    }
+
+    public LogIn() {
+        initComponents();
+        USERS_MODEL = new UsersModel();
     }
 
     /**
@@ -185,22 +191,22 @@ public class LogIn extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void signInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInActionPerformed
+        new SignUp(this).setVisible(true);
         this.dispose();
-        new SignUp().setVisible(true);
     }//GEN-LAST:event_signInActionPerformed
-    
+
     private void logInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInActionPerformed
         submit();
     }//GEN-LAST:event_logInActionPerformed
-    
+
     private void logInMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logInMouseReleased
         this.logIn.setBackground(DEFAULT);
     }//GEN-LAST:event_logInMouseReleased
-    
+
     private void logInMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logInMousePressed
         this.logIn.setBackground(DEFAULT_PRESSED);
     }//GEN-LAST:event_logInMousePressed
-    
+
     private void emailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailKeyReleased
         if (submitted) {
             validateEmail(email, emailError);
@@ -209,7 +215,7 @@ public class LogIn extends javax.swing.JFrame {
             submit();
         }
     }//GEN-LAST:event_emailKeyReleased
-    
+
     private void passwordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyReleased
         if (submitted) {
             validatePassword(password, passwordError);
@@ -218,7 +224,7 @@ public class LogIn extends javax.swing.JFrame {
             submit();
         }
     }//GEN-LAST:event_passwordKeyReleased
-    
+
     private void submit() {
         submitted = true;
         boolean isOnline = false;
@@ -243,8 +249,8 @@ public class LogIn extends javax.swing.JFrame {
                         if (checkPassWord(getPassword(password), pass)) {
                             USERS_MODEL.updateOnline(true, userId);
                             correo = email.getText().toLowerCase();
+                            new TableList(this).setVisible(true);
                             this.dispose();
-                            new TableList().setVisible(true);
                         } else {
                             passwordError.setText("Correo o contraseña incorrectos");
                         }
@@ -265,7 +271,7 @@ public class LogIn extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -288,7 +294,7 @@ public class LogIn extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LogIn().setVisible(true);
+                new LogIn(null).setVisible(true);
             }
         });
     }

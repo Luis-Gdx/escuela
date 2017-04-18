@@ -5,11 +5,11 @@
  */
 package controllers;
 
-import cellsrenderer.UserCellRenderer;
 import static config.Config.*;
 import config.OfflineWindowListener;
 import fontawesome.FontAwesome;
 import java.awt.Color;
+import java.awt.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -22,7 +22,7 @@ import models.NotificacionesModel;
 import models.PermisosModel;
 import models.UsersModel;
 import objects.User;
-import realtime.Online;
+import realtime.UserList;
 
 /**
  *
@@ -38,17 +38,16 @@ public class AdminDashboard extends javax.swing.JFrame {
     private final NotificacionesModel NOTIFICACIONES_MODEL;
     private final PermisosModel PERMISOS_MODEL;
     private final GroupsModel GROUPS_MODEL = new GroupsModel();
-    public static final DefaultListModel<User> LIST_MODEL = new DefaultListModel();
+    public static DefaultListModel<User> listModel;
     public static int tableId;
     private ResultSet users;
     private boolean adminFlag, createFlag, readFlag, updateFlag, deleteFlag;
     private FontAwesome fa = new FontAwesome();
-    public static UserCellRenderer userCellRender;
 
-    public AdminDashboard(int id, String grupo) {
+    public AdminDashboard(Component component, int id, String grupo) {
         initComponents();
+        frameConfig(this, component);
         setResizable(false);
-        this.setLocationRelativeTo(null);
         this.addWindowListener(new OfflineWindowListener());
         this.group.setText(grupo);
         fa.setIcon(regresar, "\uf060");
@@ -58,10 +57,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         USERS_MODEL = new UsersModel();
         NOTIFICACIONES_MODEL = new NotificacionesModel();
         PERMISOS_MODEL = new PermisosModel();
-        new Online().thread.start();
+        listModel = new DefaultListModel();
         card.setVisible(false);
         tableId = id;
         getUsers();
+        new UserList().thread.start();
     }
 
     public AdminDashboard() {
@@ -600,7 +600,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_regresarMouseReleased
 
     private void regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarActionPerformed
-        new TableList().setVisible(true);
+        new TableList(this).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_regresarActionPerformed
 
@@ -625,7 +625,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_regresar1ActionPerformed
 
     private void getUsers() {
-        LIST_MODEL.setSize(0);
+        listModel.setSize(0);
         USERS_MODEL.getPendingUsers(tableId, (rs, i) -> {
             User user = null;
             try {
@@ -635,7 +635,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(AdminDashboard.class.getName()).log(Level.SEVERE, null, ex);
             }
-            LIST_MODEL.addElement(user);
+            listModel.addElement(user);
         });
         USERS_MODEL.getUserByTable(tableId, userId, (rs, i) -> {
             User user = null;
@@ -651,9 +651,9 @@ public class AdminDashboard extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(AdminDashboard.class.getName()).log(Level.SEVERE, null, ex);
             }
-            LIST_MODEL.addElement(user);
+            listModel.addElement(user);
         });
-        userList.setModel(LIST_MODEL);
+        userList.setModel(listModel);
     }
 
     private void getSelectedItemData() {
@@ -708,8 +708,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
 
     private boolean isOnList(String email) {
-        for (int i = 0; i < LIST_MODEL.getSize(); i++) {
-            if (LIST_MODEL.getElementAt(i).getEmail().equals(email)) {
+        for (int i = 0; i < listModel.getSize(); i++) {
+            if (listModel.getElementAt(i).getEmail().equals(email)) {
                 return true;
             }
         }

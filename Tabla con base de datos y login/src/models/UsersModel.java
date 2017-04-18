@@ -20,7 +20,7 @@ public class UsersModel extends Connector {
         return getData("SELECT  id, user, email FROM usuarios WHERE id = " + id);
     }
 
-    public ResultSet getOnline(int id, Callback callback) {
+    public boolean getOnline(int id, Callback callback) {
         return getData("SELECT online FROM usuarios WHERE id = " + id, callback);
     }
 
@@ -28,11 +28,11 @@ public class UsersModel extends Connector {
         return executeQuery("UPDATE usuarios SET online = " + online + " WHERE id = " + id);
     }
 
-    public ResultSet getPendingUsers(int notificationId, Callback callback) {
+    public boolean getPendingUsers(int notificationId, Callback callback) {
         return getData("SELECT usuarios.id, usuarios.`user`, usuarios.email, notificaciones.id AS notificacion_id FROM usuarios INNER JOIN notificaciones ON notificaciones.destinatario = usuarios.email WHERE notificaciones.grupo_id = " + notificationId, callback);
     }
 
-    public ResultSet getUserByTable(int grupoId, int id, Callback callback) {
+    public boolean getUserByTable(int grupoId, int id, Callback callback) {
         return getData("SELECT permisos.id AS permisoId, usuarios.`user`, usuarios.email, permisos.admin, permisos.`create`, permisos.`read`, permisos.`update`, permisos.`delete`, usuarios.id, usuarios.online FROM usuarios INNER JOIN permisos ON permisos.usuarios_id = usuarios.id INNER JOIN grupo ON permisos.grupo_id = grupo.id WHERE usuarios.id <> " + id + " AND permisos.grupo_id = " + grupoId, callback);
     }
 

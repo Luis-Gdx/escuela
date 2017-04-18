@@ -5,21 +5,18 @@
  */
 package realtime;
 
-import cellsrenderer.GrupoCellRenderer;
+import cellsrenderer.*;
 import static config.Config.ALERT;
 import static config.Config.DANGER;
 import static config.Config.DEFAULT;
 import static config.Config.SECONDARY;
 import static config.Config.userId;
 import static controllers.TableList.*;
-import java.awt.Color;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import models.GroupsModel;
-import models.UsersModel;
-import objects.Grupo;
+import java.awt.*;
+import java.sql.*;
+import java.util.logging.*;
+import models.*;
+import objects.*;
 
 /**
  *
@@ -33,6 +30,7 @@ public class Permisos implements Runnable {
 
     public Permisos() {
         thread = new Thread(this);
+        thread.setName("Permisos");
         GROUPS_MODEL = new GroupsModel();
         USERS_MODEL = new UsersModel();
     }
@@ -40,24 +38,26 @@ public class Permisos implements Runnable {
     @Override
     public void run() {
         while (true) {
-            GROUPS_MODEL.getGroups(userId, (rs, i) -> {
-                try {
-                    Grupo grupo = LIST_MODEL.getElementAt(i);
-                    grupo.setNombre(rs.getString("nombre"));
-                    grupo.setId(rs.getInt("id"));
-                } catch (SQLException ex) {
-                    Logger.getLogger(Online.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            });
-            groupList.setCellRenderer(new GrupoCellRenderer());
+            if (LIST_MODEL.getSize() > 0) {
+                GROUPS_MODEL.getGroups(userId, (rs, i) -> {
+                    try {
+                        Grupo grupo = LIST_MODEL.getElementAt(i);
+                        grupo.setNombre(rs.getString("nombre"));
+                        grupo.setId(rs.getInt("id"));
+                    } catch (SQLException ex) {
+                        Logger.getLogger(UserList.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                groupList.setCellRenderer(new GrupoCellRenderer());
 
-            if (card.isVisible()) {
-                getSelectedItemData();
-            }
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Permisos.class.getName()).log(Level.SEVERE, null, ex);
+                if (card.isVisible()) {
+                    getSelectedItemData();
+                }
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Permisos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
@@ -86,9 +86,11 @@ public class Permisos implements Runnable {
                     type.setText("Tipo de usuario: Admin");
                     administrar.setBackground(SECONDARY);
                     administrar.setVisible(true);
+                    eliminar.setText("Eliminar");
                 } else {
                     type.setText("Tipo de usuario: Estandar");
                     administrar.setVisible(false);
+                    eliminar.setText("Salir");
                 }
                 c.setForeground(userInfo.getBoolean("create") ? DEFAULT : Color.GRAY);
                 r.setForeground(userInfo.getBoolean("read") ? ALERT : Color.GRAY);
