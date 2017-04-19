@@ -6,15 +6,10 @@
 package cellsrenderer;
 
 import static config.Config.DEFAULT_PRESSED;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
-import javax.swing.border.EmptyBorder;
-import objects.User;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.*;
+import objects.*;
 
 /**
  *
@@ -22,10 +17,7 @@ import objects.User;
  */
 public class UserCellRenderer extends JLabel implements ListCellRenderer<User> {
 
-    //Online online;
     public UserCellRenderer() {
-        /*online = new Online();
-        online.thread.start();*/
         setOpaque(true);
     }
 
