@@ -5,24 +5,16 @@
  */
 package controllers;
 
+import config.*;
 import static config.Config.*;
-import config.OfflineWindowListener;
-import fontawesome.FontAwesome;
-import java.awt.Color;
-import java.awt.Component;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import models.GroupsModel;
-import models.NotificacionesModel;
-import models.PermisosModel;
-import models.UsersModel;
-import objects.User;
-import realtime.UserList;
+import fontawesome.*;
+import java.awt.*;
+import java.sql.*;
+import java.util.logging.*;
+import javax.swing.*;
+import models.*;
+import objects.*;
+import realtime.*;
 
 /**
  *
@@ -738,7 +730,7 @@ public class AdminDashboard extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

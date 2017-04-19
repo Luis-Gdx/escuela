@@ -6,8 +6,8 @@
 package controllers;
 
 import static config.Config.*;
-import java.awt.Component;
-import models.UsersModel;
+import java.awt.*;
+import models.*;
 import static security.Validate.*;
 
 /**
@@ -25,8 +25,8 @@ public class SignUp extends javax.swing.JFrame {
         initComponents();
         frameConfig(this, component);
         this.setResizable(false);
-        this.pack();
         USERS_MODEL = new UsersModel();
+        this.pack();
     }
 
     /**

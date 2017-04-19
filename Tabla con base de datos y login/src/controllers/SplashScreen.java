@@ -5,8 +5,7 @@
  */
 package controllers;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 /**
  *
@@ -18,26 +17,30 @@ public class SplashScreen extends javax.swing.JFrame implements Runnable {
      * Creates new form SplashScreen
      */
     private Thread thread;
+    private final int WIDTH = 456;
+    private final int HEIGHT = 300;
 
     public SplashScreen() {
+        this.setUndecorated(true);
         initComponents();
-        splash.setText("<html><div style='border: 1px solid black; padding: 15px; border-radius: 25px'>Bienvenido xd</div></html>");
+        this.setSize(WIDTH, HEIGHT);
         this.setLocationRelativeTo(null);
+        setResizable(false);
         thread = new Thread(this);
         thread.start();
+        System.out.println("Width: " + this.getWidth());
+        System.out.println("Height: " + this.getHeight());
     }
 
     @Override
     public void run() {
-        for (int i = 0; i < 10; i++) {
-            progress.setValue(i * 12);
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(SplashScreen.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(SplashScreen.class.getName()).log(Level.SEVERE, null, ex);
+
         }
-        new LogIn(this).setVisible(true);
+        new LogIn(null).setVisible(true);
         dispose();
     }
 
@@ -50,31 +53,39 @@ public class SplashScreen extends javax.swing.JFrame implements Runnable {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        splash = new javax.swing.JLabel();
-        progress = new javax.swing.JProgressBar();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        splash.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel1.setBackground(new java.awt.Color(25, 31, 38));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(splash, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(156, Short.MAX_VALUE)
-                .addComponent(progress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(154, 154, 154))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(splash, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(progress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 69, Short.MAX_VALUE))
-        );
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Todos los derechos reservados a Luis xd");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 270, 240, 20));
+
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("v 5.0.0");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 70, 50));
+
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("CRUD de grupos y alumnos :v");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 250, 50));
+
+        jLabel1.setBackground(new java.awt.Color(25, 31, 38));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/loader.gif"))); // NOI18N
+        jLabel1.setOpaque(true);
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-170, 50, 630, 220));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 460, 300));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -90,7 +101,7 @@ public class SplashScreen extends javax.swing.JFrame implements Runnable {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -109,14 +120,17 @@ public class SplashScreen extends javax.swing.JFrame implements Runnable {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SplashScreen().setVisible(true);
+                SplashScreen splashScreen = new SplashScreen();
+                splashScreen.setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JProgressBar progress;
-    private javax.swing.JLabel splash;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
-
 }

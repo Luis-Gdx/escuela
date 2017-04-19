@@ -6,9 +6,9 @@
 package controllers;
 
 import static config.Config.*;
-import java.awt.Component;
-import java.sql.ResultSet;
-import models.UsersModel;
+import java.awt.*;
+import java.sql.*;
+import models.*;
 import static security.Hash.checkPassWord;
 import static security.Validate.validateEmail;
 import static security.Validate.validatePassword;
@@ -31,9 +31,9 @@ public class LogIn extends javax.swing.JFrame {
         initComponents();
         frameConfig(this, component);
         this.setResizable(false);
-        this.pack();
         USERS_MODEL = new UsersModel();
         submitted = false;
+        this.pack();
     }
 
     public LogIn() {
