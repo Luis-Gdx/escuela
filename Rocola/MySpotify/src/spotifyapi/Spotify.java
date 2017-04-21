@@ -7,9 +7,14 @@ package spotifyapi;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
-import objects.Album;
-import objects.Artist;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import spotifyapiconsole.search.objects.Album;
+import spotifyapiconsole.search.objects.Artist;
 
 /**
  *
@@ -20,6 +25,7 @@ public class Spotify {
     private JsonArray json;
     private String data;
     private String type;
+    private int limit = 20;
 
     public Spotify() {
     }
@@ -43,17 +49,17 @@ public class Spotify {
 
     //Search by
     public void searchByArtist(String artist) {
-        this.data = xmlHttpRequest("https://api.spotify.com/v1/search?q=" + artist + "&type=artist");
+        this.data = xmlHttpRequest("https://api.spotify.com/v1/search?q=" + artist + "&type=artist&limit=" + limit);
         this.json = new JsonParser().parse(data).getAsJsonObject().get("artists").getAsJsonObject().get("items").getAsJsonArray();
     }
 
     public void searchByAlbum(String album) {
-        this.data = xmlHttpRequest("https://api.spotify.com/v1/search?q=" + album + "&type=album");
+        this.data = xmlHttpRequest("https://api.spotify.com/v1/search?q=" + album + "&type=album&limit=" + limit);
         this.json = new JsonParser().parse(data).getAsJsonObject().get("albums").getAsJsonObject().get("items").getAsJsonArray();
     }
 
     public void searchByTrack(String track) {
-        this.data = xmlHttpRequest("https://api.spotify.com/v1/search?q=" + track + "&type=track");
+        this.data = xmlHttpRequest("https://api.spotify.com/v1/search?q=" + track + "&type=track&limit=" + limit);
         this.json = new JsonParser().parse(data).getAsJsonObject().get("tracks").getAsJsonObject().get("items").getAsJsonArray();
     }
 
@@ -61,7 +67,7 @@ public class Spotify {
         return json.get(i).getAsJsonObject().getAsJsonObject().get("followers").getAsJsonObject().get("total").getAsInt();
     }
 
-    public Album getAlbum(int i) {
+    public Album getAlbum(int i, int size) {
         Album album = new Album();
         ArrayList<Artist> artists = new ArrayList();
         try {
@@ -76,20 +82,30 @@ public class Spotify {
         }
         album.setArtists(artists);
         album.setId(json.get(i).getAsJsonObject().get("album").getAsJsonObject().get("id").getAsString());
-        ArrayList<String> images = new ArrayList();
+        ArrayList<ImageIcon> images = new ArrayList();
+        int j = 0;
         try {
-            for (int j = 0; true; j++) {
-                images.add(json.get(i).getAsJsonObject().get("album").getAsJsonObject().get("images").getAsJsonArray().get(j).getAsJsonObject().get("url").getAsString());
+            for (j = 0; true; j++) {
+                String imageUrl = json.get(i).getAsJsonObject().get("album").getAsJsonObject().get("images").getAsJsonArray().get(j).getAsJsonObject().get("url").getAsString();
+                images.add(new ImageIcon((new URL(imageUrl))));
             }
         } catch (Exception e) {
+            if (j == 0) {
+                try {
+                    images.add(new ImageIcon((new URL("https://cdn.browshot.com/static/images/not-found.png"))));
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(Spotify.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
+        images.set(0, new ImageIcon(images.get(0).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_AREA_AVERAGING)));
         album.setName(json.get(i).getAsJsonObject().get("album").getAsJsonObject().get("name").getAsString());
         album.setType(json.get(i).getAsJsonObject().get("album").getAsJsonObject().get("type").getAsString());
         album.setImages(images);
         return album;
     }
 
-    public double getDuration(int i) {
+    public long getDuration(int i) {
         return json.get(i).getAsJsonObject().get("duration_ms").getAsInt();
     }
 
@@ -134,14 +150,27 @@ public class Spotify {
         return json.get(i).getAsJsonObject().get("id").getAsString();
     }
 
-    public ArrayList<String> getImages(int i) {
-        ArrayList<String> images = new ArrayList();
+    public ArrayList<ImageIcon> getImages(int i, int size) {
+        ArrayList<ImageIcon> images = new ArrayList();
+        int j = 0;
         try {
-            for (int j = 0; true; j++) {
-                images.add(json.get(i).getAsJsonObject().get("images").getAsJsonArray().get(j).getAsJsonObject().get("url").getAsString());
+            for (j = 0; true; j++) {
+                String imageUrl = json.get(i).getAsJsonObject().get("images").getAsJsonArray().get(j).getAsJsonObject().get("url").getAsString();
+                images.add(new ImageIcon((new URL(imageUrl))));
+
             }
         } catch (Exception e) {
+            if (j == 0) {
+                try {
+                    images.add(new ImageIcon((new URL("https://cdn.browshot.com/static/images/not-found.png"))));
+
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(Spotify.class
+                            .getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
+        images.set(0, new ImageIcon(images.get(0).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_AREA_AVERAGING)));
         return images;
     }
 
@@ -155,6 +184,11 @@ public class Spotify {
 
     public String getType(int i) {
         return json.get(i).getAsJsonObject().get("type").getAsString();
+    }
+
+    public int getLimit() {
+
+        return new JsonParser().parse(data).getAsJsonObject().get(type).getAsJsonObject().get("limit").getAsInt();
     }
 
     public int getTotal() {
@@ -176,9 +210,15 @@ public class Spotify {
                 res += inputLine;
             }
             in.close();
+
         } catch (java.io.IOException ex) {
-            java.util.logging.Logger.getLogger(myspotify.ArtistsSearch.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(myspotify.ArtistsSearch.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         return res;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 }

@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package objects;
+package spotifyapiconsole.search.objects;
 
+import spotifyapiconsole.search.objects.Artist;
+import spotifyapiconsole.search.objects.Album;
 import java.util.ArrayList;
 
 /**
@@ -15,7 +17,7 @@ public class Track {
 
     private Album album;
     private ArrayList<Artist> artists;
-    private double duration;
+    private long duration;
     private boolean explicit;
     private String id;
     private String name;
@@ -44,12 +46,12 @@ public class Track {
         this.artists = artists;
     }
 
-    public double getDuration() {
+    public long getDuration() {
         return duration;
     }
 
-    public void setDuration(double duration) {
-        this.duration = duration / 60000;
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 
     public boolean isExplicit() {

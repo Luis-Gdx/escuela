@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package threads;
+package spotifyapiconsole.search;
 
 import javax.swing.DefaultListModel;
 import static myspotify.ArtistsSearch.search;
-import objects.Track;
-import spotifyapi.Spotify;
 import static myspotify.ArtistsSearch.trackList;
+import spotifyapiconsole.search.objects.Track;
+import spotifyapi.Spotify;
 
 /**
  *
@@ -20,20 +20,25 @@ public class SearchByTrack implements Runnable {
     public Thread thread;
     private final Spotify SPOTIFY;
     private DefaultListModel<Track> trackListModel;
+    private int limit = 20;
+    private final int SIZE;
 
     public SearchByTrack() {
         thread = new Thread(this, "Track");
         SPOTIFY = new Spotify();
+        SPOTIFY.setLimit(limit);
         trackListModel = new DefaultListModel();
+        SIZE = 150;
     }
 
     @Override
     public void run() {
         SPOTIFY.get(search.getText(), "track");
+        int limit = SPOTIFY.getLimit();
         int total = SPOTIFY.getTotal();
-        for (int i = 0; i < ((total > 20) ? 20 : total); i++) {
+        for (int i = 0; i < ((total > limit) ? limit : total); i++) {
             Track track = new Track();
-            track.setAlbum(SPOTIFY.getAlbum(i));
+            track.setAlbum(SPOTIFY.getAlbum(i, SIZE));
             track.setArtists(SPOTIFY.getArtist(i));
             track.setDuration(SPOTIFY.getDuration(i));
             track.setExplicit(SPOTIFY.isExplicit(i));

@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package objects;
+package spotifyapiconsole.search.objects;
 
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -15,7 +16,7 @@ public class Album {
 
     private ArrayList<Artist> artists;
     private String id;
-    private ArrayList<String> images = new ArrayList();
+    private ArrayList<ImageIcon> images = new ArrayList();
     private String name;
     private String type;
 
@@ -39,11 +40,11 @@ public class Album {
         this.id = id;
     }
 
-    public ArrayList<String> getImages() {
+    public ArrayList<ImageIcon> getImages() {
         return images;
     }
 
-    public void setImages(ArrayList<String> images) {
+    public void setImages(ArrayList<ImageIcon> images) {
         this.images = images;
     }
 

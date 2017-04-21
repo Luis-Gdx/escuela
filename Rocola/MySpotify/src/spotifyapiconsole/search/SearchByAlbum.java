@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package threads;
+package spotifyapiconsole.search;
 
 import javax.swing.DefaultListModel;
 import static myspotify.ArtistsSearch.albumList;
 import static myspotify.ArtistsSearch.search;
-import objects.Album;
+import spotifyapiconsole.search.objects.Album;
 import spotifyapi.Spotify;
 
 /**
@@ -20,11 +20,13 @@ public class SearchByAlbum implements Runnable {
     public Thread thread;
     private final Spotify SPOTIFY;
     private DefaultListModel<Album> albumListModel;
+    private final int SIZE;
 
     public SearchByAlbum() {
         thread = new Thread(this, "Album");
         SPOTIFY = new Spotify();
         albumListModel = new DefaultListModel();
+        SIZE = 75;
     }
 
     @Override
@@ -35,7 +37,7 @@ public class SearchByAlbum implements Runnable {
             Album album = new Album();
             album.setArtists(SPOTIFY.getArtist(i));
             album.setId(SPOTIFY.getId(i));
-            album.setImages(SPOTIFY.getImages(i));
+            album.setImages(SPOTIFY.getImages(i, SIZE));
             album.setName(SPOTIFY.getName(i));
             album.setType(SPOTIFY.getAlbumType(i));
             albumListModel.addElement(album);
