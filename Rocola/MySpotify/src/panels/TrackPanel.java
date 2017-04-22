@@ -5,8 +5,11 @@
  */
 package panels;
 
+import static global.ItemsController.setCurrentTrackPanel;
 import java.awt.Color;
-import javax.swing.ImageIcon;
+import java.util.concurrent.TimeUnit;
+import spotifyapiconsole.search.objects.Track;
+import spotifyapiconsole.track.GetTrack;
 
 /**
  *
@@ -14,33 +17,21 @@ import javax.swing.ImageIcon;
  */
 public class TrackPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form TrackPanel
-     */
-    private ImageIcon image;
-    private String name;
-    private String artist;
-    private String album;
-    private String duration;
-    private boolean explicit;
-    private int popularity;
-    private int trackNumber;
+    Track track;
 
-    public TrackPanel() {
+    public TrackPanel(Track track) {
         initComponents();
-    }
-
-    public void setData() {
-        imageIcon.setIcon(getImage());
+        this.track = track;
+        imageIcon.setIcon(track.getAlbum().getImages().get(0));
         explicitValue.setVisible(false);
-        nameValue.setText(setHtml("<strong><span style='font-size: 11px'>" + getName() + "</span></strong>"));
+        nameValue.setText(setHtml("<strong><span style='font-size: 11px'>" + track.getName() + "</span></strong>"));
         artistLabel.setText(setHtml("<span style='font-size: 8.75px'><strong>Artista:</strong></span>"));
-        artistValue.setText(setHtml("<span style='font-size: 8.75px'>" + getArtist() + "</span>"));
+        artistValue.setText(setHtml("<span style='font-size: 8.75px'>" + track.getArtists().get(0).getName() + "</span>"));
         albumLabel.setText(setHtml("<span style='font-size: 8.75px'><strong>Album:</strong></span>"));
-        albumValue.setText(setHtml("<span style='font-size: 8.75px'>" + getAlbum() + "</span>"));
+        albumValue.setText(setHtml("<span style='font-size: 8.75px'>" + track.getAlbum().getName() + "</span>"));
         durationLabel.setText(setHtml("<span style='font-size: 8.75px'><strong>Duración:</strong></span>"));
-        durationValue.setText(setHtml("<span style='font-size: 8.75px'>" + getDuration() + "</span>"));
-        if (isExplicit()) {
+        durationValue.setText(setHtml("<span style='font-size: 8.75px'>" + trackDuration(track.getDuration()) + "</span>"));
+        if (track.isExplicit()) {
             explicitValue.setVisible(true);
             explicitValue.setText(setHtml("<span style='font-size: 8.75px'><strong>EXPLÍCITO</strong></span>"));
 
@@ -49,9 +40,9 @@ public class TrackPanel extends javax.swing.JPanel {
             explicitValue.setText("");
         }
         popularityLabel.setText(setHtml("<span style='font-size: 8.75px'><strong>Popularidad:</strong></span>"));
-        popularityValue.setText(setHtml("<span style='font-size: 8.75px'>" + getPopularity() + "</span>"));
+        popularityValue.setText(setHtml("<span style='font-size: 8.75px'>" + track.getPopularity() + "</span>"));
         trackNumberLabel.setText(setHtml("<span style='font-size: 8.75px'><strong>Número de canción:</strong></span>"));
-        trackNumberValue.setText(setHtml("<span style='font-size: 8.75px'>" + getTrackNumber() + "</span>"));
+        trackNumberValue.setText(setHtml("<span style='font-size: 8.75px'>" + track.getTrackNumber() + "</span>"));
     }
 
     private String setHtml(String txt) {
@@ -59,6 +50,7 @@ public class TrackPanel extends javax.swing.JPanel {
     }
 
     public void setBackgroundToPanels(Color color) {
+        this.setBackground(color);
         dataPanel.setBackground(color);
         namePanel.setBackground(color);
         artistPanel.setBackground(color);
@@ -69,68 +61,11 @@ public class TrackPanel extends javax.swing.JPanel {
         trackNumberPanel.setBackground(color);
     }
 
-    public ImageIcon getImage() {
-        return image;
-    }
-
-    public void setImage(ImageIcon image) {
-        this.image = image;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public String getAlbum() {
-        return album;
-    }
-
-    public void setAlbum(String album) {
-        this.album = album;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public boolean isExplicit() {
-        return explicit;
-    }
-
-    public void setExplicit(boolean explicit) {
-        this.explicit = explicit;
-    }
-
-    public int getPopularity() {
-        return popularity;
-    }
-
-    public void setPopularity(int popularity) {
-        this.popularity = popularity;
-    }
-
-    public int getTrackNumber() {
-        return trackNumber;
-    }
-
-    public void setTrackNumber(int trackNumber) {
-        this.trackNumber = trackNumber;
+    private String trackDuration(long millis) {
+        return String.format("%02d : %02d",
+                TimeUnit.MILLISECONDS.toMinutes(millis),
+                TimeUnit.MILLISECONDS.toSeconds(millis)
+                - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
     }
 
     /**
@@ -164,6 +99,12 @@ public class TrackPanel extends javax.swing.JPanel {
         trackNumberPanel = new javax.swing.JPanel();
         trackNumberLabel = new javax.swing.JLabel();
         trackNumberValue = new javax.swing.JLabel();
+
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         imageIcon.setText("Image");
 
@@ -358,6 +299,13 @@ public class TrackPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        setBackgroundToPanels(new Color(207, 216, 220));
+        setCurrentTrackPanel(this);
+        GetTrack getTrack = new GetTrack(this.track.getId());
+        getTrack.thread.start();
+    }//GEN-LAST:event_formMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel albumLabel;

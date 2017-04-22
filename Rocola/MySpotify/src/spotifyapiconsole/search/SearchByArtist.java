@@ -6,8 +6,8 @@
 package spotifyapiconsole.search;
 
 import javax.swing.DefaultListModel;
-import static myspotify.ArtistsSearch.artistList;
-import static myspotify.ArtistsSearch.search;
+import static myspotify.Search.Search;
+import static myspotify.Search.search;
 import spotifyapiconsole.search.objects.Artist;
 import spotifyapi.Spotify;
 

@@ -5,11 +5,16 @@
  */
 package spotifyapiconsole.search;
 
-import javax.swing.DefaultListModel;
-import static myspotify.ArtistsSearch.search;
-import static myspotify.ArtistsSearch.trackList;
-import spotifyapiconsole.search.objects.Track;
+import java.util.ArrayList;
+import javax.swing.JPanel;
+import static myspotify.Search.dataList;
+import static myspotify.Search.jScrollPane2;
+import static myspotify.Search.search;
+import panels.Loader;
+import panels.NotFound;
+import panels.TrackPanel;
 import spotifyapi.Spotify;
+import spotifyapiconsole.search.objects.Track;
 
 /**
  *
@@ -19,21 +24,21 @@ public class SearchByTrack implements Runnable {
 
     public Thread thread;
     private final Spotify SPOTIFY;
-    private DefaultListModel<Track> trackListModel;
     private int limit = 20;
     private final int SIZE;
+    ArrayList<JPanel> panels = new ArrayList();
 
     public SearchByTrack() {
         thread = new Thread(this, "Track");
         SPOTIFY = new Spotify();
         SPOTIFY.setLimit(limit);
-        trackListModel = new DefaultListModel();
         SIZE = 150;
+        jScrollPane2.setViewportView(new Loader());
     }
 
     @Override
     public void run() {
-        SPOTIFY.get(search.getText(), "track");
+        SPOTIFY.get(search.getText(), "tracks");
         int limit = SPOTIFY.getLimit();
         int total = SPOTIFY.getTotal();
         for (int i = 0; i < ((total > limit) ? limit : total); i++) {
@@ -47,9 +52,17 @@ public class SearchByTrack implements Runnable {
             track.setPopularity(SPOTIFY.getPopularity(i));
             track.setTrackNumber(SPOTIFY.getTrackNumber(i));
             track.setType(SPOTIFY.getType(i));
-            trackListModel.addElement(track);
+            panels.add(new TrackPanel(track));
+            System.out.println(track.getName());
         }
-        trackList.setModel(trackListModel);
+        for (JPanel panel : panels) {
+            dataList.add(panel);
+        }
+        if (dataList.getComponentCount() > 0) {
+            jScrollPane2.setViewportView(dataList);
+        } else {
+            jScrollPane2.setViewportView(new NotFound("canción"));
+        }
     }
 
 }
