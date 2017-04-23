@@ -245,13 +245,11 @@ public class Spotify {
             for (j = 0; true; j++) {
                 String imageUrl = json.get(i).getAsJsonObject().get("images").getAsJsonArray().get(j).getAsJsonObject().get("url").getAsString();
                 images.add(new ImageIcon((new URL(imageUrl))));
-
             }
         } catch (Exception e) {
             if (j == 0) {
                 try {
                     images.add(new ImageIcon((new URL("https://cdn.browshot.com/static/images/not-found.png"))));
-
                 } catch (MalformedURLException ex) {
                     Logger.getLogger(Spotify.class
                             .getName()).log(Level.SEVERE, null, ex);
@@ -299,7 +297,7 @@ public class Spotify {
     }
 
     private String sanitize(String str) {
-        str = str.replaceAll("[^a-zA-Z0-9' ']", "");
+        str = str.replaceAll("[^a-zA-Z0-9' '/]", "");
         return str.replaceAll(" ", "%20");
     }
 
@@ -316,7 +314,7 @@ public class Spotify {
             in.close();
 
         } catch (java.io.IOException ex) {
-            java.util.logging.Logger.getLogger(myspotify.Search.class
+            java.util.logging.Logger.getLogger(app.Search.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         return res;

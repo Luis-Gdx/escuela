@@ -5,14 +5,16 @@
  */
 package spotifyapiconsole.track;
 
-import static myspotify.Search.flag;
-import static myspotify.Search.i;
-import static myspotify.Search.img;
-import static myspotify.Search.jSlider1;
-import static myspotify.Search.pausedOnFrame;
-import static myspotify.Search.player;
-import static myspotify.Search.progress;
-import static myspotify.Search.songUrl;
+import static app.Search.artistReproductor;
+import static app.Search.flag;
+import static app.Search.i;
+import static app.Search.img;
+import static app.Search.jSlider1;
+import static app.Search.nameReproductor;
+import static app.Search.pausedOnFrame;
+import static app.Search.player;
+import static app.Search.progress;
+import static app.Search.songUrl;
 import reproductor.Music;
 import reproductor.Progress;
 import spotifyapi.Spotify;
@@ -53,6 +55,8 @@ public class GetTrack implements Runnable {
         track.setType(SPOTIFY.getType());
         songUrl = track.getPreviewUrl();
         img.setIcon(track.getAlbum().getImages().get(0));
+        nameReproductor.setText(this.track.getName());
+        artistReproductor.setText(this.track.getArtist().get(0).getName());
         if (!progress.thread.isAlive()) {
             progress = new Progress();
             progress.thread.start();

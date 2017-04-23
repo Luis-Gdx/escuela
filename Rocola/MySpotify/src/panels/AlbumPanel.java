@@ -6,34 +6,30 @@
 package panels;
 
 import static config.Config.SELECTED_ITEM;
-import static global.ItemsController.setCurrentArtistPanel;
+import static global.ItemsController.setCurrentAlbumPanel;
 import java.awt.Color;
-import spotifyapiconsole.search.objects.Artist;
+import spotifyapiconsole.search.objects.Album;
 
 /**
  *
  * @author Luis G
  */
-public class ArtistPanel extends javax.swing.JPanel {
+public class AlbumPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form ArtistPanel
      */
-    Artist artist;
+    Album album;
 
-    public ArtistPanel(Artist artist) {
+    public AlbumPanel(Album album) {
         initComponents();
-        this.generesPanel.setVisible(false);
-        this.artist = artist;
-        this.imageIcon.setIcon(artist.getImages().get(0));
-        this.nameValue.setText(setHtml("<strong><span style='font-size: 11px'>" + artist.getName() + "</span></strong>"));
-        if (!artist.getGenres().isEmpty()) {
-            this.generesPanel.setVisible(true);
-            this.generesLabel.setText(setHtml("<span style='font-size: 8.75px'><strong>Géneros: </strong></span>"));
-            this.generesValue.setText(setHtml("<span style='font-size: 8.75px'>" + artist.getGenres() + "</span>"));
-        }
-        this.followersLabel.setText(setHtml("<span style='font-size: 8.75px'><strong>Seguidores: </strong></span>"));
-        this.followersValue.setText(setHtml("<span style='font-size: 8.75px'>" + artist.getFollowers() + "</span>"));
+        this.album = album;
+        this.imageIcon.setIcon(this.album.getImages().get(0));
+        this.nameValue.setText(setHtml("<strong><span style='font-size: 11px'>" + this.album.getName() + "</span></strong>"));
+        this.tipoLabel.setText(setHtml("<span style='font-size: 8.75px'><strong>Tipo: </strong></span>"));
+        this.tipoValue.setText(setHtml("<span style='font-size: 8.75px'>" + this.album.getType() + "</span>"));
+        this.artistaLabel.setText(setHtml("<span style='font-size: 8.75px'><strong>Artista: </strong></span>"));
+        this.artistaValue.setText(setHtml("<span style='font-size: 8.75px'>" + this.album.getArtists().get(0).getName() + "</span>"));
     }
 
     private String setHtml(String txt) {
@@ -44,8 +40,8 @@ public class ArtistPanel extends javax.swing.JPanel {
         this.setBackground(color);
         dataPanel.setBackground(color);
         namePanel.setBackground(color);
-        generesPanel.setBackground(color);
-        followersPanel.setBackground(color);
+        tipoPanel.setBackground(color);
+        artistaPanel.setBackground(color);
     }
 
     /**
@@ -62,12 +58,12 @@ public class ArtistPanel extends javax.swing.JPanel {
         dataPanel = new javax.swing.JPanel();
         namePanel = new javax.swing.JPanel();
         nameValue = new javax.swing.JLabel();
-        generesPanel = new javax.swing.JPanel();
-        generesLabel = new javax.swing.JLabel();
-        generesValue = new javax.swing.JLabel();
-        followersPanel = new javax.swing.JPanel();
-        followersLabel = new javax.swing.JLabel();
-        followersValue = new javax.swing.JLabel();
+        tipoPanel = new javax.swing.JPanel();
+        tipoLabel = new javax.swing.JLabel();
+        tipoValue = new javax.swing.JLabel();
+        artistaPanel = new javax.swing.JPanel();
+        artistaLabel = new javax.swing.JLabel();
+        artistaValue = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(24, 24, 24));
         addMouseListener(new java.awt.event.MouseAdapter() {
@@ -105,73 +101,73 @@ public class ArtistPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         dataPanel.add(namePanel, gridBagConstraints);
 
-        generesPanel.setBackground(new java.awt.Color(24, 24, 24));
-        generesPanel.setForeground(new java.awt.Color(255, 255, 255));
+        tipoPanel.setBackground(new java.awt.Color(24, 24, 24));
+        tipoPanel.setForeground(new java.awt.Color(255, 255, 255));
 
-        generesLabel.setBackground(new java.awt.Color(24, 24, 24));
-        generesLabel.setForeground(new java.awt.Color(255, 255, 255));
-        generesLabel.setText("Género");
+        tipoLabel.setBackground(new java.awt.Color(24, 24, 24));
+        tipoLabel.setForeground(new java.awt.Color(255, 255, 255));
+        tipoLabel.setText("Tipo");
 
-        generesValue.setBackground(new java.awt.Color(24, 24, 24));
-        generesValue.setForeground(new java.awt.Color(255, 255, 255));
-        generesValue.setText("blink-182");
-        generesValue.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tipoValue.setBackground(new java.awt.Color(24, 24, 24));
+        tipoValue.setForeground(new java.awt.Color(255, 255, 255));
+        tipoValue.setText("blink-182");
+        tipoValue.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        javax.swing.GroupLayout generesPanelLayout = new javax.swing.GroupLayout(generesPanel);
-        generesPanel.setLayout(generesPanelLayout);
-        generesPanelLayout.setHorizontalGroup(
-            generesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(generesPanelLayout.createSequentialGroup()
-                .addComponent(generesLabel)
+        javax.swing.GroupLayout tipoPanelLayout = new javax.swing.GroupLayout(tipoPanel);
+        tipoPanel.setLayout(tipoPanelLayout);
+        tipoPanelLayout.setHorizontalGroup(
+            tipoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tipoPanelLayout.createSequentialGroup()
+                .addComponent(tipoLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(generesValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(tipoValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        generesPanelLayout.setVerticalGroup(
-            generesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(generesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(generesLabel)
-                .addComponent(generesValue))
+        tipoPanelLayout.setVerticalGroup(
+            tipoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tipoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(tipoLabel)
+                .addComponent(tipoValue))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        dataPanel.add(generesPanel, gridBagConstraints);
+        dataPanel.add(tipoPanel, gridBagConstraints);
 
-        followersPanel.setBackground(new java.awt.Color(24, 24, 24));
-        followersPanel.setForeground(new java.awt.Color(255, 255, 255));
+        artistaPanel.setBackground(new java.awt.Color(24, 24, 24));
+        artistaPanel.setForeground(new java.awt.Color(255, 255, 255));
 
-        followersLabel.setBackground(new java.awt.Color(24, 24, 24));
-        followersLabel.setForeground(new java.awt.Color(255, 255, 255));
-        followersLabel.setText("Seguidores");
+        artistaLabel.setBackground(new java.awt.Color(24, 24, 24));
+        artistaLabel.setForeground(new java.awt.Color(255, 255, 255));
+        artistaLabel.setText("Artista");
 
-        followersValue.setBackground(new java.awt.Color(24, 24, 24));
-        followersValue.setForeground(new java.awt.Color(255, 255, 255));
-        followersValue.setText("blink-182");
-        followersValue.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        artistaValue.setBackground(new java.awt.Color(24, 24, 24));
+        artistaValue.setForeground(new java.awt.Color(255, 255, 255));
+        artistaValue.setText("blink-182");
+        artistaValue.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        javax.swing.GroupLayout followersPanelLayout = new javax.swing.GroupLayout(followersPanel);
-        followersPanel.setLayout(followersPanelLayout);
-        followersPanelLayout.setHorizontalGroup(
-            followersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(followersPanelLayout.createSequentialGroup()
-                .addComponent(followersLabel)
+        javax.swing.GroupLayout artistaPanelLayout = new javax.swing.GroupLayout(artistaPanel);
+        artistaPanel.setLayout(artistaPanelLayout);
+        artistaPanelLayout.setHorizontalGroup(
+            artistaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(artistaPanelLayout.createSequentialGroup()
+                .addComponent(artistaLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(followersValue))
+                .addComponent(artistaValue))
         );
-        followersPanelLayout.setVerticalGroup(
-            followersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(followersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(followersLabel)
-                .addComponent(followersValue))
+        artistaPanelLayout.setVerticalGroup(
+            artistaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(artistaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(artistaLabel)
+                .addComponent(artistaValue))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        dataPanel.add(followersPanel, gridBagConstraints);
+        dataPanel.add(artistaPanel, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -181,7 +177,7 @@ public class ArtistPanel extends javax.swing.JPanel {
                 .addComponent(imageIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60)
                 .addComponent(dataPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(340, Short.MAX_VALUE))
+                .addContainerGap(361, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,19 +191,19 @@ public class ArtistPanel extends javax.swing.JPanel {
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         setBackgroundToPanels(SELECTED_ITEM);
-        setCurrentArtistPanel(this);
+        setCurrentAlbumPanel(this);
     }//GEN-LAST:event_formMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel artistaLabel;
+    private javax.swing.JPanel artistaPanel;
+    private javax.swing.JLabel artistaValue;
     private javax.swing.JPanel dataPanel;
-    private javax.swing.JLabel followersLabel;
-    private javax.swing.JPanel followersPanel;
-    private javax.swing.JLabel followersValue;
-    private javax.swing.JLabel generesLabel;
-    private javax.swing.JPanel generesPanel;
-    public static javax.swing.JLabel generesValue;
     private javax.swing.JLabel imageIcon;
     private javax.swing.JPanel namePanel;
     private javax.swing.JLabel nameValue;
+    private javax.swing.JLabel tipoLabel;
+    private javax.swing.JPanel tipoPanel;
+    public static javax.swing.JLabel tipoValue;
     // End of variables declaration//GEN-END:variables
 }

@@ -28,7 +28,7 @@
               <Component id="imageIcon" min="-2" pref="75" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
               <Component id="dataPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="340" max="32767" attributes="0"/>
+              <EmptySpace pref="361" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -100,7 +100,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="generesPanel">
+        <Container class="javax.swing.JPanel" name="tipoPanel">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="18" green="18" red="18" type="rgb"/>
@@ -119,23 +119,23 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="generesLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="tipoLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="generesValue" max="32767" attributes="0"/>
+                      <Component id="tipoValue" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="generesLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="generesValue" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="tipoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="tipoValue" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="generesLabel">
+            <Component class="javax.swing.JLabel" name="tipoLabel">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="18" green="18" red="18" type="rgb"/>
@@ -143,10 +143,10 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="G&#xe9;nero"/>
+                <Property name="text" type="java.lang.String" value="Tipo"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="generesValue">
+            <Component class="javax.swing.JLabel" name="tipoValue">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="18" green="18" red="18" type="rgb"/>
@@ -165,7 +165,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="followersPanel">
+        <Container class="javax.swing.JPanel" name="artistaPanel">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="18" green="18" red="18" type="rgb"/>
@@ -184,23 +184,23 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="followersLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="artistaLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="followersValue" min="-2" max="-2" attributes="0"/>
+                      <Component id="artistaValue" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="followersLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="followersValue" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="artistaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="artistaValue" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="followersLabel">
+            <Component class="javax.swing.JLabel" name="artistaLabel">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="18" green="18" red="18" type="rgb"/>
@@ -208,10 +208,10 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Seguidores"/>
+                <Property name="text" type="java.lang.String" value="Artista"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="followersValue">
+            <Component class="javax.swing.JLabel" name="artistaValue">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="18" green="18" red="18" type="rgb"/>
@@ -221,7 +221,7 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="blink-182"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Cursor Por defecto"/>
+                  <Color id="Cursor de Mano"/>
                 </Property>
               </Properties>
             </Component>

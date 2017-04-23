@@ -5,11 +5,13 @@
  */
 package spotifyapiconsole.search;
 
-import javax.swing.DefaultListModel;
-import static myspotify.Search.Search;
-import static myspotify.Search.search;
-import spotifyapiconsole.search.objects.Album;
+import static app.Search.dataList;
+import static app.Search.jScrollPane2;
+import static app.Search.search;
+import panels.AlbumPanel;
+import panels.NotFound;
 import spotifyapi.Spotify;
+import spotifyapiconsole.search.objects.Album;
 
 /**
  *
@@ -19,13 +21,11 @@ public class SearchByAlbum implements Runnable {
 
     public Thread thread;
     private final Spotify SPOTIFY;
-    private DefaultListModel<Album> albumListModel;
     private final int SIZE;
 
     public SearchByAlbum() {
         thread = new Thread(this, "Album");
         SPOTIFY = new Spotify();
-        albumListModel = new DefaultListModel();
         SIZE = 75;
     }
 
@@ -33,16 +33,20 @@ public class SearchByAlbum implements Runnable {
     public void run() {
         SPOTIFY.get(search.getText(), "albums");
         int total = SPOTIFY.getTotal();
-        for (int i = 0; i < ((total > 20) ? 20 : total); i++) {
+        int limit = SPOTIFY.getLimit();
+        for (int i = 0; i < ((total > limit) ? limit : total); i++) {
             Album album = new Album();
             album.setArtists(SPOTIFY.getArtist(i));
             album.setId(SPOTIFY.getId(i));
             album.setImages(SPOTIFY.getImages(i, SIZE));
             album.setName(SPOTIFY.getName(i));
             album.setType(SPOTIFY.getAlbumType(i));
-            albumListModel.addElement(album);
+            dataList.add(new AlbumPanel(album));
         }
-        albumList.setModel(albumListModel);
+        if (dataList.getComponentCount() > 0) {
+            jScrollPane2.setViewportView(dataList);
+        } else {
+            jScrollPane2.setViewportView(new NotFound("ningun artista"));
+        }
     }
-
 }

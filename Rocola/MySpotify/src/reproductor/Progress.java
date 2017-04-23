@@ -7,10 +7,10 @@ package reproductor;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static myspotify.Search.flag;
-import static myspotify.Search.i;
-import static myspotify.Search.jSlider1;
-import static myspotify.Search.time;
+import static app.Search.flag;
+import static app.Search.i;
+import static app.Search.jSlider1;
+import static app.Search.time;
 
 /**
  *

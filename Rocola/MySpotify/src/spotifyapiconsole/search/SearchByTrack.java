@@ -5,12 +5,9 @@
  */
 package spotifyapiconsole.search;
 
-import java.util.ArrayList;
-import javax.swing.JPanel;
-import static myspotify.Search.dataList;
-import static myspotify.Search.jScrollPane2;
-import static myspotify.Search.search;
-import panels.Loader;
+import static app.Search.dataList;
+import static app.Search.jScrollPane2;
+import static app.Search.search;
 import panels.NotFound;
 import panels.TrackPanel;
 import spotifyapi.Spotify;
@@ -24,16 +21,13 @@ public class SearchByTrack implements Runnable {
 
     public Thread thread;
     private final Spotify SPOTIFY;
-    private int limit = 20;
     private final int SIZE;
-    ArrayList<JPanel> panels = new ArrayList();
 
     public SearchByTrack() {
         thread = new Thread(this, "Track");
         SPOTIFY = new Spotify();
-        SPOTIFY.setLimit(limit);
+        SPOTIFY.setLimit(20);
         SIZE = 150;
-        jScrollPane2.setViewportView(new Loader());
     }
 
     @Override
@@ -52,16 +46,13 @@ public class SearchByTrack implements Runnable {
             track.setPopularity(SPOTIFY.getPopularity(i));
             track.setTrackNumber(SPOTIFY.getTrackNumber(i));
             track.setType(SPOTIFY.getType(i));
-            panels.add(new TrackPanel(track));
             System.out.println(track.getName());
-        }
-        for (JPanel panel : panels) {
-            dataList.add(panel);
+            dataList.add(new TrackPanel(track));
         }
         if (dataList.getComponentCount() > 0) {
             jScrollPane2.setViewportView(dataList);
         } else {
-            jScrollPane2.setViewportView(new NotFound("canción"));
+            jScrollPane2.setViewportView(new NotFound("ninguna canción"));
         }
     }
 

@@ -5,7 +5,9 @@
  */
 package global;
 
-import java.awt.Color;
+import static config.Config.BACKGROUND;
+import panels.AlbumPanel;
+import panels.ArtistPanel;
 import panels.TrackPanel;
 
 /**
@@ -14,16 +16,40 @@ import panels.TrackPanel;
  */
 public class ItemsController {
 
-    private static TrackPanel currentJPanel = null;
+    private static ArtistPanel currentArtistJPanel = null;
+    private static AlbumPanel currentAlbumJPanel = null;
+    private static TrackPanel currentTrackJPanel = null;
 
-    public static void setCurrentTrackPanel(TrackPanel panel) {
-        if (currentJPanel != null) {
-            if (currentJPanel != panel) {
-                currentJPanel.setBackgroundToPanels(new Color(238, 238, 238));
-                currentJPanel = panel;
+    public static void setCurrentArtistPanel(ArtistPanel panel) {
+        if (currentArtistJPanel != null) {
+            if (currentArtistJPanel != panel) {
+                currentArtistJPanel.setBackgroundToPanels(BACKGROUND);
+                currentArtistJPanel = panel;
             }
         } else {
-            currentJPanel = panel;
+            currentArtistJPanel = panel;
+        }
+    }
+
+    public static void setCurrentAlbumPanel(AlbumPanel panel) {
+        if (currentAlbumJPanel != null) {
+            if (currentAlbumJPanel != panel) {
+                currentAlbumJPanel.setBackgroundToPanels(BACKGROUND);
+                currentAlbumJPanel = panel;
+            }
+        } else {
+            currentAlbumJPanel = panel;
+        }
+    }
+
+    public static void setCurrentTrackPanel(TrackPanel panel) {
+        if (currentTrackJPanel != null) {
+            if (currentTrackJPanel != panel) {
+                currentTrackJPanel.setBackgroundToPanels(BACKGROUND);
+                currentTrackJPanel = panel;
+            }
+        } else {
+            currentTrackJPanel = panel;
         }
     }
 

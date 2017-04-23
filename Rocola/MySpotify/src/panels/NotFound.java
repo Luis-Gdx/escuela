@@ -5,6 +5,8 @@
  */
 package panels;
 
+import static config.Config.BACKGROUND;
+
 /**
  *
  * @author Luis G
@@ -16,7 +18,10 @@ public class NotFound extends javax.swing.JPanel {
      */
     public NotFound(String type) {
         initComponents();
-        jLabel1.setText("No se encontro ninguna " + type + " :'v");
+        this.jLabel1.setBackground(BACKGROUND);
+        this.jPanel1.setBackground(BACKGROUND);
+        this.setBackground(BACKGROUND);
+        jLabel1.setText("No se encontro " + type + " :'v");
     }
 
     /**
@@ -37,7 +42,7 @@ public class NotFound extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("No se encontro ninguna canción :'v");
+        jLabel1.setText("No se encontro canción :'v");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

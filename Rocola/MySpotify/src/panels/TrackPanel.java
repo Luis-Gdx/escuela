@@ -5,6 +5,8 @@
  */
 package panels;
 
+import static config.Config.BACKGROUND;
+import static config.Config.SELECTED_ITEM;
 import static global.ItemsController.setCurrentTrackPanel;
 import java.awt.Color;
 import java.util.concurrent.TimeUnit;
@@ -43,6 +45,8 @@ public class TrackPanel extends javax.swing.JPanel {
         popularityValue.setText(setHtml("<span style='font-size: 8.75px'>" + track.getPopularity() + "</span>"));
         trackNumberLabel.setText(setHtml("<span style='font-size: 8.75px'><strong>Número de canción:</strong></span>"));
         trackNumberValue.setText(setHtml("<span style='font-size: 8.75px'>" + track.getTrackNumber() + "</span>"));
+        replay.setText(setHtml("<span style='font-size: 9px'><strong>Reproducir</strong></span>"));
+        this.setBackground(BACKGROUND);
     }
 
     private String setHtml(String txt) {
@@ -51,7 +55,6 @@ public class TrackPanel extends javax.swing.JPanel {
 
     public void setBackgroundToPanels(Color color) {
         this.setBackground(color);
-        dataPanel.setBackground(color);
         namePanel.setBackground(color);
         artistPanel.setBackground(color);
         albumPanel.setBackground(color);
@@ -59,6 +62,7 @@ public class TrackPanel extends javax.swing.JPanel {
         explicitPanel.setBackground(color);
         popularityPanel.setBackground(color);
         trackNumberPanel.setBackground(color);
+        dataPanel.setBackground(color);
     }
 
     private String trackDuration(long millis) {
@@ -99,7 +103,9 @@ public class TrackPanel extends javax.swing.JPanel {
         trackNumberPanel = new javax.swing.JPanel();
         trackNumberLabel = new javax.swing.JLabel();
         trackNumberValue = new javax.swing.JLabel();
+        replay = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(24, 24, 24));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);
@@ -108,8 +114,13 @@ public class TrackPanel extends javax.swing.JPanel {
 
         imageIcon.setText("Image");
 
+        dataPanel.setBackground(new java.awt.Color(24, 24, 24));
         dataPanel.setLayout(new java.awt.GridBagLayout());
 
+        namePanel.setBackground(new java.awt.Color(24, 24, 24));
+        namePanel.setForeground(new java.awt.Color(255, 255, 255));
+
+        nameValue.setForeground(new java.awt.Color(255, 255, 255));
         nameValue.setText("Titulo");
 
         javax.swing.GroupLayout namePanelLayout = new javax.swing.GroupLayout(namePanel);
@@ -129,8 +140,13 @@ public class TrackPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         dataPanel.add(namePanel, gridBagConstraints);
 
+        artistPanel.setBackground(new java.awt.Color(24, 24, 24));
+        artistPanel.setForeground(new java.awt.Color(255, 255, 255));
+
+        artistLabel.setForeground(new java.awt.Color(255, 255, 255));
         artistLabel.setText("Artista:");
 
+        artistValue.setForeground(new java.awt.Color(255, 255, 255));
         artistValue.setText("blink-182");
         artistValue.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
@@ -156,8 +172,13 @@ public class TrackPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         dataPanel.add(artistPanel, gridBagConstraints);
 
+        albumPanel.setBackground(new java.awt.Color(24, 24, 24));
+        albumPanel.setForeground(new java.awt.Color(255, 255, 255));
+
+        albumLabel.setForeground(new java.awt.Color(255, 255, 255));
         albumLabel.setText("Album:");
 
+        albumValue.setForeground(new java.awt.Color(255, 255, 255));
         albumValue.setText("blink-182");
         albumValue.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
@@ -183,8 +204,13 @@ public class TrackPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         dataPanel.add(albumPanel, gridBagConstraints);
 
+        durationPanel.setBackground(new java.awt.Color(24, 24, 24));
+        durationPanel.setForeground(new java.awt.Color(255, 255, 255));
+
+        durationLabel.setForeground(new java.awt.Color(255, 255, 255));
         durationLabel.setText("Duración:");
 
+        durationValue.setForeground(new java.awt.Color(255, 255, 255));
         durationValue.setText("02:52");
 
         javax.swing.GroupLayout durationPanelLayout = new javax.swing.GroupLayout(durationPanel);
@@ -209,6 +235,10 @@ public class TrackPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         dataPanel.add(durationPanel, gridBagConstraints);
 
+        explicitPanel.setBackground(new java.awt.Color(24, 24, 24));
+        explicitPanel.setForeground(new java.awt.Color(255, 255, 255));
+
+        explicitValue.setForeground(new java.awt.Color(255, 255, 255));
         explicitValue.setText("EXPLÍCITO");
 
         javax.swing.GroupLayout explicitPanelLayout = new javax.swing.GroupLayout(explicitPanel);
@@ -228,8 +258,13 @@ public class TrackPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         dataPanel.add(explicitPanel, gridBagConstraints);
 
+        popularityPanel.setBackground(new java.awt.Color(24, 24, 24));
+        popularityPanel.setForeground(new java.awt.Color(255, 255, 255));
+
+        popularityLabel.setForeground(new java.awt.Color(255, 255, 255));
         popularityLabel.setText("Popularidad:");
 
+        popularityValue.setForeground(new java.awt.Color(255, 255, 255));
         popularityValue.setText("62");
 
         javax.swing.GroupLayout popularityPanelLayout = new javax.swing.GroupLayout(popularityPanel);
@@ -254,8 +289,13 @@ public class TrackPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         dataPanel.add(popularityPanel, gridBagConstraints);
 
+        trackNumberPanel.setBackground(new java.awt.Color(24, 24, 24));
+        trackNumberPanel.setForeground(new java.awt.Color(255, 255, 255));
+
+        trackNumberLabel.setForeground(new java.awt.Color(255, 255, 255));
         trackNumberLabel.setText("Número de canción:");
 
+        trackNumberValue.setForeground(new java.awt.Color(255, 255, 255));
         trackNumberValue.setText("1");
 
         javax.swing.GroupLayout trackNumberPanelLayout = new javax.swing.GroupLayout(trackNumberPanel);
@@ -280,6 +320,21 @@ public class TrackPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         dataPanel.add(trackNumberPanel, gridBagConstraints);
 
+        replay.setBackground(new java.awt.Color(24, 24, 24));
+        replay.setForeground(new java.awt.Color(255, 255, 255));
+        replay.setText("Reproducir");
+        replay.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        replay.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                replayMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        dataPanel.add(replay, gridBagConstraints);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -292,20 +347,22 @@ public class TrackPanel extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(imageIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(dataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(imageIcon, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+            .addComponent(dataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        setBackgroundToPanels(new Color(207, 216, 220));
+        setBackgroundToPanels(SELECTED_ITEM);
+        setCurrentTrackPanel(this);
+    }//GEN-LAST:event_formMouseClicked
+
+    private void replayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_replayMouseClicked
+        setBackgroundToPanels(SELECTED_ITEM);
         setCurrentTrackPanel(this);
         GetTrack getTrack = new GetTrack(this.track.getId());
         getTrack.thread.start();
-    }//GEN-LAST:event_formMouseClicked
+    }//GEN-LAST:event_replayMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel albumLabel;
@@ -326,6 +383,7 @@ public class TrackPanel extends javax.swing.JPanel {
     private javax.swing.JLabel popularityLabel;
     private javax.swing.JPanel popularityPanel;
     private javax.swing.JLabel popularityValue;
+    private javax.swing.JLabel replay;
     private javax.swing.JLabel trackNumberLabel;
     private javax.swing.JPanel trackNumberPanel;
     private javax.swing.JLabel trackNumberValue;

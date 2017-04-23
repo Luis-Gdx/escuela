@@ -16,12 +16,12 @@ import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
-import myspotify.Search;
-import static myspotify.Search.flag;
-import static myspotify.Search.jSlider1;
-import static myspotify.Search.pausedOnFrame;
-import static myspotify.Search.player;
-import static myspotify.Search.songUrl;
+import app.Search;
+import static app.Search.flag;
+import static app.Search.jSlider1;
+import static app.Search.pausedOnFrame;
+import static app.Search.player;
+import static app.Search.songUrl;
 
 /**
  *

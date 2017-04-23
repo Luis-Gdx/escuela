@@ -5,6 +5,8 @@
  */
 package panels;
 
+import static config.Config.BACKGROUND;
+
 /**
  *
  * @author Luis G
@@ -16,6 +18,8 @@ public class Loader extends javax.swing.JPanel {
      */
     public Loader() {
         initComponents();
+        this.setBackground(BACKGROUND);
+        this.jLabel1.setBackground(BACKGROUND);
     }
 
     /**
@@ -30,21 +34,25 @@ public class Loader extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(50, 50, 50));
+        setPreferredSize(new java.awt.Dimension(968, 400));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/spoty-packman.gif"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/loading.gif"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 830, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(384, 384, 384)
+                .addComponent(jLabel1)
+                .addContainerGap(384, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(56, 56, 56)
+                .addGap(100, 100, 100)
                 .addComponent(jLabel1)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
