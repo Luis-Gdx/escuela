@@ -29,15 +29,15 @@ public class GetTrack implements Runnable {
     public Thread thread;
     private final Spotify SPOTIFY;
     private final int SIZE;
-    private Track track;
     private String req;
+    private Track track;
 
     public GetTrack(String req) {
         thread = new Thread(this, "Get track");
         SPOTIFY = new Spotify();
         SIZE = 75;
-        track = new Track();
         this.req = req;
+        track = new Track();
     }
 
     @Override
