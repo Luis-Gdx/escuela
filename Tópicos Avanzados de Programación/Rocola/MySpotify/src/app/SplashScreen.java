@@ -39,6 +39,7 @@ public class SplashScreen extends javax.swing.JFrame implements Runnable {
             Logger.getLogger(SplashScreen.class.getName()).log(Level.SEVERE, null, ex);
 
         }
+        new SpotifyIntro().setVisible(true);
         dispose();
     }
 

@@ -9,6 +9,7 @@ import static app.Search.artistReproductor;
 import static app.Search.flag;
 import static app.Search.i;
 import static app.Search.img;
+import static app.Search.isMusic;
 import static app.Search.jSlider1;
 import static app.Search.nameReproductor;
 import static app.Search.pausedOnFrame;
@@ -38,11 +39,11 @@ public class GetTrack implements Runnable {
         SIZE = 75;
         this.req = req;
         track = new Track();
+        isMusic = true;
     }
 
     @Override
     public void run() {
-        System.out.println(":v");
         SPOTIFY.get(this.req, "track");
         track.setAlbum(SPOTIFY.getAlbum(SIZE));
         track.setArtist(SPOTIFY.getArtist());

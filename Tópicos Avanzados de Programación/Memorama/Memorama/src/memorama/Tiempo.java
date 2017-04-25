@@ -5,8 +5,10 @@
  */
 package memorama;
 
+import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static memorama.Memorama.gameOver;
 import static memorama.Memorama.tiempo;
@@ -17,7 +19,15 @@ import static memorama.Memorama.tiempo;
  */
 public class Tiempo implements Runnable {
 
+    JFrame frame;
+
     Thread thread;
+    Connector conn = new Connector() {
+        @Override
+        public void then(ResultSet rs) {
+
+        }
+    };
 
     public Tiempo() {
         thread = new Thread(this);
@@ -33,7 +43,18 @@ public class Tiempo implements Runnable {
                 Logger.getLogger(Tiempo.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        JOptionPane.showMessageDialog(null, "Has ganado :v", "ganaste", 1);
+        String nombre = JOptionPane.showInputDialog(null, "Has terminado con un tiempo de " + tiempo.getText() + " segundos, Ingresa tu nombre para registrar tu puntuación :v", "ganaste", 1);
+        conn.executeQuery("INSERT INTO puntuaciones (nombre, tiempo) VALUES ('" + nombre + "', " + Integer.parseInt(tiempo.getText()) + ")");
+        new MainMenu().setVisible(true);
+        getFrame().dispose();
+    }
+
+    public JFrame getFrame() {
+        return frame;
+    }
+
+    public void setFrame(JFrame frame) {
+        this.frame = frame;
     }
 
 }

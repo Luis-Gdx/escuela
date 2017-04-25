@@ -5,9 +5,12 @@
  */
 package panels;
 
+import static app.Search.dataList;
+import static app.Search.jScrollPane2;
 import static config.Config.SELECTED_ITEM;
 import static global.ItemsController.setCurrentArtistPanel;
 import java.awt.Color;
+import spotifyapiconsole.album.GetAlbum;
 import spotifyapiconsole.search.objects.Artist;
 
 /**
@@ -87,6 +90,11 @@ public class ArtistPanel extends javax.swing.JPanel {
         nameValue.setForeground(new java.awt.Color(255, 255, 255));
         nameValue.setText("Nombre");
         nameValue.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        nameValue.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nameValueMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout namePanelLayout = new javax.swing.GroupLayout(namePanel);
         namePanel.setLayout(namePanelLayout);
@@ -197,6 +205,19 @@ public class ArtistPanel extends javax.swing.JPanel {
         setBackgroundToPanels(SELECTED_ITEM);
         setCurrentArtistPanel(this);
     }//GEN-LAST:event_formMouseClicked
+
+    private void nameValueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameValueMouseClicked
+        if (dataList.getComponentCount() > 0) {
+            dataList.removeAll();
+            //jScrollPane2.setViewportView(dataList);
+        }
+        jScrollPane2.getVerticalScrollBar().setValue(jScrollPane2.getVerticalScrollBar().getMinimum());
+        jScrollPane2.getHorizontalScrollBar().setValue(jScrollPane2.getHorizontalScrollBar().getMinimum());
+        jScrollPane2.setViewportView(new Loader());
+        setBackgroundToPanels(SELECTED_ITEM);
+        setCurrentArtistPanel(this);
+        new GetAlbum(this.artist.getId()).thread.start();
+    }//GEN-LAST:event_nameValueMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel dataPanel;

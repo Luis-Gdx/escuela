@@ -7,6 +7,9 @@ package app;
 
 import static config.Config.BACKGROUND;
 import static config.Config.BACKGROUND_REPRODUCTOR;
+import java.util.Stack;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import panels.Loader;
 import reproductor.Music;
@@ -33,6 +36,8 @@ public class Search extends javax.swing.JFrame {
     public static int i;
     public static String songUrl = "";
     public static Progress progress;
+    public static Stack<JPanel> history = new Stack();
+    public static boolean isMusic = false;
 
     public Search() {
         initComponents();
@@ -48,6 +53,7 @@ public class Search extends javax.swing.JFrame {
         progress = new Progress();
         isPaused = false;
         pack();
+        history.push(dataList);
         //this.jScrollPane2.setVisible(false);
     }
 
@@ -77,6 +83,9 @@ public class Search extends javax.swing.JFrame {
         img = new javax.swing.JLabel();
         nameReproductor = new javax.swing.JLabel();
         artistReproductor = new javax.swing.JLabel();
+        cantidadActual = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -233,10 +242,26 @@ public class Search extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        cantidadActual.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        cantidadActual.setForeground(new java.awt.Color(255, 255, 255));
+        cantidadActual.setText("0");
+
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("$");
+
+        jButton5.setText("Añadir dinero :v");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(reproductorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,20 +276,28 @@ public class Search extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cantidadActual, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton5))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(reproductorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addContainerGap()
+                .addComponent(jButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cantidadActual, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1))
@@ -307,67 +340,104 @@ public class Search extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (!progress.thread.isAlive()) {
-            progress = new Progress();
-            progress.thread.start();
+        if (isMusic) {
+            try {
+                if (!progress.thread.isAlive()) {
+                    progress = new Progress();
+                    progress.thread.start();
+                }
+                if (flag) {
+                    this.player.stop();
+                } else {
+                    flag = false;
+                }
+                jSlider1.setValue(0);
+                pausedOnFrame = jSlider1.getValue();
+                i = pausedOnFrame;
+                jLabel1.setText("0:00 / 0:30");
+                new Music().thread.start();
+            } catch (Exception e) {
+            }
         }
-        if (flag) {
-            this.player.stop();
-        } else {
-            flag = false;
-        }
-        jSlider1.setValue(0);
-        pausedOnFrame = jSlider1.getValue();
-        i = pausedOnFrame;
-        jLabel1.setText("0:00 / 0:30");
-        new Music().thread.start();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        jSlider1.setValue(0);
-        pausedOnFrame = jSlider1.getValue();
-        jLabel1.setText("0:00 / 0:30");
-        i = pausedOnFrame;
-        if (flag) {
-            player.stop();
-        } else {
-            flag = false;
+        if (isMusic) {
+            try {
+                jSlider1.setValue(0);
+                pausedOnFrame = jSlider1.getValue();
+                jLabel1.setText("0:00 / 0:30");
+                i = pausedOnFrame;
+                if (flag) {
+                    player.stop();
+                } else {
+                    flag = false;
+                }
+            } catch (Exception e) {
+            }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        if (!progress.thread.isAlive()) {
-            progress = new Progress();
-            progress.thread.start();
-        }
-        if (flag) {
-            this.player.stop();
-        } else {
-            new Music().thread.start();
+        if (isMusic) {
+            try {
+                if (!progress.thread.isAlive()) {
+                    progress = new Progress();
+                    progress.thread.start();
+                }
+                if (flag) {
+                    this.player.stop();
+                } else {
+                    new Music().thread.start();
+                }
+            } catch (Exception e) {
+            }
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jSlider1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSlider1MouseDragged
-        if (flag) {
-            player.stop();
+        if (isMusic) {
+            try {
+                if (flag) {
+                    player.stop();
+                }
+            } catch (Exception e) {
+            }
         }
     }//GEN-LAST:event_jSlider1MouseDragged
 
     private void jSlider1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSlider1MousePressed
-        if (flag) {
-            player.stop();
+        if (isMusic) {
+            try {
+                if (flag) {
+                    player.stop();
+                }
+            } catch (Exception e) {
+            }
         }
     }//GEN-LAST:event_jSlider1MousePressed
 
     private void jSlider1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSlider1MouseReleased
-        pausedOnFrame = jSlider1.getValue();
-        i = pausedOnFrame;
-        if (!progress.thread.isAlive()) {
-            progress = new Progress();
-            progress.thread.start();
+        if (isMusic) {
+            try {
+                pausedOnFrame = jSlider1.getValue();
+                i = pausedOnFrame;
+                if (!progress.thread.isAlive()) {
+                    progress = new Progress();
+                    progress.thread.start();
+                }
+                new Music().thread.start();
+            } catch (Exception e) {
+            }
         }
-        new Music().thread.start();
     }//GEN-LAST:event_jSlider1MouseReleased
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        Object[] cantidades = {"$1", "$2", "$5", "$10", "$20", "$50", "$100", "$200"};
+        String cantidad = (String) JOptionPane.showInputDialog(null, "Añada la cantidad de dinero deseada :v", "Añadir dinero xd", 1, null, cantidades, cantidades[3]);
+        cantidad = cantidad.replace("$", "");
+        cantidadActual.setText((Integer.parseInt(cantidadActual.getText()) + Integer.parseInt(cantidad)) + "");
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void submit() {
         if (dataList.getComponentCount() > 0) {
@@ -450,14 +520,17 @@ public class Search extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JLabel artistReproductor;
+    public static javax.swing.JLabel cantidadActual;
     public static javax.swing.JPanel dataList;
     public static javax.swing.JLabel img;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
     public static javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     public static javax.swing.JSlider jSlider1;

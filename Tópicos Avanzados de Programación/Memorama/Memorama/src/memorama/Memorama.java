@@ -25,21 +25,54 @@ public class Memorama extends javax.swing.JFrame {
     private Random random = new Random();
     private JButton yugioh1 = null, yugioh2 = null;
     private boolean isPar;
-    private ImageIcon defaultIcon = new ImageIcon(getClass().getResource("/img/Twitter.png"));
+    private ImageIcon defaultIcon = new ImageIcon(getClass().getResource("/images/Twitter.png"));
     public static boolean gameOver = false;
 
-    private Memorama() {
+    public Memorama() {
         initComponents();
-        String path = "file:/C:/Users/lg269/OneDrive/Documentos/NetBeansProjects/escuela/T%c3%b3picos%20Avanzados%20de%20Programaci%c3%b3n/Memorama/Memorama/build/classes/img/1.png";
-        System.out.println(path.length());
-        System.out.println(path.substring(152));
-        setDefaultImage();
+        this.setLocationRelativeTo(null);
+        gameOver = false;
         setImage();
-        new Tiempo().thread.start();
+        Tiempo tiempo = new Tiempo();
+        tiempo.thread.start();
         botones.add(jButton1);
         botones.add(jButton2);
         botones.add(jButton3);
         botones.add(jButton4);
+        botones.add(jButton5);
+        botones.add(jButton6);
+        botones.add(jButton7);
+        botones.add(jButton8);
+        botones.add(jButton9);
+        botones.add(jButton10);
+        botones.add(jButton11);
+        botones.add(jButton12);
+        botones.add(jButton13);
+        botones.add(jButton14);
+        botones.add(jButton15);
+        botones.add(jButton16);
+        botones.add(jButton17);
+        botones.add(jButton18);
+        botones.add(jButton19);
+        botones.add(jButton20);
+        botones.add(jButton21);
+        botones.add(jButton22);
+        botones.add(jButton23);
+        botones.add(jButton24);
+        botones.add(jButton25);
+        botones.add(jButton26);
+        botones.add(jButton27);
+        botones.add(jButton28);
+        botones.add(jButton29);
+        botones.add(jButton30);
+        botones.add(jButton31);
+        botones.add(jButton32);
+        botones.add(jButton33);
+        botones.add(jButton34);
+        botones.add(jButton35);
+        botones.add(jButton36);
+        setDefaultImage();
+        tiempo.setFrame(this);
     }
 
     private void isEquals() {
@@ -48,7 +81,6 @@ public class Memorama extends javax.swing.JFrame {
             yugioh2.setIcon(defaultIcon);
             yugioh2 = null;
         }
-        gameOver();
     }
 
     private void gameOver() {
@@ -78,25 +110,26 @@ public class Memorama extends javax.swing.JFrame {
                 isPar = false;
             } else {
                 isPar = true;
+                gameOver();
             }
             faceUp = false;
         }
     }
 
     private void setDefaultImage() {
-        jButton1.setIcon(new ImageIcon(getClass().getResource("/img/Twitter.png")));
-        jButton2.setIcon(new ImageIcon(getClass().getResource("/img/Twitter.png")));
-        jButton3.setIcon(new ImageIcon(getClass().getResource("/img/Twitter.png")));
-        jButton4.setIcon(new ImageIcon(getClass().getResource("/img/Twitter.png")));
+        for (JButton boton : botones) {
+            boton.setIcon(new ImageIcon(getClass().getResource("/images/Twitter.png")));
+
+        }
     }
 
     private void setImage() {
-        int[] numeros = new int[6];
+        int[] numeros = new int[40];
         int count = 0;
-        while (count < 4) {
-            int na = random.nextInt(2) + 1;
+        while (count < 36) {
+            int na = random.nextInt(18) + 1;
             int nvr = 0;
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 36; i++) {
                 if (numeros[i] == na) {
                     nvr++;
                 }
@@ -106,8 +139,8 @@ public class Memorama extends javax.swing.JFrame {
                 count++;
             }
         }
-        for (int i = 0; i < 4; i++) {
-            icons.add(new ImageIcon(getClass().getResource("/img/" + numeros[i] + ".png")));
+        for (int i = 0; i < 36; i++) {
+            icons.add(new ImageIcon(getClass().getResource("/images/" + numeros[i] + ".png")));
         }
     }
 
@@ -125,13 +158,45 @@ public class Memorama extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
+        jButton14 = new javax.swing.JButton();
+        jButton15 = new javax.swing.JButton();
+        jButton16 = new javax.swing.JButton();
+        jButton17 = new javax.swing.JButton();
+        jButton18 = new javax.swing.JButton();
+        jButton19 = new javax.swing.JButton();
+        jButton20 = new javax.swing.JButton();
+        jButton21 = new javax.swing.JButton();
+        jButton22 = new javax.swing.JButton();
+        jButton23 = new javax.swing.JButton();
+        jButton24 = new javax.swing.JButton();
+        jButton25 = new javax.swing.JButton();
+        jButton26 = new javax.swing.JButton();
+        jButton27 = new javax.swing.JButton();
+        jButton28 = new javax.swing.JButton();
+        jButton29 = new javax.swing.JButton();
+        jButton30 = new javax.swing.JButton();
+        jButton31 = new javax.swing.JButton();
+        jButton32 = new javax.swing.JButton();
+        jButton33 = new javax.swing.JButton();
+        jButton34 = new javax.swing.JButton();
+        jButton35 = new javax.swing.JButton();
+        jButton36 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tiempo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setLayout(new java.awt.GridLayout(2, 2));
+        jPanel1.setLayout(new java.awt.GridLayout(6, 6));
 
         jButton3.setBorder(null);
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -185,42 +250,461 @@ public class Memorama extends javax.swing.JFrame {
         });
         jPanel1.add(jButton4);
 
+        jButton5.setBorder(null);
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton5MouseExited(evt);
+            }
+        });
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton5);
+
+        jButton6.setBorder(null);
+        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton6MouseExited(evt);
+            }
+        });
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton6);
+
+        jButton7.setBorder(null);
+        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton7MouseExited(evt);
+            }
+        });
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton7);
+
+        jButton8.setBorder(null);
+        jButton8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton8MouseExited(evt);
+            }
+        });
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton8);
+
+        jButton9.setBorder(null);
+        jButton9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton9MouseExited(evt);
+            }
+        });
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton9);
+
+        jButton10.setBorder(null);
+        jButton10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton10MouseExited(evt);
+            }
+        });
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton10);
+
+        jButton11.setBorder(null);
+        jButton11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton11MouseExited(evt);
+            }
+        });
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton11);
+
+        jButton12.setBorder(null);
+        jButton12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton12MouseExited(evt);
+            }
+        });
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton12);
+
+        jButton13.setBorder(null);
+        jButton13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton13MouseExited(evt);
+            }
+        });
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton13);
+
+        jButton14.setBorder(null);
+        jButton14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton14MouseExited(evt);
+            }
+        });
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton14);
+
+        jButton15.setBorder(null);
+        jButton15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton15MouseExited(evt);
+            }
+        });
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton15);
+
+        jButton16.setBorder(null);
+        jButton16.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton16MouseExited(evt);
+            }
+        });
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton16);
+
+        jButton17.setBorder(null);
+        jButton17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton17MouseExited(evt);
+            }
+        });
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton17);
+
+        jButton18.setBorder(null);
+        jButton18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton18MouseExited(evt);
+            }
+        });
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton18);
+
+        jButton19.setBorder(null);
+        jButton19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton19MouseExited(evt);
+            }
+        });
+        jButton19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton19ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton19);
+
+        jButton20.setBorder(null);
+        jButton20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton20MouseExited(evt);
+            }
+        });
+        jButton20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton20ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton20);
+
+        jButton21.setBorder(null);
+        jButton21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton21MouseExited(evt);
+            }
+        });
+        jButton21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton21ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton21);
+
+        jButton22.setBorder(null);
+        jButton22.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton22MouseExited(evt);
+            }
+        });
+        jButton22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton22ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton22);
+
+        jButton23.setBorder(null);
+        jButton23.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton23MouseExited(evt);
+            }
+        });
+        jButton23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton23ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton23);
+
+        jButton24.setBorder(null);
+        jButton24.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton24MouseExited(evt);
+            }
+        });
+        jButton24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton24ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton24);
+
+        jButton25.setBorder(null);
+        jButton25.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton25MouseExited(evt);
+            }
+        });
+        jButton25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton25ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton25);
+
+        jButton26.setBorder(null);
+        jButton26.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton26MouseExited(evt);
+            }
+        });
+        jButton26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton26ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton26);
+
+        jButton27.setBorder(null);
+        jButton27.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton27MouseExited(evt);
+            }
+        });
+        jButton27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton27ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton27);
+
+        jButton28.setBorder(null);
+        jButton28.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton28MouseExited(evt);
+            }
+        });
+        jButton28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton28ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton28);
+
+        jButton29.setBorder(null);
+        jButton29.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton29MouseExited(evt);
+            }
+        });
+        jButton29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton29ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton29);
+
+        jButton30.setBorder(null);
+        jButton30.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton30MouseExited(evt);
+            }
+        });
+        jButton30.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton30ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton30);
+
+        jButton31.setBorder(null);
+        jButton31.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton31MouseExited(evt);
+            }
+        });
+        jButton31.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton31ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton31);
+
+        jButton32.setBorder(null);
+        jButton32.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton32MouseExited(evt);
+            }
+        });
+        jButton32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton32ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton32);
+
+        jButton33.setBorder(null);
+        jButton33.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton33MouseExited(evt);
+            }
+        });
+        jButton33.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton33ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton33);
+
+        jButton34.setBorder(null);
+        jButton34.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton34MouseExited(evt);
+            }
+        });
+        jButton34.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton34ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton34);
+
+        jButton35.setBorder(null);
+        jButton35.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton35MouseExited(evt);
+            }
+        });
+        jButton35.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton35ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton35);
+
+        jButton36.setBorder(null);
+        jButton36.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton36MouseExited(evt);
+            }
+        });
+        jButton36.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton36ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton36);
+
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel1.setText("Tiempo:");
+
+        tiempo.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(280, 280, 280)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(327, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(tiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 768, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 768, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -262,6 +746,294 @@ public class Memorama extends javax.swing.JFrame {
         isEquals();
     }//GEN-LAST:event_jButton4MouseExited
 
+    private void jButton5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton5MouseExited
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        jButton5.setIcon(icons.get(4));
+        btnEnabled(jButton5);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6MouseExited
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        jButton6.setIcon(icons.get(5));
+        btnEnabled(jButton6);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton7MouseExited
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        jButton7.setIcon(icons.get(6));
+        btnEnabled(jButton7);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton8MouseExited
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        jButton8.setIcon(icons.get(7));
+        btnEnabled(jButton8);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton9MouseExited
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        jButton9.setIcon(icons.get(8));
+        btnEnabled(jButton9);
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton10MouseExited
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        jButton10.setIcon(icons.get(9));
+        btnEnabled(jButton10);
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton11MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton11MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton11MouseExited
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        jButton11.setIcon(icons.get(10));
+        btnEnabled(jButton11);
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton12MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton12MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton12MouseExited
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        jButton12.setIcon(icons.get(11));
+        btnEnabled(jButton12);
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton13MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton13MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton13MouseExited
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        jButton13.setIcon(icons.get(12));
+        btnEnabled(jButton13);
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton14MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton14MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton14MouseExited
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        jButton14.setIcon(icons.get(13));
+        btnEnabled(jButton14);
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton15MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton15MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton15MouseExited
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        jButton15.setIcon(icons.get(14));
+        btnEnabled(jButton15);
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton16MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton16MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton16MouseExited
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        jButton16.setIcon(icons.get(15));
+        btnEnabled(jButton16);
+    }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton17MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton17MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton17MouseExited
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        jButton17.setIcon(icons.get(16));
+        btnEnabled(jButton17);
+    }//GEN-LAST:event_jButton17ActionPerformed
+
+    private void jButton18MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton18MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton18MouseExited
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        jButton18.setIcon(icons.get(17));
+        btnEnabled(jButton18);
+    }//GEN-LAST:event_jButton18ActionPerformed
+
+    private void jButton19MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton19MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton19MouseExited
+
+    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
+        jButton19.setIcon(icons.get(18));
+        btnEnabled(jButton19);
+    }//GEN-LAST:event_jButton19ActionPerformed
+
+    private void jButton20MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton20MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton20MouseExited
+
+    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
+        jButton20.setIcon(icons.get(19));
+        btnEnabled(jButton20);
+    }//GEN-LAST:event_jButton20ActionPerformed
+
+    private void jButton21MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton21MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton21MouseExited
+
+    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
+        jButton21.setIcon(icons.get(20));
+        btnEnabled(jButton21);
+    }//GEN-LAST:event_jButton21ActionPerformed
+
+    private void jButton22MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton22MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton22MouseExited
+
+    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
+        jButton22.setIcon(icons.get(21));
+        btnEnabled(jButton22);
+    }//GEN-LAST:event_jButton22ActionPerformed
+
+    private void jButton23MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton23MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton23MouseExited
+
+    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
+        jButton23.setIcon(icons.get(22));
+        btnEnabled(jButton23);
+    }//GEN-LAST:event_jButton23ActionPerformed
+
+    private void jButton24MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton24MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton24MouseExited
+
+    private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
+        jButton24.setIcon(icons.get(23));
+        btnEnabled(jButton24);
+    }//GEN-LAST:event_jButton24ActionPerformed
+
+    private void jButton25MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton25MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton25MouseExited
+
+    private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
+        jButton25.setIcon(icons.get(24));
+        btnEnabled(jButton25);
+    }//GEN-LAST:event_jButton25ActionPerformed
+
+    private void jButton26MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton26MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton26MouseExited
+
+    private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
+        jButton26.setIcon(icons.get(25));
+        btnEnabled(jButton26);
+    }//GEN-LAST:event_jButton26ActionPerformed
+
+    private void jButton27MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton27MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton27MouseExited
+
+    private void jButton27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton27ActionPerformed
+        jButton27.setIcon(icons.get(26));
+        btnEnabled(jButton27);
+    }//GEN-LAST:event_jButton27ActionPerformed
+
+    private void jButton28MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton28MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton28MouseExited
+
+    private void jButton28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton28ActionPerformed
+        jButton28.setIcon(icons.get(27));
+        btnEnabled(jButton28);
+    }//GEN-LAST:event_jButton28ActionPerformed
+
+    private void jButton29MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton29MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton29MouseExited
+
+    private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
+        jButton29.setIcon(icons.get(28));
+        btnEnabled(jButton29);
+    }//GEN-LAST:event_jButton29ActionPerformed
+
+    private void jButton30MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton30MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton30MouseExited
+
+    private void jButton30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton30ActionPerformed
+        jButton30.setIcon(icons.get(29));
+        btnEnabled(jButton30);
+    }//GEN-LAST:event_jButton30ActionPerformed
+
+    private void jButton31MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton31MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton31MouseExited
+
+    private void jButton31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton31ActionPerformed
+        jButton31.setIcon(icons.get(30));
+        btnEnabled(jButton31);
+    }//GEN-LAST:event_jButton31ActionPerformed
+
+    private void jButton32MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton32MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton32MouseExited
+
+    private void jButton32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton32ActionPerformed
+        jButton32.setIcon(icons.get(31));
+        btnEnabled(jButton32);
+    }//GEN-LAST:event_jButton32ActionPerformed
+
+    private void jButton33MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton33MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton33MouseExited
+
+    private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
+        jButton33.setIcon(icons.get(32));
+        btnEnabled(jButton33);
+    }//GEN-LAST:event_jButton33ActionPerformed
+
+    private void jButton34MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton34MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton34MouseExited
+
+    private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
+        jButton34.setIcon(icons.get(33));
+        btnEnabled(jButton34);
+    }//GEN-LAST:event_jButton34ActionPerformed
+
+    private void jButton35MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton35MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton35MouseExited
+
+    private void jButton35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton35ActionPerformed
+        jButton35.setIcon(icons.get(34));
+        btnEnabled(jButton35);
+    }//GEN-LAST:event_jButton35ActionPerformed
+
+    private void jButton36MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton36MouseExited
+        isEquals();
+    }//GEN-LAST:event_jButton36MouseExited
+
+    private void jButton36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton36ActionPerformed
+        jButton36.setIcon(icons.get(35));
+        btnEnabled(jButton36);
+    }//GEN-LAST:event_jButton36ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -299,9 +1071,41 @@ public class Memorama extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
+    private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton20;
+    private javax.swing.JButton jButton21;
+    private javax.swing.JButton jButton22;
+    private javax.swing.JButton jButton23;
+    private javax.swing.JButton jButton24;
+    private javax.swing.JButton jButton25;
+    private javax.swing.JButton jButton26;
+    private javax.swing.JButton jButton27;
+    private javax.swing.JButton jButton28;
+    private javax.swing.JButton jButton29;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton30;
+    private javax.swing.JButton jButton31;
+    private javax.swing.JButton jButton32;
+    private javax.swing.JButton jButton33;
+    private javax.swing.JButton jButton34;
+    private javax.swing.JButton jButton35;
+    private javax.swing.JButton jButton36;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

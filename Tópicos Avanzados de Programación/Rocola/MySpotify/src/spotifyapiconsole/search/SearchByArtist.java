@@ -6,6 +6,7 @@
 package spotifyapiconsole.search;
 
 import static app.Search.dataList;
+import static app.Search.history;
 import static app.Search.jScrollPane2;
 import static app.Search.search;
 import panels.ArtistPanel;
@@ -46,6 +47,7 @@ public class SearchByArtist implements Runnable {
             dataList.add(new ArtistPanel(artist));
         }
         if (dataList.getComponentCount() > 0) {
+            history.push(dataList);
             jScrollPane2.setViewportView(dataList);
         } else {
             jScrollPane2.setViewportView(new NotFound("ningun artista"));

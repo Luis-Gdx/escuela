@@ -5,13 +5,19 @@
  */
 package panels;
 
+import static app.Search.cantidadActual;
+import static app.Search.dataList;
+import static app.Search.jScrollPane2;
 import static config.Config.BACKGROUND;
 import static config.Config.SELECTED_ITEM;
 import static global.ItemsController.setCurrentTrackPanel;
 import java.awt.Color;
 import java.util.concurrent.TimeUnit;
+import javax.swing.JOptionPane;
+import spotifyapiconsole.album.GetAlbum;
 import spotifyapiconsole.search.objects.Track;
 import spotifyapiconsole.track.GetTrack;
+import spotifyapiconsole.track.GetTracks;
 
 /**
  *
@@ -149,6 +155,11 @@ public class TrackPanel extends javax.swing.JPanel {
         artistValue.setForeground(new java.awt.Color(255, 255, 255));
         artistValue.setText("blink-182");
         artistValue.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        artistValue.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                artistValueMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout artistPanelLayout = new javax.swing.GroupLayout(artistPanel);
         artistPanel.setLayout(artistPanelLayout);
@@ -181,6 +192,11 @@ public class TrackPanel extends javax.swing.JPanel {
         albumValue.setForeground(new java.awt.Color(255, 255, 255));
         albumValue.setText("blink-182");
         albumValue.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        albumValue.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                albumValueMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout albumPanelLayout = new javax.swing.GroupLayout(albumPanel);
         albumPanel.setLayout(albumPanelLayout);
@@ -358,11 +374,42 @@ public class TrackPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_formMouseClicked
 
     private void replayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_replayMouseClicked
+        if (Integer.parseInt(cantidadActual.getText()) >= 5) {
+            cantidadActual.setText((Integer.parseInt(cantidadActual.getText()) - 5) + "");
+            setBackgroundToPanels(SELECTED_ITEM);
+            setCurrentTrackPanel(this);
+            GetTrack getTrack = new GetTrack(this.track.getId());
+            getTrack.thread.start();
+        } else {
+            JOptionPane.showMessageDialog(null, "Dinero insuficiente, la cancion esta de a $5 :v", "Sin dinero xd", 0);
+        }
+    }//GEN-LAST:event_replayMouseClicked
+
+    private void albumValueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_albumValueMouseClicked
+        if (dataList.getComponentCount() > 0) {
+            dataList.removeAll();
+            //jScrollPane2.setViewportView(dataList);
+        }
+        jScrollPane2.getVerticalScrollBar().setValue(jScrollPane2.getVerticalScrollBar().getMinimum());
+        jScrollPane2.getHorizontalScrollBar().setValue(jScrollPane2.getHorizontalScrollBar().getMinimum());
+        jScrollPane2.setViewportView(new Loader());
         setBackgroundToPanels(SELECTED_ITEM);
         setCurrentTrackPanel(this);
-        GetTrack getTrack = new GetTrack(this.track.getId());
-        getTrack.thread.start();
-    }//GEN-LAST:event_replayMouseClicked
+        new GetTracks(this.track.getAlbum().getId()).thread.start();
+    }//GEN-LAST:event_albumValueMouseClicked
+
+    private void artistValueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_artistValueMouseClicked
+        if (dataList.getComponentCount() > 0) {
+            dataList.removeAll();
+        }
+        jScrollPane2.getVerticalScrollBar().setValue(jScrollPane2.getVerticalScrollBar().getMinimum());
+        jScrollPane2.getHorizontalScrollBar().setValue(jScrollPane2.getHorizontalScrollBar().getMinimum());
+        jScrollPane2.setViewportView(new Loader());
+        setBackgroundToPanels(SELECTED_ITEM);
+        setCurrentTrackPanel(this);
+        System.out.println(this.track.getArtists().get(0).getId());
+        new GetAlbum(this.track.getArtists().get(0).getId()).thread.start();
+    }//GEN-LAST:event_artistValueMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel albumLabel;
