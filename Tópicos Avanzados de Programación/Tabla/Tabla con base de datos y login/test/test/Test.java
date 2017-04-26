@@ -18,8 +18,9 @@ public class Test {
         // no = 1
         //posponer = 2
         // x = -1
-        Object[] botones = {"Si", "No", "Posponer :v"};
-        System.out.println(JOptionPane.showOptionDialog(null, "Hola xd", "Mensaje", 0, 0, null, botones, botones[0]));
+        /*Object[] botones = {"Si", "No", "Posponer :v"};
+        System.out.println(JOptionPane.showOptionDialog(null, "Hola xd", "Mensaje", 0, 0, null, botones, botones[0]));*/
+        System.out.println(JOptionPane.showConfirmDialog(null, ":b"));
     }
 
 }
