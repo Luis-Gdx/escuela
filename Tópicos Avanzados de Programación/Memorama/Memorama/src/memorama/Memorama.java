@@ -77,6 +77,8 @@ public class Memorama extends javax.swing.JFrame {
 
     private void isEquals() {
         if (!isPar && yugioh2 != null && yugioh1 != null) {
+            yugioh1.setEnabled(true);
+            yugioh2.setEnabled(true);
             yugioh1.setIcon(defaultIcon);
             yugioh2.setIcon(defaultIcon);
             yugioh2 = null;
@@ -95,6 +97,12 @@ public class Memorama extends javax.swing.JFrame {
     }
 
     private void btnEnabled(JButton btn) {
+        Reproductor reproductor = new Reproductor();
+        String sound = btn.getIcon().toString();
+        String[] number = sound.split("/");
+        sound = number[number.length - 1].replaceAll(".png", "");
+        reproductor.setSound(sound);
+        reproductor.thread.start();
         if (!faceUp) {
             yugioh1 = btn;
             btn.setEnabled(false);
@@ -105,11 +113,12 @@ public class Memorama extends javax.swing.JFrame {
             btn.setDisabledIcon(btn.getIcon());
             yugioh2 = btn;
             if (!yugioh1.getIcon().toString().equals(yugioh2.getIcon().toString())) {
-                yugioh1.setEnabled(true);
-                yugioh2.setEnabled(true);
                 isPar = false;
             } else {
                 isPar = true;
+                Reproductor reproductorPar = new Reproductor();
+                reproductorPar.setSound("smb_coin");
+                reproductorPar.thread.start();
                 gameOver();
             }
             faceUp = false;

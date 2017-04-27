@@ -43,6 +43,9 @@ public class Tiempo implements Runnable {
                 Logger.getLogger(Tiempo.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        Reproductor reproductor = new Reproductor();
+        reproductor.setSound("smb_stage_clear");
+        reproductor.thread.start();
         String nombre = JOptionPane.showInputDialog(null, "Has terminado con un tiempo de " + tiempo.getText() + " segundos, Ingresa tu nombre para registrar tu puntuación :v", "ganaste", 1);
         conn.executeQuery("INSERT INTO puntuaciones (nombre, tiempo) VALUES ('" + nombre + "', " + Integer.parseInt(tiempo.getText()) + ")");
         new MainMenu().setVisible(true);

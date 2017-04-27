@@ -56,4 +56,19 @@ public class IO {
         }
     }
 
+    public void save(String txt, String path) {
+        if (!path.equals("")) {
+            ArrayList<String> lines = new ArrayList();
+            Path file = Paths.get(path);
+            lines.add(txt);
+            try {
+                Files.write(file, lines, Charset.forName("UTF-8"));
+            } catch (IOException ex) {
+                Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            new Save().setVisible(true);
+        }
+    }
+
 }
