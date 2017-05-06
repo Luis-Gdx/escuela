@@ -6,8 +6,10 @@
 package gasolinera;
 
 import static gasolinera.Gasolinera.display;
+import static gasolinera.Gasolinera.editado;
 import static gasolinera.Gasolinera.jButton1;
 import static gasolinera.Gasolinera.jComboBox1;
+import static gasolinera.Gasolinera.jRadioButton1;
 import static gasolinera.Gasolinera.litros;
 import static gasolinera.Gasolinera.magnaLitros;
 import java.util.logging.Level;
@@ -49,7 +51,9 @@ public class Magna implements Runnable {
         } else {
             JOptionPane.showMessageDialog(null, "Tipo de gasolina: Magna\nLitros: " + litros + "\nson $" + litros * 16 + " pesos", "Cuenta", 1);
         }
-        display.setText("");
+        display.setText("0");
         jButton1.setEnabled(true);
+        jRadioButton1.setSelected(false);
+        editado = false;
     }
 }
