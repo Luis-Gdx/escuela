@@ -375,11 +375,11 @@ public class TrackPanel extends javax.swing.JPanel {
 
     private void replayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_replayMouseClicked
         if (Integer.parseInt(cantidadActual.getText()) >= 5) {
-            cantidadActual.setText((Integer.parseInt(cantidadActual.getText()) - 5) + "");
             setBackgroundToPanels(SELECTED_ITEM);
             setCurrentTrackPanel(this);
             GetTrack getTrack = new GetTrack(this.track.getId());
             getTrack.thread.start();
+            cantidadActual.setText((Integer.parseInt(cantidadActual.getText()) - 5) + "");
         } else {
             JOptionPane.showMessageDialog(null, "Dinero insuficiente, la cancion esta de a $5 :v", "Sin dinero xd", 0);
         }

@@ -8,12 +8,17 @@ package spotifyapi;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import spotifyapiconsole.search.objects.Album;
 import spotifyapiconsole.search.objects.Artist;
 
@@ -333,7 +338,12 @@ public class Spotify {
     }
 
     public String getPreviewUrl() {
-        return singleJson.get("preview_url").getAsString();
+        String reviewUrl = "";
+        try {
+            reviewUrl = singleJson.get("preview_url").getAsString();
+        } catch (Exception e) {
+        }
+        return reviewUrl;
     }
 
     public String getType(int i) {
@@ -373,21 +383,31 @@ public class Spotify {
         return str.replaceAll(" ", "%20");
     }
 
-    private String xmlHttpRequest(String url) {
+    private String xmlHttpRequest(String _url) {
         String res = "";
-        java.net.URLConnection yc;
+        //URLConnection yc;
+        URL url;
         try {
-            yc = new java.net.URL(url).openConnection();
-            java.io.BufferedReader in = new java.io.BufferedReader(new java.io.InputStreamReader(yc.getInputStream()));
+            url = new URL(_url);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            Token token = new Token();
+            try {
+                conn.setRequestProperty("Authorization", "Bearer " + token.getToken());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "El token es invalido o a expirado", "Error", 0);
+                return res;
+            }
+            //yc = new URL(_url).openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 res += inputLine;
             }
             in.close();
 
-        } catch (java.io.IOException ex) {
-            java.util.logging.Logger.getLogger(app.Search.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(app.Search.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return res;
     }

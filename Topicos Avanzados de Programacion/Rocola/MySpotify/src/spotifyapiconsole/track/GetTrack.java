@@ -16,6 +16,7 @@ import static app.Search.pausedOnFrame;
 import static app.Search.player;
 import static app.Search.progress;
 import static app.Search.songUrl;
+import javax.swing.JOptionPane;
 import reproductor.Music;
 import reproductor.Progress;
 import spotifyapi.Spotify;
@@ -55,6 +56,10 @@ public class GetTrack implements Runnable {
         track.setTrackNumber(SPOTIFY.getTrackNumber());
         track.setType(SPOTIFY.getType());
         songUrl = track.getPreviewUrl();
+        if (songUrl.equals("")) {
+            JOptionPane.showMessageDialog(null, "No se encontro la canción", "Error", 0);
+            return;
+        }
         img.setIcon(track.getAlbum().getImages().get(0));
         nameReproductor.setText(this.track.getName());
         artistReproductor.setText(this.track.getArtist().get(0).getName());
